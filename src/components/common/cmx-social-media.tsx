@@ -11,16 +11,16 @@ const CmxSocialMedia = () => {
   return (
     <Box className="social-media-icons" sx={{py: 1}}>
       <Box className="icon-facebook" sx={{mx: 0.3}}>
-        <FaFacebookF onClick={() => window.open('', '_blank')}/>
+        {/* <FaFacebookF onClick={() => window.open('', '_blank')}/> */}
       </Box>
       <Box className="icon-twitter" sx={{mx: 0.3}}>
-        <FaTwitter />
+        {/* <FaTwitter /> */}
       </Box>
       <Box className="icon-link" sx={{mx: 0.3}}>
-        <FaLinkedinIn onClick={() => window.open('', '_blank')}/>
+        {/* <FaLinkedinIn onClick={() => window.open('', '_blank')}/> */}
       </Box>
       <Box className="icon-instagram" sx={{mx: 0.3}}>
-        <FaInstagram onClick={() => window.open('', '_blank')}/>
+        {/* <FaInstagram onClick={() => window.open('', '_blank')}/> */}
       </Box>
     </Box>
   );

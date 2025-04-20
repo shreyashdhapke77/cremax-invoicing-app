@@ -1,26 +1,73 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Component } from "react";
+import "./App.css";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { CSSTransition, TransitionGroup } from "react-transition-group"; // Import transition components
+import { Box } from "@mui/material";
+import ScrollToTop from "./components/common/scroll-to-top";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import LoginPage from "./views/login";
+import Header from "./components/header";
+import Footer from "./components/footer";
+import Home from "./views/home";
+import SignupPage from "./views/signup";
+import ForgotPasswordPage from "./views/forgot-password";
 
-function App() {
+const theme = createTheme({
+  typography: {
+    fontFamily: "Roboto, sans-serif",
+  },
+});
+
+function AppRoutes() {
+  const location = useLocation();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <TransitionGroup component={null}>
+      <CSSTransition
+        key={location.pathname} // Ensure animation triggers on location change
+        timeout={500} // Set timeout for the animation
+        classNames="page" // Use this class for animations
+      >
+        <Box>
+          <Routes location={location}>
+            <Route path="/">
+              <Route index element={<Home />} />
+            </Route>
+            <Route path="/login">
+              <Route index element={<LoginPage />} />
+            </Route>
+            <Route path="/signup">
+              <Route index element={<SignupPage />} />
+            </Route>
+            <Route path="/forgot-password">
+              <Route index element={<ForgotPasswordPage />} />
+            </Route>
+          </Routes>
+        </Box>
+      </CSSTransition>
+    </TransitionGroup>
   );
+}
+
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <ScrollToTop />
+            <div className="fixed-header">
+              <Header />
+            </div>
+            <div className="main-content">
+              <AppRoutes />
+              <Footer />
+            </div>
+          </BrowserRouter>
+        </ThemeProvider>
+      </div>
+    );
+  }
 }
 
 export default App;
