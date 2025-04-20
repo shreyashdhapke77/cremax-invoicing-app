@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component, useRef } from "react";
 import "./App.css";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group"; // Import transition components
@@ -20,15 +20,18 @@ const theme = createTheme({
 
 function AppRoutes() {
   const location = useLocation();
+  const nodeRef = useRef(null);
 
   return (
     <TransitionGroup component={null}>
       <CSSTransition
         key={location.pathname} // Ensure animation triggers on location change
+        nodeRef={nodeRef} 
+        in={true}
         timeout={500} // Set timeout for the animation
         classNames="page" // Use this class for animations
       >
-        <Box>
+        <Box ref={nodeRef}>
           <Routes location={location}>
             <Route path="/">
               <Route index element={<Home />} />
