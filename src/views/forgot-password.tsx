@@ -3,11 +3,9 @@ import {
     Button,
     TextField,
     Typography,
-    Divider,
     Link,
     Paper
   } from '@mui/material';
-  import GoogleIconColorful from '../components/common/icons/google';
   import { GREY_BACKGROUND, GREY_BACKGROUND_HOVER } from '../utils/colors';
   import LOGIN_AVATAR from '../assets/avatar-login.png'
   import { COMPANY_NAME } from '../constants/labels';
@@ -40,39 +38,12 @@ import { useNavigate } from 'react-router-dom';
             <Typography variant="h4" fontWeight="bold" gutterBottom>
               {COMPANY_NAME}
             </Typography>
-            {/* <Button
-              fullWidth
-              variant="outlined"
-              startIcon={<GoogleIconColorful />}
-              sx={{
-                textTransform: 'none',
-                fontWeight: 'bold',
-                mb: 2,
-              }}
-            >
-              Continue with Google
-            </Button> */}
-            {/* <Divider sx={{ my: 2 }}>OR</Divider> */}
             <TextField
               fullWidth
               label="Email"
               variant="outlined"
               margin="normal"
             />
-            {/* <Typography
-                variant="body1"
-                sx={{
-                    maxWidth: 400,
-                    display: 'flex',
-                    flex: 1, position:
-                    'relative',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    textAlign: 'center',
-                }}
-            >
-                By signing up, you confirm that you have read and accepted the End User Agreement.
-            </Typography> */}
             <Button
               fullWidth
               variant="contained"
