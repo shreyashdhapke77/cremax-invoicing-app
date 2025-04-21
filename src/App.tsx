@@ -37,8 +37,8 @@ function App() {
               <Route path="/signup" element={<SignupPage />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             </Routes>
-            <Footer />
           </Box>
+          <Footer />
         </Box>
       </BrowserRouter>
     </ThemeProvider>

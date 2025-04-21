@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
 
 .App-logo {
@@ -47,6 +50,8 @@
 /* Add padding to the content area to prevent it from being hidden */
 .main-content {
   padding-top: 60px; /* match the header height */
+  flex: 1;
+  background: #F2FBF5;
 }
 
 
@@ -57,4 +62,9 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
 }
