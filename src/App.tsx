@@ -43,8 +43,8 @@ function App() {
               <Route path="/invoices" element={<InvoiceList />} />
               <Route path="/clients" element={<ClientList />} />
             </Routes>
-            <Footer />
           </Box>
+          <Footer />
         </Box>
       </BrowserRouter>
     </ThemeProvider>
