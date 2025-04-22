@@ -1,0 +1,10 @@
+
+.card-row:hover {
+  background-color: #555 !important;
+  transform: scale(1.01);
+}
+
+/* Remove default row border if needed */
+.MuiDataGrid-row {
+  border-bottom: none !important;
+}

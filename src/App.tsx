@@ -11,6 +11,9 @@ import Home from "./views/home";
 import LoginPage from "./views/login";
 import SignupPage from "./views/signup";
 import ForgotPasswordPage from "./views/forgot-password";
+import Dashboard from "./views/dashboard";
+import InvoiceList from "./views/invoices/list";
+import ClientList from "./views/clients/list";
 
 // Theme config
 const theme = createTheme({
@@ -36,6 +39,9 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignupPage />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/invoices" element={<InvoiceList />} />
+              <Route path="/clients" element={<ClientList />} />
             </Routes>
             <Footer />
           </Box>

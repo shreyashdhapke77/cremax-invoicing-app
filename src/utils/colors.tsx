@@ -1,2 +1,6 @@
 export const GREY_BACKGROUND = '#444'
 export const GREY_BACKGROUND_HOVER = '#555'
+export const INV_STATUS_DUE = '#2196f3'
+export const INV_STATUS_OVERDUE = '#ffeb3b'
+export const INV_STATUS_PAID = '#4caf50'
+export const INV_STATUS_CANCELLED = '#f44336'
