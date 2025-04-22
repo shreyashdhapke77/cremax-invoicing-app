@@ -14,6 +14,7 @@ import ForgotPasswordPage from "./views/forgot-password";
 import Dashboard from "./views/dashboard";
 import InvoiceList from "./views/invoices/list";
 import ClientList from "./views/clients/list";
+import ProductList from "./views/products/list";
 
 // Theme config
 const theme = createTheme({
@@ -42,6 +43,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/invoices" element={<InvoiceList />} />
               <Route path="/clients" element={<ClientList />} />
+              <Route path="/products" element={<ProductList />} />
             </Routes>
           </Box>
           <Footer />

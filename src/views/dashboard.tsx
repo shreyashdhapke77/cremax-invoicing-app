@@ -267,6 +267,7 @@ const Dashboard = () => {
                   boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)", // smooth shadow
                 },
               }}
+              onClick={() => navigate('/products')}
             >
               <Inventory2Icon />
               <Typography variant="h6">Products</Typography>

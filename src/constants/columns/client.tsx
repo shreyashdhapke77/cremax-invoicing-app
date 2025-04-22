@@ -33,7 +33,6 @@ export const clientListColumns: GridColDef[] = [
     type: "number",
     align: 'right',
     headerAlign: 'right',
-    cellClassName: 'amount-cell',
     valueGetter: (value, row) => row.totalUnpaid || 0,
   },
 ];

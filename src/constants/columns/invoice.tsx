@@ -55,7 +55,6 @@ export const invoiceListColumns: GridColDef[] = [
     type: "number",
     align: 'right',
     headerAlign: 'right',
-    cellClassName: 'amount-cell',
     sortable: false,
     valueGetter: (value, row) => row.amount || 0,
   },
