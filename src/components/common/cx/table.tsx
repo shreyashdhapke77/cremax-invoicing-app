@@ -37,6 +37,12 @@ const CardDataGrid: React.FC<CardDataGridProps> = ({
             color: "#fff",
             borderBottom: "1px solid #444",
           },
+          "& .MuiDataGrid-cell:focus": {
+            outline: "none",
+          },
+          "& .MuiDataGrid-cell:focus-within": {
+            outline: "none",
+          },
           "& .MuiDataGrid-footerContainer": {
             backgroundColor: "#111",
             color: "#fff",

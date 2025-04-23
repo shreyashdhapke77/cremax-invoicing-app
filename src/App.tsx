@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Box, CssBaseline } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -15,6 +14,7 @@ import Dashboard from "./views/dashboard";
 import InvoiceList from "./views/invoices/list";
 import ClientList from "./views/clients/list";
 import ProductList from "./views/products/list";
+import InvoiceDetails from "./views/invoices/details";
 
 // Theme config
 const theme = createTheme({
@@ -42,6 +42,7 @@ function App() {
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/invoices" element={<InvoiceList />} />
+              <Route path="/invoices/:id" element={<InvoiceDetails />} />
               <Route path="/clients" element={<ClientList />} />
               <Route path="/products" element={<ProductList />} />
             </Routes>
