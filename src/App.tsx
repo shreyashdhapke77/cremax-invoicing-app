@@ -16,7 +16,7 @@ import ClientList from "./views/clients/list";
 import ProductList from "./views/products/list";
 import InvoiceDetails from "./views/invoices/details";
 
-// Theme config
+// Theme config //////
 const theme = createTheme({
   typography: {
     fontFamily: "Roboto, sans-serif",
