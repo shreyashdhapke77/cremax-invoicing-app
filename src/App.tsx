@@ -18,7 +18,7 @@ import InvoiceDetails from "./views/invoices/details";
 import PrivateRoute from "./components/auth/private-route";
 import PublicRoute from "./components/auth/public-route";
 
-// Theme config
+// Theme config //////
 const theme = createTheme({
   typography: {
     fontFamily: "Roboto, sans-serif",
