@@ -15,6 +15,8 @@ import InvoiceList from "./views/invoices/list";
 import ClientList from "./views/clients/list";
 import ProductList from "./views/products/list";
 import InvoiceDetails from "./views/invoices/details";
+import PrivateRoute from "./components/auth/private-route";
+import PublicRoute from "./components/auth/public-route";
 
 // Theme config
 const theme = createTheme({
@@ -37,14 +39,42 @@ function App() {
           <Box className="main-content">
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/signup" element={<SignupPage />} />
-              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+
+              <Route
+                path="/login"
+                element={
+                  <PublicRoute>
+                    <LoginPage />
+                  </PublicRoute>
+                }
+              />
+
+              <Route
+                path="/signup"
+                element={
+                  <PublicRoute>
+                    <SignupPage />
+                  </PublicRoute>
+                }
+              />
+
+              <Route
+                path="/forgot-password"
+                element={
+                  <PublicRoute>
+                    <ForgotPasswordPage />
+                  </PublicRoute>
+                }
+              />
+
+              {/* Protected Routes remain the same */}
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/invoices" element={<InvoiceList />} />
               <Route path="/invoices/:id" element={<InvoiceDetails />} />
               <Route path="/clients" element={<ClientList />} />
               <Route path="/products" element={<ProductList />} />
+              {/* Catch-all route if needed */}
+              {/* <Route path="*" element={<Navigate to="/" />} /> */}
             </Routes>
           </Box>
           <Footer />
