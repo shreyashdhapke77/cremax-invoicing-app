@@ -18,6 +18,7 @@ import PublicRoute from "./components/auth/public-route";
 import ClientDetails from "./views/clients/details";
 import ProductDetails from "./views/products/details";
 import LoginPage from "./views/login-signup/login";
+import AppBreadcrumbs from "./components/bread-crumbs";
 
 // Theme config //////
 const theme = createTheme({
@@ -38,6 +39,7 @@ function App() {
           </Box>
 
           <Box className="main-content">
+            <AppBreadcrumbs />
             <Routes>
               <Route path="/" element={<Home />} />
 
