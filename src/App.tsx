@@ -7,18 +7,17 @@ import ScrollToTop from "./components/common/scroll-to-top";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import Home from "./views/home";
-import LoginPage from "./views/login";
-import SignupPage from "./views/signup";
-import ForgotPasswordPage from "./views/forgot-password";
+import SignupPage from "./views/login-signup/signup";
+import ForgotPasswordPage from "./views/login-signup/forgot-password";
 import Dashboard from "./views/dashboard";
 import InvoiceList from "./views/invoices/list";
 import ClientList from "./views/clients/list";
 import ProductList from "./views/products/list";
 import InvoiceDetails from "./views/invoices/details";
-import PrivateRoute from "./components/auth/private-route";
 import PublicRoute from "./components/auth/public-route";
 import ClientDetails from "./views/clients/details";
 import ProductDetails from "./views/products/details";
+import LoginPage from "./views/login-signup/login";
 
 // Theme config //////
 const theme = createTheme({

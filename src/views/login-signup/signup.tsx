@@ -6,47 +6,15 @@ import {
   Divider,
   Link,
   Paper,
-  Alert,
 } from "@mui/material";
-import GoogleIconColorful from "../components/common/icons/google";
-import { GREY_BACKGROUND, GREY_BACKGROUND_HOVER } from "../utils/colors";
-import LOGIN_AVATAR from "../assets/avatar-login.png";
-import { COMPANY_NAME } from "../constants/labels";
+import GoogleIconColorful from "../../components/common/icons/google";
+import { GREY_BACKGROUND, GREY_BACKGROUND_HOVER } from "../../utils/colors";
+import LOGIN_AVATAR from "../../assets/avatar-login.png";
+import { COMPANY_NAME } from "../../constants/labels";
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
-import BaseApi from "../services/base-api";
 
-const LoginPage = () => {
+const SignupPage = () => {
   const navigate = useNavigate();
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
-
-  const handleLogin = async () => {
-    setErrorMsg(""); // Reset error
-    try {
-      const res: any = await BaseApi.post(
-        "api/users/login",
-        {
-          email,
-          password,
-        },
-        {}
-      );
-
-      if (res && res.token) {
-        // Store token and redirect
-        BaseApi.setAccessToken(res.token);
-        navigate("/dashboard");
-      } else {
-        setErrorMsg("Invalid email or password");
-      }
-    } catch (error) {
-      setErrorMsg("Something went wrong. Please try again.");
-    }
-  };
-
   return (
     <Box
       sx={{
@@ -66,7 +34,7 @@ const LoginPage = () => {
       >
         <Box sx={{ maxWidth: 400 }}>
           <Typography variant="h6" gutterBottom>
-            Log in
+            Sign up
           </Typography>
           <Typography variant="h4" fontWeight="bold" gutterBottom>
             {COMPANY_NAME}
@@ -84,14 +52,17 @@ const LoginPage = () => {
             Continue with Google
           </Button>
           <Divider sx={{ my: 2 }}>OR</Divider>
-
+          <TextField
+            fullWidth
+            label="Name"
+            variant="outlined"
+            margin="normal"
+          />
           <TextField
             fullWidth
             label="Email"
             variant="outlined"
             margin="normal"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
             fullWidth
@@ -99,20 +70,25 @@ const LoginPage = () => {
             type="password"
             variant="outlined"
             margin="normal"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
           />
-
-          {errorMsg && (
-            <Alert severity="error" sx={{ mt: 2 }}>
-              {errorMsg}
-            </Alert>
-          )}
-
+          <Typography
+            variant="body1"
+            sx={{
+              maxWidth: 400,
+              display: "flex",
+              flex: 1,
+              position: "relative",
+              justifyContent: "center",
+              alignItems: "center",
+              textAlign: "center",
+            }}
+          >
+            By signing up, you confirm that you have read and accepted the End
+            User Agreement.
+          </Typography>
           <Button
             fullWidth
             variant="contained"
-            onClick={handleLogin}
             sx={{
               mt: 3,
               mb: 2,
@@ -122,23 +98,22 @@ const LoginPage = () => {
               fontWeight: "bold",
             }}
           >
-            Log in
+            Sign up
           </Button>
-
           <Box
             sx={{
               display: "flex",
-              justifyContent: "space-between",
+              flexDirection: "column",
               mt: 1,
             }}
           >
             <Typography>
-              No account yet?{" "}
-              <Link href="" color="primary" onClick={() => navigate("/signup")}>
-                Sign up.
+              Already have an account?{" "}
+              <Link href="" color="primary" onClick={() => navigate("/login")}>
+                Login.
               </Link>
             </Typography>
-            <Typography>
+            <Typography sx={{ mt: 1 }}>
               <Link
                 href=""
                 color="primary"
@@ -191,4 +166,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SignupPage;
