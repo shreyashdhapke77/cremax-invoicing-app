@@ -6,6 +6,8 @@ export const products = [
     price: 55,
     timesInvoiced: 13,
     totalInvoiced: 2315,
+    updatedAt: '27/1/25',
+    taxCode: '0 % - Exports, Postal services, Basic foods including: fish, meat, dairy, vegetables, bread, salt, etc.'
   },
   {
     id: 2,
@@ -14,6 +16,8 @@ export const products = [
     price: 55,
     timesInvoiced: 13,
     totalInvoiced: 2315,
+    updatedAt: '27/1/25',
+    taxCode: '0 % - Exports, Postal services, Basic foods including: fish, meat, dairy, vegetables, bread, salt, etc.'
   },
   {
     id: 3,
@@ -22,6 +26,8 @@ export const products = [
     price: 55,
     timesInvoiced: 13,
     totalInvoiced: 2315,
+    updatedAt: '27/1/25',
+    taxCode: '0 % - Exports, Postal services, Basic foods including: fish, meat, dairy, vegetables, bread, salt, etc.'
   },
   {
     id: 4,
@@ -30,6 +36,8 @@ export const products = [
     price: 55,
     timesInvoiced: 13,
     totalInvoiced: 2315,
+    updatedAt: '27/1/25',
+    taxCode: '0 % - Exports, Postal services, Basic foods including: fish, meat, dairy, vegetables, bread, salt, etc.'
   },
   {
     id: 5,
@@ -38,6 +46,8 @@ export const products = [
     price: 55,
     timesInvoiced: 13,
     totalInvoiced: 2315,
+    updatedAt: '27/1/25',
+    taxCode: '0 % - Exports, Postal services, Basic foods including: fish, meat, dairy, vegetables, bread, salt, etc.'
   },
   {
     id: 6,
@@ -46,6 +56,8 @@ export const products = [
     price: 55,
     timesInvoiced: 13,
     totalInvoiced: 2315,
+    updatedAt: '27/1/25',
+    taxCode: '0 % - Exports, Postal services, Basic foods including: fish, meat, dairy, vegetables, bread, salt, etc.'
   },
   {
     id: 7,
@@ -54,6 +66,8 @@ export const products = [
     price: 55,
     timesInvoiced: 13,
     totalInvoiced: 2315,
+    updatedAt: '27/1/25',
+    taxCode: '0 % - Exports, Postal services, Basic foods including: fish, meat, dairy, vegetables, bread, salt, etc.'
   },
   {
     id: 8,
@@ -62,6 +76,8 @@ export const products = [
     price: 55,
     timesInvoiced: 13,
     totalInvoiced: 2315,
+    updatedAt: '27/1/25',
+    taxCode: '0 % - Exports, Postal services, Basic foods including: fish, meat, dairy, vegetables, bread, salt, etc.'
   },
   {
     id: 9,
@@ -70,6 +86,8 @@ export const products = [
     price: 55,
     timesInvoiced: 13,
     totalInvoiced: 2315,
+    updatedAt: '27/1/25',
+    taxCode: '0 % - Exports, Postal services, Basic foods including: fish, meat, dairy, vegetables, bread, salt, etc.'
   },
   {
     id: 10,
@@ -78,6 +96,8 @@ export const products = [
     price: 55,
     timesInvoiced: 13,
     totalInvoiced: 2315,
+    updatedAt: '27/1/25',
+    taxCode: '0 % - Exports, Postal services, Basic foods including: fish, meat, dairy, vegetables, bread, salt, etc.'
   },
   {
     id: 11,
@@ -86,6 +106,8 @@ export const products = [
     price: 55,
     timesInvoiced: 13,
     totalInvoiced: 2315,
+    updatedAt: '27/1/25',
+    taxCode: '0 % - Exports, Postal services, Basic foods including: fish, meat, dairy, vegetables, bread, salt, etc.'
   },
   {
     id: 12,
@@ -94,6 +116,8 @@ export const products = [
     price: 55,
     timesInvoiced: 13,
     totalInvoiced: 2315,
+    updatedAt: '27/1/25',
+    taxCode: '0 % - Exports, Postal services, Basic foods including: fish, meat, dairy, vegetables, bread, salt, etc.'
   },
   {
     id: 13,
@@ -102,6 +126,8 @@ export const products = [
     price: 55,
     timesInvoiced: 13,
     totalInvoiced: 2315,
+    updatedAt: '27/1/25',
+    taxCode: '0 % - Exports, Postal services, Basic foods including: fish, meat, dairy, vegetables, bread, salt, etc.'
   },
   {
     id: 14,
@@ -110,6 +136,8 @@ export const products = [
     price: 55,
     timesInvoiced: 13,
     totalInvoiced: 2315,
+    updatedAt: '27/1/25',
+    taxCode: '0 % - Exports, Postal services, Basic foods including: fish, meat, dairy, vegetables, bread, salt, etc.'
   },
   {
     id: 15,
@@ -118,5 +146,7 @@ export const products = [
     price: 55,
     timesInvoiced: 13,
     totalInvoiced: 2315,
+    updatedAt: '27/1/25',
+    taxCode: '0 % - Exports, Postal services, Basic foods including: fish, meat, dairy, vegetables, bread, salt, etc.'
   },
 ];

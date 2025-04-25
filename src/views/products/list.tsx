@@ -1,25 +1,30 @@
-import { Box, Button, Typography } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import CardDataGrid from '../../components/common/cx/table';
-import { useNavigate } from 'react-router-dom';
-import { productListColumns } from '../../constants/columns/product';
-import { products } from '../../constants/product-list';
+import { Box, Button, Typography } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import CardDataGrid from "../../components/common/cx/table";
+import { useNavigate } from "react-router-dom";
+import { productListColumns } from "../../constants/columns/product";
+import { products } from "../../constants/product-list";
 
 export default function ProductList() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
-    <Box sx={{ backgroundColor: '#111', minHeight: '100vh', padding: 2 }}>
+    <Box sx={{ backgroundColor: "#111", minHeight: "100vh", padding: 2 }}>
       {/* Header */}
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
           mb: 3,
         }}
       >
         <Box>
-          <Typography variant="body2" color="gray" textAlign='left' onClick={() => navigate('/dashboard')}>
+          <Typography
+            variant="body2"
+            color="gray"
+            textAlign="left"
+            onClick={() => navigate("/dashboard")}
+          >
             Home
           </Typography>
           <Typography variant="h4" fontWeight="bold" color="white">
@@ -30,15 +35,15 @@ export default function ProductList() {
           variant="outlined"
           startIcon={<AddIcon />}
           sx={{
-            color: 'white',
-            borderColor: 'gray',
+            color: "white",
+            borderColor: "gray",
             borderRadius: 2,
-            textTransform: 'none',
-            fontWeight: 'bold',
+            textTransform: "none",
+            fontWeight: "bold",
             px: 3,
             py: 1,
-            '&:hover': {
-              borderColor: 'white',
+            "&:hover": {
+              borderColor: "white",
             },
           }}
         >
@@ -47,7 +52,12 @@ export default function ProductList() {
       </Box>
 
       {/* Table */}
-      <CardDataGrid rows={products} columns={productListColumns} pageSize={10} />
+      <CardDataGrid
+        rows={products}
+        columns={productListColumns}
+        pageSize={10}
+        onRowClick={(params) => navigate(`/products/${params.row.id}`)}
+      />
     </Box>
   );
 }

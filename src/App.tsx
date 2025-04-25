@@ -18,6 +18,7 @@ import InvoiceDetails from "./views/invoices/details";
 import PrivateRoute from "./components/auth/private-route";
 import PublicRoute from "./components/auth/public-route";
 import ClientDetails from "./views/clients/details";
+import ProductDetails from "./views/products/details";
 
 // Theme config //////
 const theme = createTheme({
@@ -75,6 +76,7 @@ function App() {
               <Route path="/clients" element={<ClientList />} />
               <Route path="/clients/:id" element={<ClientDetails />} />
               <Route path="/products" element={<ProductList />} />
+              <Route path="/products/:id" element={<ProductDetails />} />
               {/* Catch-all route if needed */}
               {/* <Route path="*" element={<Navigate to="/" />} /> */}
             </Routes>
