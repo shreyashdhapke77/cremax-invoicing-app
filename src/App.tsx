@@ -19,6 +19,13 @@ import ClientDetails from "./views/clients/details";
 import ProductDetails from "./views/products/details";
 import LoginPage from "./views/login-signup/login";
 import AppBreadcrumbs from "./components/bread-crumbs";
+import GlobalLoader from "./components/common/global-loader";
+import {
+  LoaderProvider,
+  useLoader,
+} from "./components/common/context/loader-context";
+import { SnackbarProvider } from "./components/common/context/snackbar-context";
+
 
 // Theme config //////
 const theme = createTheme({
@@ -27,7 +34,59 @@ const theme = createTheme({
   },
 });
 
-function App() {
+const AppContent: React.FC = () => {
+  const { loading } = useLoader();
+
+  return (
+    <Box className="main-content">
+      <AppBreadcrumbs />
+      <GlobalLoader loading={loading} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <LoginPage />
+            </PublicRoute>
+          }
+        />
+
+        <Route
+          path="/signup"
+          element={
+            <PublicRoute>
+              <SignupPage />
+            </PublicRoute>
+          }
+        />
+
+        <Route
+          path="/forgot-password"
+          element={
+            <PublicRoute>
+              <ForgotPasswordPage />
+            </PublicRoute>
+          }
+        />
+
+        {/* Protected Routes remain the same */}
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/invoices" element={<InvoiceList />} />
+        <Route path="/invoices/:id" element={<InvoiceDetails />} />
+        <Route path="/clients" element={<ClientList />} />
+        <Route path="/clients/:id" element={<ClientDetails />} />
+        <Route path="/products" element={<ProductList />} />
+        <Route path="/products/:id" element={<ProductDetails />} />
+        {/* Catch-all route if needed */}
+        {/* <Route path="*" element={<Navigate to="/" />} /> */}
+      </Routes>
+    </Box>
+  );
+};
+
+const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -37,56 +96,16 @@ function App() {
           <Box className="fixed-header">
             <Header />
           </Box>
-
-          <Box className="main-content">
-            <AppBreadcrumbs />
-            <Routes>
-              <Route path="/" element={<Home />} />
-
-              <Route
-                path="/login"
-                element={
-                  <PublicRoute>
-                    <LoginPage />
-                  </PublicRoute>
-                }
-              />
-
-              <Route
-                path="/signup"
-                element={
-                  <PublicRoute>
-                    <SignupPage />
-                  </PublicRoute>
-                }
-              />
-
-              <Route
-                path="/forgot-password"
-                element={
-                  <PublicRoute>
-                    <ForgotPasswordPage />
-                  </PublicRoute>
-                }
-              />
-
-              {/* Protected Routes remain the same */}
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/invoices" element={<InvoiceList />} />
-              <Route path="/invoices/:id" element={<InvoiceDetails />} />
-              <Route path="/clients" element={<ClientList />} />
-              <Route path="/clients/:id" element={<ClientDetails />} />
-              <Route path="/products" element={<ProductList />} />
-              <Route path="/products/:id" element={<ProductDetails />} />
-              {/* Catch-all route if needed */}
-              {/* <Route path="*" element={<Navigate to="/" />} /> */}
-            </Routes>
-          </Box>
+          <LoaderProvider>
+            <SnackbarProvider>
+              <AppContent />
+            </SnackbarProvider>
+          </LoaderProvider>
           <Footer />
         </Box>
       </BrowserRouter>
     </ThemeProvider>
   );
-}
+};
 
 export default App;
