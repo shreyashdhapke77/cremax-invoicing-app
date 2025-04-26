@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, useRef } from "react";
 import { jwtDecode } from "jwt-decode";
-import { useSnackbar } from "./snackbar-context";
+import { snackbar } from "./snackbar-context";
 
 interface AuthContextType {
   isLoggedIn: boolean;
@@ -8,7 +8,6 @@ interface AuthContextType {
   login: (token: string) => void;
   logout: () => void;
 }
-
 interface JwtPayload {
   exp: number;
 }
@@ -19,7 +18,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
   const logoutTimer = useRef<NodeJS.Timeout | null>(null);
-  const {showMessage } = useSnackbar()
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -46,9 +44,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (timeout > 0) {
       logoutTimer.current = setTimeout(() => {
         logout();
-        showMessage(
+        snackbar.showMessage(
           "Session expired. Please login again.",
           "warning",
+          {
+            duration: 30000,
+          }
         );
       }, timeout);
     }
