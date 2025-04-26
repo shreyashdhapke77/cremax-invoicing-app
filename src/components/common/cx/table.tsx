@@ -2,6 +2,7 @@ import React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, DataGridProps } from "@mui/x-data-grid";
 import "../../../styles/table.css";
+import { WHITE } from "../../../utils/colors";
 
 type CardDataGridProps = {
   rows: any[];
@@ -23,18 +24,18 @@ const CardDataGrid: React.FC<CardDataGridProps> = ({
         getRowClassName={() => "card-row"}
         sx={{
           backgroundColor: "#111",
-          color: "#fff",
+          color: WHITE,
           "& .MuiDataGrid-columnHeader": {
             backgroundColor: "#111",
-            color: "#fff",
+            color: WHITE,
             borderBottom: "1px solid #444",
           },
           "& .MuiDataGrid-columnHeaderTitle": {
-            color: "#fff",
+            color: WHITE,
           },
           "& .MuiDataGrid-cell": {
             backgroundColor: "#333",
-            color: "#fff",
+            color: WHITE,
             borderBottom: "1px solid #444",
           },
           "& .MuiDataGrid-cell:focus": {
@@ -45,21 +46,21 @@ const CardDataGrid: React.FC<CardDataGridProps> = ({
           },
           "& .MuiDataGrid-footerContainer": {
             backgroundColor: "#111",
-            color: "#fff",
+            color: WHITE,
           },
           "& .MuiSelect-select, & .MuiInputBase-root": {
             backgroundColor: "#333",
-            color: "#fff",
+            color: WHITE,
           },
           "& .MuiSvgIcon-root": {
-            color: "#fff",
+            color: WHITE,
           },
           "& .Mui-disabled": {
             color: "rgba(255,255,255,0.5)",
           },
           "& .MuiTablePagination-selectLabel, & .MuiTablePagination-displayedRows":
             {
-              color: "#fff",
+              color: WHITE,
             },
           "& .card-row": {
             marginTop: "10px",

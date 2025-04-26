@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Typography, Box, Container } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { WHITE } from "../utils/colors";
 
 export default function Home() {
   return (
@@ -37,7 +38,7 @@ export default function Home() {
             mt: { xs: 4, md: 0 },
             width: { xs: "100%" },
             height: 300,
-            backgroundColor: "#fff",
+            backgroundColor: WHITE,
             borderRadius: 4,
             boxShadow: 3,
           }}

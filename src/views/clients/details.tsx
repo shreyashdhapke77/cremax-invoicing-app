@@ -19,6 +19,7 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import PercentIcon from "@mui/icons-material/Percent";
 import { useParams } from "react-router-dom";
 import { clients } from "../../constants/client-list";
+import { WHITE } from "../../utils/colors";
 
 export default function ClientDetails() {
   const [tabValue, setTabValue] = useState(0);
@@ -85,7 +86,7 @@ export default function ClientDetails() {
       {!isEditing ? (
         <>
           {/* Client Info Card */}
-          <Card sx={{ bgcolor: "#2e2e2e", color: "#fff", mb: 4 }}>
+          <Card sx={{ bgcolor: "#2e2e2e", color: WHITE, mb: 4 }}>
             <CardContent>
               <Typography
                 textAlign="left"
@@ -161,7 +162,7 @@ export default function ClientDetails() {
           </Card>
 
           {/* Invoice Summary */}
-          <Card sx={{ bgcolor: "#3e3e3e", color: "#fff" }}>
+          <Card sx={{ bgcolor: "#3e3e3e", color: WHITE }}>
             <CardContent>
               <Box
                 display="flex"
@@ -283,7 +284,7 @@ export default function ClientDetails() {
                   textAlign="left"
                   fontWeight="bold"
                   variant="h5"
-                  color="#fff"
+                  color={WHITE}
                   sx={{ mb: 1 }}
                 >
                   Edit Client

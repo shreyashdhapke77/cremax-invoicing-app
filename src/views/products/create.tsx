@@ -15,6 +15,7 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PercentIcon from "@mui/icons-material/Percent";
+import { WHITE } from "../../utils/colors";
 
 export const ProductCreate = () => {
   const [formData, setFormData] = useState({
@@ -40,6 +41,15 @@ export const ProductCreate = () => {
     <Box sx={{ p: 4, bgcolor: "#1e1e1e", minHeight: "100vh", color: "white" }}>
       <Card sx={{ bgcolor: "#2e2e2e", p: 2 }}>
         <CardContent>
+          <Typography
+            textAlign="left"
+            fontWeight="bold"
+            variant="h5"
+            color={WHITE}
+            sx={{ mb: 3 }}
+          >
+            Create New Product
+          </Typography>
           <Box
             component="form"
             display="flex"

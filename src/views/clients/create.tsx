@@ -13,6 +13,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
 import PercentIcon from "@mui/icons-material/Percent";
 import { useNavigate } from "react-router-dom";
+import { WHITE } from "../../utils/colors";
 
 export const ClientsCreate = () => {
   const navigate = useNavigate();
@@ -54,7 +55,7 @@ export const ClientsCreate = () => {
               textAlign="left"
               fontWeight="bold"
               variant="h5"
-              color="#fff"
+              color={WHITE}
               sx={{ mb: 1 }}
             >
               Create New Client

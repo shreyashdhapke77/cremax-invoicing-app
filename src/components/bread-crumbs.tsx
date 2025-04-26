@@ -1,6 +1,7 @@
 import { Breadcrumbs, Link, Typography } from "@mui/material";
 import { useLocation, Link as RouterLink } from "react-router-dom";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import { WHITE } from "../utils/colors";
 
 const breadcrumbNameMap: any = {
   "/dashboard": "Dashboard",
@@ -22,7 +23,7 @@ export default function AppBreadcrumbs() {
     <Breadcrumbs
       aria-label="breadcrumb"
       separator={<NavigateNextIcon fontSize="small" />}
-      sx={{ padding: 2, backgroundColor: "#111", color: "#fff" }}
+      sx={{ padding: 2, backgroundColor: "#111", color: WHITE }}
     >
       <Link component={RouterLink} underline="hover" color="inherit" to="/dashboard">
         Dashboard
@@ -40,7 +41,7 @@ export default function AppBreadcrumbs() {
         if (value === "dashboard") return null;
 
         return isLast ? (
-          <Typography color="#fff" key={to}>
+          <Typography color={WHITE} key={to}>
             {breadcrumbLabel}
           </Typography>
         ) : (

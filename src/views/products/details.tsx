@@ -21,6 +21,7 @@ import ArchiveIcon from "@mui/icons-material/Archive";
 import PercentIcon from "@mui/icons-material/Percent";
 import { useParams } from "react-router-dom";
 import { products } from "../../constants/product-list";
+import { WHITE } from "../../utils/colors";
 
 export default function ProductDetails() {
   const [tabValue, setTabValue] = useState(0);
@@ -81,7 +82,7 @@ export default function ProductDetails() {
       {!isEditing ? (
         <>
           {/* Client Info Card */}
-          <Card sx={{ bgcolor: "#2e2e2e", color: "#fff", mb: 4 }}>
+          <Card sx={{ bgcolor: "#2e2e2e", color: WHITE, mb: 4 }}>
             <CardContent>
               <Typography
                 textAlign="left"
@@ -168,7 +169,7 @@ export default function ProductDetails() {
           </Card>
 
           {/* Invoice Summary */}
-          <Card sx={{ bgcolor: "#3e3e3e", color: "#fff" }}>
+          <Card sx={{ bgcolor: "#3e3e3e", color: WHITE }}>
             <CardContent>
               <Box
                 display="flex"

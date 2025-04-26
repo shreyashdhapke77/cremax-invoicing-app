@@ -16,6 +16,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
+import { WHITE } from "../../utils/colors";
 
 const pages = ["For individuals", "For businesses", "Pricing", "Resources"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -151,7 +152,7 @@ function PublicHeader() {
                       height: "2px",
                       bottom: 0,
                       left: 0,
-                      backgroundColor: "#fff",
+                      backgroundColor: WHITE,
                       transition: "width 0.3s",
                     },
                     "&:hover::after": {

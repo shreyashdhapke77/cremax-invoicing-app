@@ -3,7 +3,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import DescriptionIcon from "@mui/icons-material/Description";
 import PeopleIcon from "@mui/icons-material/People";
 import Inventory2Icon from "@mui/icons-material/Inventory2";
-import { GREY_BACKGROUND } from "../utils/colors";
+import { GREY_BACKGROUND, WHITE } from "../utils/colors";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
@@ -13,7 +13,7 @@ const Dashboard = () => {
       sx={{
         backgroundColor: "#1E1E1E",
         minHeight: "100vh",
-        color: "#fff",
+        color: WHITE,
         p: 4,
       }}
     >
@@ -167,7 +167,7 @@ const Dashboard = () => {
             <Card
               sx={{
                 backgroundColor: "#00C853",
-                color: "#fff",
+                color: WHITE,
                 flex: 1,
                 p: 2,
                 height: 100,
@@ -193,7 +193,7 @@ const Dashboard = () => {
             <Card
               sx={{
                 backgroundColor: "#333",
-                color: "#fff",
+                color: WHITE,
                 flex: 1,
                 p: 2,
                 height: 100,
@@ -226,7 +226,7 @@ const Dashboard = () => {
             <Card
               sx={{
                 backgroundColor: "#333",
-                color: "#fff",
+                color: WHITE,
                 flex: 1,
                 p: 2,
                 height: 100,
@@ -251,7 +251,7 @@ const Dashboard = () => {
             <Card
               sx={{
                 backgroundColor: "#333",
-                color: "#fff",
+                color: WHITE,
                 flex: 1,
                 p: 2,
                 height: 100,

@@ -1,5 +1,6 @@
 import { Box, Typography, Button, Switch, IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import { WHITE } from "../../utils/colors";
 
 export default function InvoiceCreate() {
   return (
@@ -8,7 +9,7 @@ export default function InvoiceCreate() {
         p: { xs: 2, md: 4 },
         backgroundColor: "#1c1c1c",
         minHeight: "100vh",
-        color: "#fff",
+        color: WHITE,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -57,7 +58,7 @@ export default function InvoiceCreate() {
           "@media print": {
             width: "210mm",
             minHeight: "297mm",
-            backgroundColor: "#fff",
+            backgroundColor: WHITE,
             borderRadius: 0,
             color: "#000",
             p: 4,
@@ -137,7 +138,7 @@ export default function InvoiceCreate() {
             justifyContent: "space-between",
             alignItems: "center",
             "@media print": {
-              backgroundColor: "#fff",
+              backgroundColor: WHITE,
               borderColor: "#ccc",
             },
           }}
@@ -156,7 +157,7 @@ export default function InvoiceCreate() {
             borderRadius: 2,
             p: 2,
             "@media print": {
-              backgroundColor: "#fff",
+              backgroundColor: WHITE,
               borderColor: "#ccc",
             },
           }}
@@ -172,7 +173,7 @@ export default function InvoiceCreate() {
             borderRadius: 2,
             p: 2,
             "@media print": {
-              backgroundColor: "#fff",
+              backgroundColor: WHITE,
               borderColor: "#ccc",
             },
           }}

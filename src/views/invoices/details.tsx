@@ -28,6 +28,7 @@ import {
   INV_STATUS_DUE,
   INV_STATUS_OVERDUE,
   INV_STATUS_PAID,
+  WHITE,
 } from "../../utils/colors";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import AddPayment from "./add-payment";
@@ -150,7 +151,7 @@ export default function InvoiceDetails() {
               <Typography
                 variant="h6"
                 fontWeight={700}
-                color={invoiceDetails.status === "overdue" ? "#000" : "#fff"}
+                color={invoiceDetails.status === "overdue" ? "#000" : WHITE}
                 sx={{
                   cursor: "pointer",
                   transition: "color 0.3s ease",
@@ -177,7 +178,7 @@ export default function InvoiceDetails() {
               alignItems="center"
               gap={1}
               flexShrink={0}
-              color={invoiceDetails.status === "overdue" ? "#000" : "#fff"}
+              color={invoiceDetails.status === "overdue" ? "#000" : WHITE}
             >
               {status.icon}
               <Typography variant="h6" fontWeight={700}>
@@ -193,10 +194,10 @@ export default function InvoiceDetails() {
             gridTemplateColumns={isMobile ? "1fr" : "1fr 1fr"}
             gap={3}
           >
-            <Typography color="#fff">
+            <Typography color={WHITE}>
               <strong>Due Date:</strong> {invoiceDetails.dueDate}
             </Typography>
-            <Typography color="#fff">
+            <Typography color={WHITE}>
               <strong>Amount:</strong> ${invoiceDetails.amount.toLocaleString()}
             </Typography>
           </Box>
@@ -251,7 +252,7 @@ export default function InvoiceDetails() {
 
           <Divider sx={{ my: 4, borderColor: "#444" }} />
 
-          <Typography variant="h6" color="#fff" mb={2}>
+          <Typography variant="h6" color={WHITE} mb={2}>
             Invoice Options
           </Typography>
           <Stack
@@ -289,7 +290,7 @@ export default function InvoiceDetails() {
 
           <Divider sx={{ my: 4, borderColor: "#444" }} />
 
-          <Typography variant="h6" color="#fff" mb={1}>
+          <Typography variant="h6" color={WHITE} mb={1}>
             Delivery
           </Typography>
           <Typography variant="body2" color="#aaa">
