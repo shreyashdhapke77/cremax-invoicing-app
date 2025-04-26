@@ -4,13 +4,13 @@ import PublicHeader from "./header/public";
 
 function Header() {
   const [isAuthenticated, setIsAuthenticated] = useState(
-    Boolean(localStorage.getItem("access_token"))
+    Boolean(localStorage.getItem("accessToken"))
   );
 
   // Listen for login/logout custom event
   useEffect(() => {
     const handleAuthChange = () => {
-      setIsAuthenticated(Boolean(localStorage.getItem("access_token")));
+      setIsAuthenticated(Boolean(localStorage.getItem("accessToken")));
     };
 
     window.addEventListener("authChanged", handleAuthChange);

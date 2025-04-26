@@ -2,6 +2,7 @@ import { Breadcrumbs, Link, Typography } from "@mui/material";
 import { useLocation, Link as RouterLink } from "react-router-dom";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { WHITE } from "../utils/colors";
+import { useAuth } from "./common/context/auth-context";
 
 const breadcrumbNameMap: any = {
   "/dashboard": "Dashboard",
@@ -12,8 +13,8 @@ const breadcrumbNameMap: any = {
 
 export default function AppBreadcrumbs() {
   const location = useLocation();
-  const pathnames = location.pathname.split('/').filter((x) => x);
-
+  const pathnames = location.pathname.split("/").filter((x) => x);
+  const { isLoggedIn } = useAuth();
   // Do not render Breadcrumbs if on /dashboard
   if (location.pathname === "/dashboard" || location.pathname === "/") {
     return null;
@@ -25,17 +26,31 @@ export default function AppBreadcrumbs() {
       separator={<NavigateNextIcon fontSize="small" />}
       sx={{ padding: 2, backgroundColor: "#111", color: WHITE }}
     >
-      <Link component={RouterLink} underline="hover" color="inherit" to="/dashboard">
-        Dashboard
-      </Link>
+      {isLoggedIn ? (
+        <Link
+          component={RouterLink}
+          underline="hover"
+          color="inherit"
+          to="/dashboard"
+        >
+          Dashboard
+        </Link>
+      ) : (
+        <Link component={RouterLink} underline="hover" color="inherit" to="/">
+          Dashboard
+        </Link>
+      )}
 
       {pathnames.map((value, index) => {
-        const to = `/${pathnames.slice(0, index + 1).join('/')}`;
+        const to = `/${pathnames.slice(0, index + 1).join("/")}`;
         const isLast = index === pathnames.length - 1;
 
         // Adjust label
-        let breadcrumbLabel = breadcrumbNameMap[`/${value}`]
-          || (isNaN(Number(value)) ? value.charAt(0).toUpperCase() + value.slice(1) : "Details");
+        let breadcrumbLabel =
+          breadcrumbNameMap[`/${value}`] ||
+          (isNaN(Number(value))
+            ? value.charAt(0).toUpperCase() + value.slice(1)
+            : "Details");
 
         // If value is dashboard, skip it
         if (value === "dashboard") return null;

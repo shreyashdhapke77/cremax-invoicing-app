@@ -51,7 +51,7 @@ function PrivateHeader() {
 
   const handleLogout = () => {
     // Clear session or token
-    localStorage.removeItem("access_token"); // or sessionStorage if you're using that
+    localStorage.removeItem("accessToken"); // or sessionStorage if you're using that
     // Redirect to login page
     handleCloseUserMenu();
     logout();
