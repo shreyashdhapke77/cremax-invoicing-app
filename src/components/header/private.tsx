@@ -17,6 +17,13 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Switch, Divider } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { GREY_BACKGROUND_HOVER } from "../../utils/colors";
+import AddIcon from '@mui/icons-material/Add';
+import ReceiptIcon from '@mui/icons-material/Receipt';
+import ContactPageIcon from '@mui/icons-material/ContactPage';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
+import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 
 const userProfile = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -31,12 +38,11 @@ function PrivateHeader() {
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
+  const handleCloseNavMenu = () => setAnchorElNav(null);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
-
-  const handleCloseNavMenu = () => setAnchorElNav(null);
   const handleCloseUserMenu = () => setAnchorElUser(null);
 
   const navigate = useNavigate();
@@ -63,18 +69,68 @@ function PrivateHeader() {
         <Toolbar disableGutters sx={{ justifyContent: "space-between", px: 2 }}>
           {/* Hamburger icon + Logo */}
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <IconButton size="large" edge="start" color="inherit">
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              onClick={handleOpenNavMenu}
+            >
               <MenuIcon />
             </IconButton>
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="/"
-              sx={{ textDecoration: "none", fontWeight: 700, color: "white" }}
+            <Menu
+              anchorEl={anchorElNav}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              transformOrigin={{ vertical: "top", horizontal: "right" }}
+              sx={{
+                // mt: 1.5,
+                "& .MuiPaper-root": {
+                  borderRadius: 2,
+                  backgroundColor: "#2c2c2c",
+                  color: "white",
+                  minWidth: 220,
+                  p: 1,
+                },
+                "& .MuiMenuItem-root": {
+                  "&:hover": {
+                    backgroundColor: GREY_BACKGROUND_HOVER,
+                  },
+                },
+              }}
             >
-              conta
-            </Typography>
+              <MenuItem onClick={handleCloseUserMenu} sx={{ gap: 1, mb: 1 }}>
+                <AddIcon fontSize="medium" />
+                New invoice
+              </MenuItem>
+
+              <MenuItem onClick={() => { navigate('/invoices'); handleCloseNavMenu() }} sx={{ gap: 1, mb: 1 }}>
+                <ReceiptIcon fontSize="medium" />
+                Invoices
+              </MenuItem>
+
+              <MenuItem onClick={() => { navigate('/clients'); handleCloseNavMenu() }} sx={{ gap: 1, mb: 1 }}>
+                <ContactPageIcon fontSize="medium" />
+                Clients
+              </MenuItem>
+
+              <MenuItem onClick={() => { navigate('/products'); handleCloseNavMenu() }} sx={{ gap: 1, mb: 1 }}>
+                <AddShoppingCartIcon fontSize="medium" />
+                Products
+              </MenuItem>
+
+              <Divider sx={{ my: 1, borderColor: "#444" }} />
+
+              <MenuItem onClick={handleLogout} sx={{ gap: 1, mb: 1 }}>
+                <InfoOutlineIcon fontSize="medium" />
+                Help Center
+              </MenuItem>
+
+              <MenuItem onClick={handleLogout} sx={{ gap: 1, mb: 1 }}>
+                <SupportAgentIcon fontSize="medium" />
+                Contact Support
+              </MenuItem>
+            </Menu>
           </Box>
 
           {/* Company Switcher */}
@@ -125,30 +181,35 @@ function PrivateHeader() {
                 minWidth: 220,
                 p: 1,
               },
+              "& .MuiMenuItem-root": {
+                "&:hover": {
+                  backgroundColor: GREY_BACKGROUND_HOVER,
+                },
+              },
             }}
           >
             <Box sx={{ px: 2, pb: 1 }}>
-              <Typography variant="subtitle1" fontWeight={600}>
+              <Typography variant="h5" fontWeight={600}>
                 Cremax Group
               </Typography>
             </Box>
 
             <MenuItem onClick={handleCloseUserMenu} sx={{ gap: 1 }}>
-              <SettingsIcon fontSize="small" />
+              <SettingsIcon fontSize="medium" />
               Personal settings
             </MenuItem>
 
             <MenuItem sx={{ gap: 1 }}>
-              <DarkModeIcon fontSize="small" />
+              <DarkModeIcon fontSize="medium" />
               Dark mode
               <Box sx={{ flexGrow: 1 }} />
-              <Switch size="small" />
+              <Switch size="medium" />
             </MenuItem>
 
             <Divider sx={{ my: 1, borderColor: "#444" }} />
 
             <MenuItem onClick={handleLogout} sx={{ gap: 1 }}>
-              <LogoutIcon fontSize="small" />
+              <LogoutIcon fontSize="medium" />
               Log out
             </MenuItem>
           </Menu>

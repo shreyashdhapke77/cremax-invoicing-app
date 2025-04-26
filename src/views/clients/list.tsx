@@ -46,6 +46,7 @@ export default function ClientList() {
               borderColor: "white",
             },
           }}
+          onClick={() => navigate('/clients/create')}
         >
           New client
         </Button>
