@@ -27,6 +27,7 @@ import {
   useLoader,
 } from "./components/common/context/loader-context";
 import { SnackbarProvider } from "./components/common/context/snackbar-context";
+import { ProductCreate } from "./views/products/create";
 
 
 // Theme config //////
@@ -83,6 +84,7 @@ const AppContent: React.FC = () => {
         <Route path="/clients/create" element={<ClientsCreate />} />
         <Route path="/products" element={<ProductList />} />
         <Route path="/products/:id" element={<ProductDetails />} />
+        <Route path="/products/create" element={<ProductCreate />} />
         {/* Catch-all route if needed */}
         {/* <Route path="*" element={<Navigate to="/" />} /> */}
       </Routes>

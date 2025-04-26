@@ -46,6 +46,7 @@ export default function ProductList() {
               borderColor: "white",
             },
           }}
+          onClick={() => navigate('/products/create')}
         >
           New product
         </Button>
