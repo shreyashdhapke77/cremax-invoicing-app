@@ -1,17 +1,17 @@
-import axios from "axios";
+import axiosInstance from "./axiosInstance";
 
-const apiBaseUrl = "https://cremax-invoicing-backend.onrender.com/";
+// const apiBaseUrl = "https://cremax-invoicing-backend.onrender.com/api";
 
 const handleError = (error: any) => {
   if (error.response) {
     const status = error.response.status;
     if (status === 401) {
       localStorage.clear();
-      window.location.href = "./signup";
+      // window.location.href = "./signup";
     } else if (status === 403 || status === 404) {
-      return error.response;
+      return error.response.data;
     }
-    return error.response;
+    return error.response.data;
   }
   return error;
 };
@@ -31,10 +31,11 @@ export default class BaseApi {
     };
   }
 
-  static async get(endpoint: string, extraHeaders = {}) {
+  static async get(endpoint: string, extraHeaders = {}, config = {}) {
     try {
-      const res = await axios.get(`${apiBaseUrl}${endpoint}`, {
+      const res = await axiosInstance.get(`${endpoint}`, {
         headers: this.getHeaders(extraHeaders),
+        ...config
       });
       return res.data;
     } catch (error) {
@@ -42,10 +43,11 @@ export default class BaseApi {
     }
   }
 
-  static async post(endpoint: string, payload: any, extraHeaders = {}) {
+  static async post(endpoint: string, payload: any, extraHeaders = {}, config = {}) {
     try {
-      const res = await axios.post(`${apiBaseUrl}${endpoint}`, payload, {
+      const res = await axiosInstance.post(`${endpoint}`, payload, {
         headers: this.getHeaders(extraHeaders),
+        ...config
       });
       return res.data;
     } catch (error) {
@@ -53,10 +55,11 @@ export default class BaseApi {
     }
   }
 
-  static async put(endpoint: string, payload: any, extraHeaders = {}) {
+  static async put(endpoint: string, payload: any, extraHeaders = {}, config = {}) {
     try {
-      const res = await axios.put(`${apiBaseUrl}${endpoint}`, payload, {
+      const res = await axiosInstance.put(`${endpoint}`, payload, {
         headers: this.getHeaders(extraHeaders),
+        ...config
       });
       return res.data;
     } catch (error) {
@@ -64,10 +67,11 @@ export default class BaseApi {
     }
   }
 
-  static async delete(endpoint: string, extraHeaders = {}) {
+  static async delete(endpoint: string, extraHeaders = {}, config = {}) {
     try {
-      const res = await axios.delete(`${apiBaseUrl}${endpoint}`, {
+      const res = await axiosInstance.delete(`${endpoint}`, {
         headers: this.getHeaders(extraHeaders),
+        ...config
       });
       return res.data;
     } catch (error) {
