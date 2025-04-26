@@ -14,7 +14,6 @@ import InvoiceList from "./views/invoices/list";
 import ClientList from "./views/clients/list";
 import ProductList from "./views/products/list";
 import InvoiceDetails from "./views/invoices/details";
-import PublicRoute from "./components/auth/public-route";
 import ClientDetails from "./views/clients/details";
 import ProductDetails from "./views/products/details";
 import LoginPage from "./views/login-signup/login";
@@ -28,7 +27,8 @@ import {
 } from "./components/common/context/loader-context";
 import { SnackbarProvider } from "./components/common/context/snackbar-context";
 import { ProductCreate } from "./views/products/create";
-
+import { AuthProvider } from "./components/common/context/auth-context";
+import { ProtectedRoute } from "./components/auth/private-route";
 
 // Theme config //////
 const theme = createTheme({
@@ -46,45 +46,91 @@ const AppContent: React.FC = () => {
       <GlobalLoader loading={loading} />
       <Routes>
         <Route path="/" element={<Home />} />
-
-        <Route
-          path="/login"
-          element={
-            <PublicRoute>
-              <LoginPage />
-            </PublicRoute>
-          }
-        />
-
-        <Route
-          path="/signup"
-          element={
-            <PublicRoute>
-              <SignupPage />
-            </PublicRoute>
-          }
-        />
-
-        <Route
-          path="/forgot-password"
-          element={
-            <PublicRoute>
-              <ForgotPasswordPage />
-            </PublicRoute>
-          }
-        />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
         {/* Protected Routes remain the same */}
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/invoices" element={<InvoiceList />} />
-        <Route path="/invoices/:id" element={<InvoiceDetails />} />
-        <Route path="/invoices/create" element={<InvoiceCreate />} />
-        <Route path="/clients" element={<ClientList />} />
-        <Route path="/clients/:id" element={<ClientDetails />} />
-        <Route path="/clients/create" element={<ClientsCreate />} />
-        <Route path="/products" element={<ProductList />} />
-        <Route path="/products/:id" element={<ProductDetails />} />
-        <Route path="/products/create" element={<ProductCreate />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/invoices"
+          element={
+            <ProtectedRoute>
+              <InvoiceList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/invoices/:id"
+          element={
+            <ProtectedRoute>
+              <InvoiceDetails />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/invoices/create"
+          element={
+            <ProtectedRoute>
+              <InvoiceCreate />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/clients"
+          element={
+            <ProtectedRoute>
+              <ClientList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/clients/:id"
+          element={
+            <ProtectedRoute>
+              <ClientDetails />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/clients/create"
+          element={
+            <ProtectedRoute>
+              <ClientsCreate />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/products"
+          element={
+            <ProtectedRoute>
+              <ProductList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/products/:id"
+          element={
+            <ProtectedRoute>
+              <ProductDetails />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/products/create"
+          element={
+            <ProtectedRoute>
+              <ProductCreate />
+            </ProtectedRoute>
+          }
+        />
         {/* Catch-all route if needed */}
         {/* <Route path="*" element={<Navigate to="/" />} /> */}
       </Routes>
@@ -94,23 +140,25 @@ const AppContent: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <BrowserRouter>
-        <ScrollToTop />
-        <Box className="App">
-          <Box className="fixed-header">
-            <Header />
+    <AuthProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <BrowserRouter>
+          <ScrollToTop />
+          <Box className="App">
+            <Box className="fixed-header">
+              <Header />
+            </Box>
+            <LoaderProvider>
+              <SnackbarProvider>
+                <AppContent />
+              </SnackbarProvider>
+            </LoaderProvider>
+            <Footer />
           </Box>
-          <LoaderProvider>
-            <SnackbarProvider>
-              <AppContent />
-            </SnackbarProvider>
-          </LoaderProvider>
-          <Footer />
-        </Box>
-      </BrowserRouter>
-    </ThemeProvider>
+        </BrowserRouter>
+      </ThemeProvider>
+    </AuthProvider>
   );
 };
 

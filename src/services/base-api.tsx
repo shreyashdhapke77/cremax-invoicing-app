@@ -18,12 +18,12 @@ const handleError = (error: any) => {
 
 export default class BaseApi {
   static setAccessToken(token: string) {
-    localStorage.setItem("access_token", token);
+    localStorage.setItem("accessToken", token);
     window.dispatchEvent(new Event("authChanged"));
   }
 
   static getHeaders(extraHeaders = {}) {
-    const token = localStorage.getItem("access_token");
+    const token = localStorage.getItem("accessToken");
     return {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",

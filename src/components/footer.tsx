@@ -49,7 +49,7 @@ const Footer = () => {
             {["Home", "About", "Services", "Contact"].map((text, index) => (
               <Link
                 key={index}
-                href="#"
+                href={`/${text}`}
                 underline="hover"
                 color="inherit"
                 sx={{

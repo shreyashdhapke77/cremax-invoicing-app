@@ -1,9 +1,17 @@
-import React from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
+import { useAuth } from "../common/context/auth-context";
 
-const PrivateRoute = () => {
-  const token = localStorage.getItem("access_token");
-  return token ? <Outlet /> : <Navigate to="/login" replace />;
+export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { isLoggedIn, loading } = useAuth();
+  const location = useLocation();
+
+  if (loading) {
+    return <div>Loading...</div>; // 👈 Show loader until auth status is checked
+  }
+
+  if (!isLoggedIn) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return <>{children}</>;
 };
-
-export default PrivateRoute;

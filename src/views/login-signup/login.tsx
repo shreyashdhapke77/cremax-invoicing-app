@@ -13,10 +13,11 @@ import GoogleIconColorful from "../../components/common/icons/google";
 import { GREY_BACKGROUND, GREY_BACKGROUND_HOVER } from "../../utils/colors";
 import LOGIN_AVATAR from "../../assets/avatar-login.png";
 import { COMPANY_NAME } from "../../constants/labels";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import BaseApi from "../../services/base-api";
 import CmxPasswordTextField from "../../components/common/cmx-password-text-field";
 import { useSnackbar } from "../../components/common/context/snackbar-context";
+import { useAuth } from "../../components/common/context/auth-context";
 
 interface LoginFormData {
   email: string;
@@ -37,6 +38,8 @@ const LoginPage = () => {
   const [errors, setErrors] = useState<LoginFormErrors>({});
   const [isDisabled, setIsDisabled] = useState(false);
   const { showMessage } = useSnackbar();
+  const { login } = useAuth();
+  const location = useLocation();
 
   // Update form data when user types
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -78,14 +81,14 @@ const LoginPage = () => {
     setErrors({}); // Clear previous errors
     setErrorMsg(""); // Reset error
     try {
-      const res: any = await BaseApi.post("/users/login", {
-        email: formData.email,
-        password: formData.password,
-      });
+      const res: any = await BaseApi.post("/users/login", formData);
       if (res && res.token) {
         // Store token and redirect
         BaseApi.setAccessToken(res.token);
-        navigate("/dashboard");
+        login(res.token);
+        // navigate("/dashboard");
+        const from = location.state?.from?.pathname || "/dashboard";
+        navigate(from);
       } else {
         setErrorMsg("Invalid email or password");
         showMessage("Invalid email or password.", "error", {

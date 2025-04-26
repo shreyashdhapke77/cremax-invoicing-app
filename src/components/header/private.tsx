@@ -24,6 +24,7 @@ import ContactPageIcon from '@mui/icons-material/ContactPage';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
+import { useAuth } from "../common/context/auth-context";
 
 const userProfile = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -46,12 +47,14 @@ function PrivateHeader() {
   const handleCloseUserMenu = () => setAnchorElUser(null);
 
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const handleLogout = () => {
     // Clear session or token
     localStorage.removeItem("access_token"); // or sessionStorage if you're using that
     // Redirect to login page
     handleCloseUserMenu();
+    logout();
     navigate("/login");
     window.dispatchEvent(new Event("authChanged"));
   };
