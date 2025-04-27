@@ -27,7 +27,10 @@ import {
 } from "./components/common/context/loader-context";
 import { SnackbarProvider } from "./components/common/context/snackbar-context";
 import { ProductCreate } from "./views/products/create";
-import { AuthProvider } from "./components/common/context/auth-context";
+import {
+  AuthProvider,
+  useAuth,
+} from "./components/common/context/auth-context";
 import { ProtectedRoute } from "./components/auth/private-route";
 
 // Theme config //////
@@ -39,10 +42,11 @@ const theme = createTheme({
 
 const AppContent: React.FC = () => {
   const { loading } = useLoader();
+  const { isLoggedIn } = useAuth();
 
   return (
     <Box className="main-content">
-      <AppBreadcrumbs />
+      {isLoggedIn && <AppBreadcrumbs />}
       <GlobalLoader loading={loading} />
       <Routes>
         <Route path="/" element={<Home />} />
