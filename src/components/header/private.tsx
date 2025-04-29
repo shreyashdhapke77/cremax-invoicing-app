@@ -25,6 +25,8 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import { useAuth } from "../common/context/auth-context";
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import { Business } from "./business";
 
 const userProfile = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -102,6 +104,26 @@ function PrivateHeader() {
                 },
               }}
             >
+              <MenuItem disabled sx={{ gap: 1, mb: 1 }}>
+              Business Name
+              </MenuItem>
+              <MenuItem onClick={handleCloseUserMenu} sx={{ gap: 1, mb: 1 }}>
+                <AddIcon fontSize="medium" />
+                Add business
+              </MenuItem>
+
+              <MenuItem onClick={handleCloseUserMenu} sx={{ gap: 1, mb: 1 }}>
+                <SwapHorizIcon fontSize="medium" />
+                Change business
+              </MenuItem>
+
+              <MenuItem onClick={handleCloseUserMenu} sx={{ gap: 1, mb: 1 }}>
+                <SettingsIcon fontSize="medium" />
+                Business settings
+              </MenuItem>
+
+              <Divider sx={{ my: 1, borderColor: "#444" }} />
+
               <MenuItem onClick={handleCloseUserMenu} sx={{ gap: 1, mb: 1 }}>
                 <AddIcon fontSize="medium" />
                 New invoice
@@ -137,7 +159,7 @@ function PrivateHeader() {
           </Box>
 
           {/* Company Switcher */}
-          <Typography
+          {/* <Typography
             variant="subtitle1"
             color="white"
             sx={{ fontWeight: 400 }}
@@ -146,7 +168,8 @@ function PrivateHeader() {
             <Box component="span" sx={{ pl: 1 }}>
               ▼
             </Box>
-          </Typography>
+          </Typography> */}
+          <Business />
 
           {/* Profile Icon */}
           <Tooltip title="Open settings">

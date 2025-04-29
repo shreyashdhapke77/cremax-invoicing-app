@@ -32,6 +32,7 @@ import {
   useAuth,
 } from "./components/common/context/auth-context";
 import { ProtectedRoute } from "./components/auth/private-route";
+import SettingsPage from "./views/user-settings/settings";
 
 // Theme config //////
 const theme = createTheme({
@@ -132,6 +133,14 @@ const AppContent: React.FC = () => {
           element={
             <ProtectedRoute>
               <ProductCreate />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user-settings"
+          element={
+            <ProtectedRoute>
+              <SettingsPage />
             </ProtectedRoute>
           }
         />
