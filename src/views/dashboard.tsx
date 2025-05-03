@@ -8,26 +8,7 @@ import { GREY_BACKGROUND, WHITE } from "../utils/colors";
 import { useNavigate } from "react-router-dom";
 import BaseApi from "../services/base-api";
 import { useSnackbar } from "../components/common/context/snackbar-context";
-
-type Businesses = {
-  id: string;
-  name: string;
-  user_id: number;
-  cin: string;
-  gstin: string;
-  address_line_1: string;
-  address_line_2: string;
-  postal_code: string;
-  city: string;
-  state: string;
-  country: string;
-  phone_number: string;
-  website: string;
-  email: string;
-  status: string;
-  created_at: string;
-  updated_at: string;
-};
+import type { Businesses } from '../types/index';
 
 const Dashboard = () => {
   const { showMessage } = useSnackbar();
