@@ -33,6 +33,7 @@ import {
 } from "./components/common/context/auth-context";
 import { ProtectedRoute } from "./components/auth/private-route";
 import SettingsPage from "./views/user-settings/settings";
+import { BusinessCreate } from "./views/business/create";
 
 // Theme config //////
 const theme = createTheme({
@@ -141,6 +142,14 @@ const AppContent: React.FC = () => {
           element={
             <ProtectedRoute>
               <SettingsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/business/create"
+          element={
+            <ProtectedRoute>
+              <BusinessCreate />
             </ProtectedRoute>
           }
         />

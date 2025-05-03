@@ -107,7 +107,13 @@ function PrivateHeader() {
               <MenuItem disabled sx={{ gap: 1, mb: 1 }}>
               Business Name
               </MenuItem>
-              <MenuItem onClick={handleCloseUserMenu} sx={{ gap: 1, mb: 1 }}>
+              <MenuItem
+                onClick={() => {
+                  handleCloseUserMenu()
+                  navigate('/business/create')
+                }}
+                sx={{ gap: 1, mb: 1 }}
+              >
                 <AddIcon fontSize="medium" />
                 Add business
               </MenuItem>

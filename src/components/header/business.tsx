@@ -6,8 +6,10 @@ import AddIcon from "@mui/icons-material/Add";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import CircleIcon from '@mui/icons-material/Circle';
+import { useNavigate } from "react-router-dom";
 
 export const Business = () => {
+  const navigate = useNavigate()
   const myBusiness = [
     { id: 1, name: "Business 1" },
     { id: 2, name: "Business 2" },
@@ -68,7 +70,7 @@ export const Business = () => {
           Business settings
         </MenuItem>
 
-        <MenuItem onClick={handleCloseNavMenu} sx={{ gap: 1, mb: 1 }}>
+        <MenuItem onClick={() => navigate('/business/create')} sx={{ gap: 1, mb: 1 }}>
           <AddIcon fontSize="medium" />
           Add business
         </MenuItem>
