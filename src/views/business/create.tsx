@@ -13,14 +13,52 @@ import {
   import PhoneIcon from "@mui/icons-material/Phone";
   import { useNavigate } from "react-router-dom";
   import { WHITE } from "../../utils/colors";
+import BaseApi from "../../services/base-api";
+import { useSnackbar } from "../../components/common/context/snackbar-context";
   
+  interface BusinessFormData {
+    name: string;
+    cin: string;
+    gstin: string;
+    address_line_1: string;
+    address_line_2: string;
+    postal_code: string;
+    city: string;
+    state: string;
+    country: string;
+    phone_number: string;
+    website: string;
+    email: string;
+    status: string;
+    cc: string;
+    fixedDiscount: number;
+  }
+  interface BusinessFormErrors {
+    name?: string;
+    cin?: string;
+    gstin?: string;
+    address_line_1?: string;
+    address_line_2?: string;
+    postal_code?: string;
+    city?: string;
+    state?: string;
+    country?: string;
+    phone_number?: string;
+    website?: string;
+    email?: string;
+    status?: string;
+    cc?: string;
+    fixedDiscount?: number;
+  }
+
   export const BusinessCreate = () => {
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({
+    const [isDisabled, setIsDisabled] = useState(false);
+    const [formData, setFormData] = useState<BusinessFormData>({
       name: "",
-      addressLine1: "",
-      addressLine2: "",
-      postalCode: "",
+      address_line_1: "",
+      address_line_2: "",
+      postal_code: "",
       state: "",
       city: "",
       country: "",
@@ -28,14 +66,65 @@ import {
       gstin: "",
       email: "",
       cc: "",
-      phone: "",
+      phone_number: "",
       fixedDiscount: 0,
+      website: "",
+      status: ""
     });
-  
+    const { showMessage } = useSnackbar();
+    const [errors, setErrors] = useState<BusinessFormErrors>({});
+    
     const handleInputChange = (e: any) => {
       const { name, value } = e.target;
       setFormData((prev) => ({ ...prev, [name]: value }));
+
+      // Clear error when user starts typing
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: "",
+      }));
     };
+
+    const validateForm = () => {
+      const newErrors: BusinessFormErrors = {};
+  
+      if (!formData.name.trim()) newErrors.name = "Name is required.";
+      if (!formData.address_line_1.trim()) newErrors.address_line_1 = "Address line 1 is required.";
+      if (!formData.postal_code.trim()) newErrors.postal_code = "Postal code is required.";
+      if (!formData.state.trim()) newErrors.state = "State is required.";
+      if (!formData.city.trim()) newErrors.city = "City is required.";
+      if (!formData.country.trim()) newErrors.country = "Country is required.";
+
+      if (formData.email && !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(formData.email)) {
+        newErrors.email = "Enter a valid email address.";
+      }  
+      return newErrors;
+    };
+    
+
+    const saveBusiness = async () => {
+      setIsDisabled(true);
+      const validationErrors = validateForm();
+      if (Object.keys(validationErrors).length > 0) {
+        setErrors(validationErrors);
+        setIsDisabled(false);
+        return;
+      }
+
+      setErrors({}); // Clear previous errors
+      const response = await BaseApi.post("/businesses", formData);
+      setIsDisabled(false);
+      if (response?.id) {
+        showMessage("Your business created successfully!", "success");
+        navigate("/dashboard")
+      } else {
+        if (response?.error) {
+          showMessage(response.error, "error");
+        } else {
+          showMessage("Something went wrong, please try again later.", "error");
+        }
+      }
+    }
   
     const responsiveBox = { width: { xs: "100%", sm: "48%" } };
   
@@ -76,6 +165,9 @@ import {
                       "&.Mui-focused fieldset": { borderColor: "white" },
                     },
                   }}
+
+                  error={errors.name ? true : false}
+                  helperText={errors.name ?? ""}
                 />
               </Box>
   
@@ -83,8 +175,8 @@ import {
                 <TextField
                   fullWidth
                   label="Address line *"
-                  name="addressLine1"
-                  value={formData.addressLine1}
+                  name="address_line_1"
+                  value={formData.address_line_1}
                   onChange={handleInputChange}
                   sx={{
                     input: { color: "white" },
@@ -95,6 +187,8 @@ import {
                       "&.Mui-focused fieldset": { borderColor: "white" },
                     },
                   }}
+                  error={errors.address_line_1 ? true : false}
+                  helperText={errors.address_line_1 ?? ""}
                 />
               </Box>
   
@@ -102,8 +196,8 @@ import {
                 <TextField
                   fullWidth
                   label="Address line 2"
-                  name="addressLine2"
-                  value={formData.addressLine2}
+                  name="address_line_2"
+                  value={formData.address_line_2}
                   onChange={handleInputChange}
                   sx={{
                     input: { color: "white" },
@@ -122,8 +216,8 @@ import {
                 <TextField
                   fullWidth
                   label="Postal code *"
-                  name="postalCode"
-                  value={formData.postalCode}
+                  name="postal_code"
+                  value={formData.postal_code}
                   onChange={handleInputChange}
                   sx={{
                     input: { color: "white" },
@@ -134,6 +228,8 @@ import {
                       "&.Mui-focused fieldset": { borderColor: "white" },
                     },
                   }}
+                  error={errors.postal_code ? true : false}
+                  helperText={errors.postal_code ?? ""}
                 />
               </Box>
               <Box sx={responsiveBox}>
@@ -152,6 +248,8 @@ import {
                       "&.Mui-focused fieldset": { borderColor: "white" },
                     },
                   }}
+                  error={errors.state ? true : false}
+                  helperText={errors.state ?? ""}
                 />
               </Box>
 
@@ -172,6 +270,8 @@ import {
                       "&.Mui-focused fieldset": { borderColor: "white" },
                     },
                   }}
+                  error={errors.city ? true : false}
+                  helperText={errors.city ?? ""}
                 />
               </Box>
               <Box sx={responsiveBox}>
@@ -191,6 +291,8 @@ import {
                       "&.Mui-focused fieldset": { borderColor: "white" },
                     },
                   }}
+                  error={errors.country ? true : false}
+                  helperText={errors.country ?? ""}
                 >
                   <MenuItem value="India">India</MenuItem>
                   <MenuItem value="USA">USA</MenuItem>
@@ -258,6 +360,8 @@ import {
                       </InputAdornment>
                     ),
                   }}
+                  error={errors.email ? true : false}
+                  helperText={errors.email ?? ""}
                 />
               </Box>
               <Box sx={responsiveBox}>
@@ -265,7 +369,7 @@ import {
                   fullWidth
                   label="Phone number"
                   name="phone"
-                  value={formData.phone}
+                  value={formData.phone_number}
                   onChange={handleInputChange}
                   InputProps={{
                     startAdornment: (
@@ -291,11 +395,11 @@ import {
               <Button
                 variant="outlined"
                 sx={{ color: "white", borderColor: "grey.500" }}
-                onClick={() => navigate("/clients")}
+                onClick={() => navigate("/dashboard")}
               >
                 Cancel
               </Button>
-              <Button variant="contained" color="success">
+              <Button disabled={isDisabled} variant="contained" color="success" onClick={() => saveBusiness()}>
                 Save
               </Button>
             </Box>

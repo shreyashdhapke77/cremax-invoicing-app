@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Box, Typography, Card, Divider } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import DescriptionIcon from "@mui/icons-material/Description";
@@ -5,9 +6,66 @@ import PeopleIcon from "@mui/icons-material/People";
 import Inventory2Icon from "@mui/icons-material/Inventory2";
 import { GREY_BACKGROUND, WHITE } from "../utils/colors";
 import { useNavigate } from "react-router-dom";
+import BaseApi from "../services/base-api";
+import { useSnackbar } from "../components/common/context/snackbar-context";
+
+type Businesses = {
+  id: string;
+  name: string;
+  user_id: number;
+  cin: string;
+  gstin: string;
+  address_line_1: string;
+  address_line_2: string;
+  postal_code: string;
+  city: string;
+  state: string;
+  country: string;
+  phone_number: string;
+  website: string;
+  email: string;
+  status: string;
+  created_at: string;
+  updated_at: string;
+};
 
 const Dashboard = () => {
-  const navigate = useNavigate()
+  const { showMessage } = useSnackbar();
+  const navigate = useNavigate();
+  const [myBusiness, setMyBusiness] = useState<Businesses | null>(null);
+
+  useEffect(() => {
+    const getBusiness = async () => {
+      try {
+        const res = await BaseApi.get("/businesses/my-businesses");
+        console.log("Res -- ", res);
+        if (res?.length === 0) {
+          showMessage(
+            "You haven't created any business yet. Please create one to get started.",
+            "warning"
+          );
+          navigate("/business/create");
+        } else if (res?.length) {
+          const stored = localStorage.getItem("selectedBusiness");
+          if (stored) {
+            setMyBusiness(JSON.parse(stored));
+          } else {
+            handleSelect(res[0]);
+          }
+        }
+      } catch (error) {
+        showMessage("Something went wrong. Please try again.", "error");
+      }
+    };
+
+    getBusiness();
+  }, []);
+
+  const handleSelect = (business: any) => {
+    setMyBusiness(business);
+    localStorage.setItem("selectedBusiness", JSON.stringify(business));
+  };
+
   return (
     <Box
       sx={{
@@ -40,7 +98,7 @@ const Dashboard = () => {
         }}
       >
         <Typography variant="h6" fontWeight="bold">
-          Business Name
+          {myBusiness?.name ?? ""}
         </Typography>
 
         <Box
@@ -209,7 +267,7 @@ const Dashboard = () => {
                   boxShadow: "0 4px 20px rgba(0,0,0,0.2)", // smooth shadow
                 },
               }}
-              onClick={() => navigate('/invoices')}
+              onClick={() => navigate("/invoices")}
             >
               <DescriptionIcon />
               <Typography variant="h6">All Invoices</Typography>
@@ -242,7 +300,7 @@ const Dashboard = () => {
                   boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)", // soft shadow
                 },
               }}
-              onClick={() => navigate('/clients')}
+              onClick={() => navigate("/clients")}
             >
               <PeopleIcon />
               <Typography variant="h6">Clients</Typography>
@@ -267,7 +325,7 @@ const Dashboard = () => {
                   boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)", // smooth shadow
                 },
               }}
-              onClick={() => navigate('/products')}
+              onClick={() => navigate("/products")}
             >
               <Inventory2Icon />
               <Typography variant="h6">Products</Typography>

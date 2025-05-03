@@ -34,6 +34,7 @@ import {
 import { ProtectedRoute } from "./components/auth/private-route";
 import SettingsPage from "./views/user-settings/settings";
 import { BusinessCreate } from "./views/business/create";
+import { RedirectIfAuthenticated } from "./components/auth/redirect-if-authenticated";
 
 // Theme config //////
 const theme = createTheme({
@@ -51,10 +52,38 @@ const AppContent: React.FC = () => {
       {isLoggedIn && <AppBreadcrumbs />}
       <GlobalLoader loading={loading} />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route
+          path="/"
+          element={
+            <RedirectIfAuthenticated>
+              <Home />
+            </RedirectIfAuthenticated>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <RedirectIfAuthenticated>
+              <LoginPage />
+            </RedirectIfAuthenticated>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <RedirectIfAuthenticated>
+              <SignupPage />
+            </RedirectIfAuthenticated>
+          }
+        />
+        <Route
+          path="/forgot-password"
+          element={
+            <RedirectIfAuthenticated>
+              <ForgotPasswordPage />
+            </RedirectIfAuthenticated>
+          }
+        />
 
         {/* Protected Routes remain the same */}
         <Route
@@ -164,21 +193,21 @@ const App: React.FC = () => {
   return (
     <AuthProvider>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <BrowserRouter>
-          <ScrollToTop />
-          <Box className="App">
-            <Box className="fixed-header">
-              <Header />
-            </Box>
-            <LoaderProvider>
-              <SnackbarProvider>
+        <SnackbarProvider>
+          <CssBaseline />
+          <BrowserRouter>
+            <ScrollToTop />
+            <Box className="App">
+              <Box className="fixed-header">
+                <Header />
+              </Box>
+              <LoaderProvider>
                 <AppContent />
-              </SnackbarProvider>
-            </LoaderProvider>
-            <Footer />
-          </Box>
-        </BrowserRouter>
+              </LoaderProvider>
+              <Footer />
+            </Box>
+          </BrowserRouter>
+        </SnackbarProvider>
       </ThemeProvider>
     </AuthProvider>
   );

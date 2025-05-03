@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (token) {
       const decoded = jwtDecode<JwtPayload>(token);
       const currentTime = Date.now() / 1000;
-
+        console.log("decoded -- ", decoded)
       if (decoded.exp > currentTime) {
         setIsLoggedIn(true);
         scheduleAutoLogout(decoded.exp);

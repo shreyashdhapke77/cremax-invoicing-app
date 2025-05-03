@@ -10,6 +10,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   }
 
   if (!isLoggedIn) {
+    window.dispatchEvent(new Event("authChanged"));
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
