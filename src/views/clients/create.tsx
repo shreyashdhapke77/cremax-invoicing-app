@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Card,
   CardContent,
   InputAdornment,
@@ -14,24 +13,42 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import PercentIcon from "@mui/icons-material/Percent";
 import { useNavigate } from "react-router-dom";
 import { DARK_THEME_BG, WHITE } from "../../utils/colors";
+import CmxButton from "../../components/common/cmx-button";
+import BaseApi from "../../services/base-api";
+import { useSnackbar } from "../../components/common/context/snackbar-context";
+import type { Businesses, Client } from '../../types/index';
+
+interface ClientFormErrors {
+ [key: string]: string | undefined;
+}
+
+const initialFormData: Client = {
+  businessId: "",
+  name: "",
+  addressLine1: "",
+  addressLine2: "",
+  postalCode: "",
+  state: "",
+  city: "",
+  country: "",
+  cin: "",
+  gstin: "",
+  email: "",
+  cc: "",
+  phoneNumber: "",
+  fixedDiscount: 0,
+  status: "inactive",
+};
+
 
 export const ClientsCreate = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    name: "",
-    addressLine1: "",
-    addressLine2: "",
-    postalCode: "",
-    state: "",
-    city: "",
-    country: "",
-    cin: "",
-    gstin: "",
-    email: "",
-    cc: "",
-    phone: "",
-    fixedDiscount: 0,
-  });
+  const { showMessage } = useSnackbar();
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [formData, setFormData] = useState<Client>(initialFormData);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [errors, setErrors] = useState<ClientFormErrors>({});
+
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
@@ -40,8 +57,119 @@ export const ClientsCreate = () => {
 
   const responsiveBox = { width: { xs: "100%", sm: "48%" } };
 
+  const validateForm = (): ClientFormErrors => {
+    const newErrors: ClientFormErrors = {};
+    if (!formData.name.trim()) {
+      newErrors.name = "Client name is required.";
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required.";
+    } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(formData.email)) {
+      newErrors.email = "Enter a valid email address.";
+    }
+    if (!formData.postalCode.trim()) {
+      newErrors.postalCode = "Postal Code is required.";
+    }
+    if (!formData.state.trim()) {
+      newErrors.state = "State is required.";
+    }
+    if (!formData.city.trim()) {
+      newErrors.city = "City is required.";
+    }
+    if (!formData.country.trim()) {
+      newErrors.country = "Country is required.";
+    }
+    return newErrors;
+  };
+
+  const handleSaveAction = async() => {
+    // Handle save action here
+    setIsDisabled(true);
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      setIsDisabled(false);
+      return;
+    }
+
+    setErrors({}); // Clear previous errors
+    setErrorMsg(""); // Reset error
+    try {
+      // Parse selected business from localStorage
+      const business: Businesses = JSON.parse(localStorage.getItem("selectedBusiness") || "{}");
+      if (!business.id) {
+        setErrorMsg("Business ID is required.");
+        setIsDisabled(false);
+        return;
+      }
+      const payload = { ...formData, business_id: business.id };
+
+      // API Call to create client
+      const res: any = await BaseApi.post("/clients", payload);
+      console.log("Res -- ", res);
+      if (res.error) {
+        setErrorMsg(res.error);
+        showMessage(res.error, "error");
+        return;
+      }
+      showMessage(`Client ${res.name} created successfully`, "success");
+      navigate("/clients");
+    } catch (error) {
+      showMessage("Something went wrong. Please try again.", "error");
+    } finally {
+      setIsDisabled(false);
+    }
+  };
+
+  const handleCancelAction = () => {
+    // Handle cancel action here
+    console.log("Action cancelled");
+    navigate("/clients");
+  };
+
+  const handleResetAllAction = () => {
+    // Handle Reset action here
+    console.log("Data deleted");
+    setFormData(initialFormData);
+  };
+  const handleDeleteAction = () => {
+    // Handle delete action here
+    console.log("Data deleted");
+    navigate("/clients");
+  };
+  const handleEditAction = (data: any) => {
+    // Handle edit action here
+    console.log("Data edited:", data);
+    navigate("/clients");
+  };
+  const handleViewAction = (data: any) => {
+    // Handle view action here
+    console.log("Data viewed:", data);
+    navigate("/clients");
+  };
+  const handlePrintAction = (data: any) => {
+    // Handle print action here
+    console.log("Data printed:", data);
+    navigate("/clients");
+  };
+  const handleEmailAction = (data: any) => {
+    // Handle email action here
+    console.log("Data emailed:", data);
+    navigate("/clients");
+  };
+  const handleDownloadAction = (data: any) => {
+    // Handle download action here
+    console.log("Data downloaded:", data);
+    navigate("/clients");
+  };
+
   return (
     <Box sx={{ p: 4, bgcolor: DARK_THEME_BG, minHeight: "100vh", color: "white" }}>
+      {errorMsg && (
+        <Typography color="error" sx={{ mt: 2 }}>
+          {errorMsg}
+        </Typography>
+      )}
       <Card sx={{ bgcolor: "#2e2e2e" }}>
         <CardContent>
           <Box
@@ -293,7 +421,7 @@ export const ClientsCreate = () => {
                 fullWidth
                 label="Phone number"
                 name="phone"
-                value={formData.phone}
+                value={formData.phoneNumber}
                 onChange={handleInputChange}
                 InputProps={{
                   startAdornment: (
@@ -340,19 +468,41 @@ export const ClientsCreate = () => {
             </Box>
           </Box>
           <Box display="flex" justifyContent="flex-end" gap={2} mt={4}>
-            <Button
-              variant="outlined"
+            <CmxButton 
+              size="small"
+              variant="contained"
+              color="error"
+              label="Reset All"
+              fullWidth={false}
+              type="reset"
               sx={{ color: "white", borderColor: "grey.500" }}
-              onClick={() => navigate("/clients")}
-            >
-              Cancel
-            </Button>
-            <Button variant="contained" color="success">
-              Save
-            </Button>
+              disabled={isDisabled}
+              onClick={handleResetAllAction}
+            />
+
+            <CmxButton
+              size="small"
+              variant="outlined"
+              label="Cancel"
+              fullWidth={false}
+              sx={{ color: "white", borderColor: "grey.500" }}
+              disabled={isDisabled}
+              onClick={handleCancelAction}
+            />
+            
+            <CmxButton 
+              variant="contained" 
+              color="success"
+              size="small"
+              label="Save"
+              fullWidth={false}
+              type="submit"
+              disabled={isDisabled}
+              onClick={handleSaveAction}/>
           </Box>
         </CardContent>
       </Card>
     </Box>
   );
 };
+
