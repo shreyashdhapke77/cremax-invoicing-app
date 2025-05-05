@@ -21,7 +21,7 @@ import ArchiveIcon from "@mui/icons-material/Archive";
 import PercentIcon from "@mui/icons-material/Percent";
 import { useParams } from "react-router-dom";
 import { products } from "../../constants/product-list";
-import { WHITE } from "../../utils/colors";
+import { DARK_THEME_BG, WHITE } from "../../utils/colors";
 
 export default function ProductDetails() {
   const [tabValue, setTabValue] = useState(0);
@@ -58,7 +58,7 @@ export default function ProductDetails() {
   const responsiveBox = { width: { xs: "100%", sm: "48%" } };
 
   return (
-    <Box sx={{ p: 4, bgcolor: "#1e1e1e", minHeight: "100vh", color: "white" }}>
+    <Box sx={{ p: 4, bgcolor: DARK_THEME_BG, minHeight: "100vh", color: "white" }}>
       {/* Header */}
       <Typography variant="h4" sx={{ mb: 2 }}>
         {formData.name}

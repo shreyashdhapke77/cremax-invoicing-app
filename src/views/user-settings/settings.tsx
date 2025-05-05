@@ -24,6 +24,7 @@ import {
   Add,
   Edit,
 } from "@mui/icons-material";
+import { DARK_THEME_BG } from "../../utils/colors";
 
 const sidebarItems = [
   { label: "Personal info", icon: <Person /> },
@@ -67,9 +68,9 @@ const SettingsPage = () => {
                 sx={{
                   borderRadius: 2,
                   my: 0.5,
-                  bgcolor: selected === item.label ? "#1e1e1e" : undefined,
+                  bgcolor: selected === item.label ? DARK_THEME_BG : undefined,
                   "&.Mui-selected": {
-                    bgcolor: "#1e1e1e",
+                    bgcolor: DARK_THEME_BG,
                     borderLeft: "4px solid #2979ff",
                   },
                 }}

@@ -12,7 +12,7 @@ import {
   import EmailIcon from "@mui/icons-material/Email";
   import PhoneIcon from "@mui/icons-material/Phone";
   import { useNavigate } from "react-router-dom";
-  import { WHITE } from "../../utils/colors";
+  import { DARK_THEME_BG, WHITE } from "../../utils/colors";
 import BaseApi from "../../services/base-api";
 import { useSnackbar } from "../../components/common/context/snackbar-context";
   
@@ -129,7 +129,7 @@ import { useSnackbar } from "../../components/common/context/snackbar-context";
     const responsiveBox = { width: { xs: "100%", sm: "48%" } };
   
     return (
-      <Box sx={{ p: 4, bgcolor: "#1e1e1e", minHeight: "100vh", color: "white" }}>
+      <Box sx={{ p: 4, bgcolor: DARK_THEME_BG, minHeight: "100vh", color: "white" }}>
         <Card sx={{ bgcolor: "#2e2e2e" }}>
           <CardContent>
             <Box

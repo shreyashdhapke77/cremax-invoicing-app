@@ -15,6 +15,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DARK_THEME_BG } from "../../utils/colors";
 
 interface CancelInvoiceProps {
   handleClose: () => void;
@@ -36,7 +37,7 @@ const CancelInvoice: React.FC<CancelInvoiceProps> = ({ handleClose }) => {
         p={3}
         borderRadius={2}
         sx={{
-          backgroundColor: "#1e1e1e",
+          backgroundColor: DARK_THEME_BG,
           boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)",
           color: "white",
           position: "relative",

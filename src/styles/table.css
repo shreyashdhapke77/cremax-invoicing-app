@@ -1,7 +1,7 @@
 
 .card-row:hover {
   background-color: #555 !important;
-  transform: scale(1.01);
+  cursor: pointer;
 }
 
 /* Remove default row border if needed */

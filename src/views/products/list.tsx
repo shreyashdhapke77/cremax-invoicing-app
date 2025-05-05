@@ -4,18 +4,19 @@ import CardDataGrid from "../../components/common/cx/table";
 import { useNavigate } from "react-router-dom";
 import { productListColumns } from "../../constants/columns/product";
 import { products } from "../../constants/product-list";
+import { DARK_THEME_BG } from "../../utils/colors";
 
 export default function ProductList() {
   const navigate = useNavigate();
   return (
-    <Box sx={{ backgroundColor: "#111", minHeight: "100vh", padding: 2 }}>
+    <Box sx={{ backgroundColor: DARK_THEME_BG, minHeight: "100vh", px: 2 }}>
       {/* Header */}
       <Box
         sx={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          mb: 3,
+          mb: 1,
         }}
       >
         <Box>
@@ -56,7 +57,7 @@ export default function ProductList() {
       <CardDataGrid
         rows={products}
         columns={productListColumns}
-        pageSize={10}
+        pageSize={12}
         onRowClick={(params) => navigate(`/products/${params.row.id}`)}
       />
     </Box>

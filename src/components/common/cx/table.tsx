@@ -2,7 +2,7 @@ import React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, DataGridProps } from "@mui/x-data-grid";
 import "../../../styles/table.css";
-import { WHITE } from "../../../utils/colors";
+import { DARK_THEME_BG, WHITE } from "../../../utils/colors";
 
 type CardDataGridProps = {
   rows: any[];
@@ -13,40 +13,45 @@ type CardDataGridProps = {
 const CardDataGrid: React.FC<CardDataGridProps> = ({
   rows,
   columns,
-  pageSize = 10,
+  pageSize = 12,
   ...rest
 }) => {
   return (
-    <Box sx={{ height: "80vh", width: "100%" }}>
+    <Box sx={{height: 'auto', width: "100%" }}>
       <DataGrid
         rows={rows}
         columns={columns}
         getRowClassName={() => "card-row"}
+        rowHeight={45}
         sx={{
-          backgroundColor: "#111",
+          paddingTop: '10px',
+          backgroundColor: DARK_THEME_BG,
           color: WHITE,
+          border: "none",
           "& .MuiDataGrid-columnHeader": {
-            backgroundColor: "#111",
+            backgroundColor: DARK_THEME_BG,
             color: WHITE,
-            borderBottom: "1px solid #444",
+            borderBottom: "none",
           },
           "& .MuiDataGrid-columnHeaderTitle": {
             color: WHITE,
           },
-          "& .MuiDataGrid-cell": {
-            backgroundColor: "#333",
-            color: WHITE,
-            borderBottom: "1px solid #444",
+          "& .MuiDataGrid-virtualScroller": {
+            borderTop: "none",
+            borderBottom: "none",
           },
-          "& .MuiDataGrid-cell:focus": {
-            outline: "none",
+          "& .MuiDataGrid-cell": {
+            color: WHITE,
+            borderBottom: "none",
+            borderTopColor: "black"
           },
           "& .MuiDataGrid-cell:focus-within": {
             outline: "none",
           },
           "& .MuiDataGrid-footerContainer": {
-            backgroundColor: "#111",
+            backgroundColor: DARK_THEME_BG,
             color: WHITE,
+            borderTop: "none",
           },
           "& .MuiSelect-select, & .MuiInputBase-root": {
             backgroundColor: "#333",
@@ -55,16 +60,11 @@ const CardDataGrid: React.FC<CardDataGridProps> = ({
           "& .MuiSvgIcon-root": {
             color: WHITE,
           },
-          "& .Mui-disabled": {
-            color: "rgba(255,255,255,0.5)",
-          },
           "& .MuiTablePagination-selectLabel, & .MuiTablePagination-displayedRows":
             {
               color: WHITE,
             },
           "& .card-row": {
-            marginTop: "10px",
-            borderRadius: "12px",
             overflow: "hidden",
             backgroundColor: "#333",
             boxShadow: "0 2px 4px rgba(0,0,0,0.3)",
@@ -78,7 +78,7 @@ const CardDataGrid: React.FC<CardDataGridProps> = ({
           },
         }}
         disableRowSelectionOnClick
-        pageSizeOptions={[5, 10, 20]}
+        pageSizeOptions={[12, 24, 36]}
         {...rest}
       />
     </Box>

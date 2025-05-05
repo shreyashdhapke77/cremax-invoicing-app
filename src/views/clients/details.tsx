@@ -19,7 +19,7 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import PercentIcon from "@mui/icons-material/Percent";
 import { useParams } from "react-router-dom";
 import { clients } from "../../constants/client-list";
-import { WHITE } from "../../utils/colors";
+import { DARK_THEME_BG, WHITE } from "../../utils/colors";
 
 export default function ClientDetails() {
   const [tabValue, setTabValue] = useState(0);
@@ -61,7 +61,7 @@ export default function ClientDetails() {
   const responsiveBox = { width: { xs: "100%", sm: "48%" } };
 
   return (
-    <Box sx={{ p: 4, bgcolor: "#1e1e1e", minHeight: "100vh", color: "white" }}>
+    <Box sx={{ p: 4, bgcolor: DARK_THEME_BG, minHeight: "100vh", color: "white" }}>
       {/* Header */}
       <Typography variant="h4" sx={{ mb: 2 }}>
         {formData.name}

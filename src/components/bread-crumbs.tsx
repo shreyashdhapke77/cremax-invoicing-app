@@ -1,7 +1,7 @@
 import { Breadcrumbs, Link, Typography } from "@mui/material";
 import { useLocation, Link as RouterLink } from "react-router-dom";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { WHITE } from "../utils/colors";
+import { DARK_THEME_BG, WHITE } from "../utils/colors";
 import { useAuth } from "./common/context/auth-context";
 
 const breadcrumbNameMap: any = {
@@ -24,7 +24,7 @@ export default function AppBreadcrumbs() {
     <Breadcrumbs
       aria-label="breadcrumb"
       separator={<NavigateNextIcon fontSize="small" />}
-      sx={{ padding: 2, backgroundColor: "#111", color: WHITE }}
+      sx={{ padding: 2, backgroundColor: DARK_THEME_BG, color: WHITE }}
     >
       {isLoggedIn ? (
         <Link

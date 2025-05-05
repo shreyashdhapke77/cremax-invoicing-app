@@ -4,7 +4,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import DescriptionIcon from "@mui/icons-material/Description";
 import PeopleIcon from "@mui/icons-material/People";
 import Inventory2Icon from "@mui/icons-material/Inventory2";
-import { GREY_BACKGROUND, WHITE } from "../utils/colors";
+import { DARK_THEME_BG, GREY_BACKGROUND, WHITE } from "../utils/colors";
 import { useNavigate } from "react-router-dom";
 import BaseApi from "../services/base-api";
 import { useSnackbar } from "../components/common/context/snackbar-context";
@@ -50,7 +50,7 @@ const Dashboard = () => {
   return (
     <Box
       sx={{
-        backgroundColor: "#1E1E1E",
+        backgroundColor: DARK_THEME_BG,
         minHeight: "100vh",
         color: WHITE,
         p: 4,
