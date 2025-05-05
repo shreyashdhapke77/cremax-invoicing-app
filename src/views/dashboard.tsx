@@ -16,6 +16,7 @@ const Dashboard = () => {
   const [myBusiness, setMyBusiness] = useState<Businesses | null>(null);
 
   useEffect(() => {
+    const stored = localStorage.getItem("selectedBusiness");
     const getBusiness = async () => {
       try {
         const res = await BaseApi.get("/businesses/my-businesses");
@@ -27,7 +28,6 @@ const Dashboard = () => {
           );
           navigate("/business/create");
         } else if (res?.length) {
-          const stored = localStorage.getItem("selectedBusiness");
           if (stored) {
             setMyBusiness(JSON.parse(stored));
           } else {
@@ -38,8 +38,11 @@ const Dashboard = () => {
         showMessage("Something went wrong. Please try again.", "error");
       }
     };
-
-    getBusiness();
+    if (!stored) {
+      getBusiness();
+    } else {
+      setMyBusiness(JSON.parse(stored));
+    }
   }, []);
 
   const handleSelect = (business: any) => {
@@ -205,7 +208,7 @@ const Dashboard = () => {
           >
             <Card
               sx={{
-                backgroundColor: "#00C853",
+                backgroundColor: "#155790",
                 color: WHITE,
                 flex: 1,
                 p: 2,
@@ -217,7 +220,7 @@ const Dashboard = () => {
                 cursor: "pointer", // indicates it's clickable
                 transition: "all 0.3s ease-in-out",
                 "&:hover": {
-                  backgroundColor: "#00B248", // slightly darker green
+                  backgroundColor: "#1B609D", // slightly darker green
                   transform: "scale(1.02)", // subtle zoom effect
                   boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)",
                 },

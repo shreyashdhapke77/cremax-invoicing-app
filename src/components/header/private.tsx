@@ -27,10 +27,13 @@ import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import { useAuth } from "../common/context/auth-context";
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import { Business } from "./business";
+import { Businesses } from "../../types";
 
 const userProfile = ["Profile", "Account", "Dashboard", "Logout"];
 
 function PrivateHeader() {
+   const [myBusiness, setMyBusiness] = React.useState<Businesses | null>(null);
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -51,9 +54,17 @@ function PrivateHeader() {
   const navigate = useNavigate();
   const { logout } = useAuth();
 
+  React.useEffect(() => {
+    const stored = localStorage.getItem("selectedBusiness");
+    if (stored) {
+      setMyBusiness(JSON.parse(stored));
+    }
+  }, []);
+
   const handleLogout = () => {
     // Clear session or token
     localStorage.removeItem("accessToken"); // or sessionStorage if you're using that
+    localStorage.removeItem("selectedBusiness");
     // Redirect to login page
     handleCloseUserMenu();
     logout();
@@ -65,7 +76,7 @@ function PrivateHeader() {
     <AppBar
       position="static"
       sx={{
-        backgroundColor: "#1eaf4b",
+        backgroundColor: "#003A6B", //"#073965",//"#0C243D", //"#003366", //#003A6B
         height: "64px",
         justifyContent: "center",
       }}
@@ -105,7 +116,7 @@ function PrivateHeader() {
               }}
             >
               <MenuItem disabled sx={{ gap: 1, mb: 1 }}>
-              Business Name
+              {myBusiness?.name ? myBusiness?.name : "Business Name"}
               </MenuItem>
               <MenuItem
                 onClick={() => {
