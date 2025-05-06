@@ -138,7 +138,7 @@ export default function ProductDetails() {
               </Box>
               <Box sx={{ ml: 3 }}>
                 <CmxText noWrap label={product.productNo} align='left' variant = "subtitle1"/>
-                <CmxText noWrap label={product.price.toLocaleString()} align='left' variant = "subtitle1"/>
+                <CmxText noWrap label={String(product.price)} align='left' variant = "subtitle1"/>
                 <CmxText noWrap label={product.taxCode} align='left' variant = "subtitle1"/>
                
               </Box>
@@ -312,7 +312,8 @@ export default function ProductDetails() {
 
             {/* Total price */}
             <Box sx={{ width: "100%", textAlign: "right", mt: 2 }}>
-              <CmxText label={`Total price (incl. GST): <strong>{product.totalPrice}</strong>`} variant="h6" sx={{ color: "white" }}/>
+              <CmxText label={'Total price (incl. GST): '} variant="h6" sx={{ color: "white" }}/>
+              <CmxText label={String(product.totalPrice)} isBold variant="h6" sx={{ color: "white" }}/>
             </Box>
           </Box>
 
