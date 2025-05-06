@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Card,
   CardContent,
   FormControl,
@@ -16,29 +15,120 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PercentIcon from "@mui/icons-material/Percent";
 import { DARK_THEME_BG, WHITE } from "../../utils/colors";
+import CmxButton from "../../components/common/cmx-button";
+import BaseApi from "../../services/base-api";
+import { useSnackbar } from "../../components/common/context/snackbar-context";
+import type { Businesses, Product } from '../../types/index';
+import { useLoader } from "../../components/common/context/loader-context";
+import GlobalLoader from "../../components/common/global-loader";
+
+interface ProductFormErrors {
+  [key: string]: string | undefined;
+ }
+ 
+ const initialProductData: Product = {
+  name: "",
+  productNo: "",
+  price: 0.0,
+  taxCode: "",
+  totalPrice: "0.00",
+  updatedAt: "",
+  timesInvoiced: "",
+  totalInvoiced: "",
+};
 
 export const ProductCreate = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    productNo: "",
-    price: 0.0,
-    taxCode: "",
-    totalPrice: "0.00",
-    updatedAt: "",
-    timesInvoiced: "",
-    totalInvoiced: "",
-  });
+
+  const { showMessage } = useSnackbar();
+  const navigate = useNavigate();
+  const { loading } = useLoader();
+
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [errors, setErrors] = useState<ProductFormErrors>({});
+  const [formData, setFormData] = useState(initialProductData);
+  const [isEditMode, setIsEditMode] = useState<boolean>(false);
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const navigate = useNavigate();
+  const validateForm = (): ProductFormErrors => {
+    if (!formData.name.trim()) {
+      errors.name = "Product Name is required.";
+    }
+    if (!formData.productNo.trim()) {
+      errors.email = "Product Number is required.";
+    }
+    if (!formData.price) {
+      errors.price = "Price is required.";
+    }
+    return errors;
+  };
 
+  const handleSaveAction = async() => {
+    // Handle save action here
+    setIsDisabled(true);
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      setIsDisabled(false);
+      return;
+    }
+
+    setErrors({}); // Clear previous errors
+    setErrorMsg(""); // Reset error messages
+    try {
+      // Parse selected business from localStorage
+      const business: Businesses = JSON.parse(localStorage.getItem("selectedBusiness") || "{}");
+      if (!business.id) {
+        setErrorMsg("Business ID is required.");
+        setIsDisabled(false);
+        return;
+      }
+      const payload = { ...formData, business_id: business.id };
+
+      // API Call to create Product
+      const fetchFn = isEditMode ? BaseApi.put("/products", payload) : BaseApi.post("/products", payload)
+      const res: any = await fetchFn;
+      
+      console.log("Res -- ", res);
+      if (res.error) {
+        setErrorMsg(res.error);
+        showMessage(res.error, "error");
+        return;
+      }
+      showMessage(`Product ${res.name + (isEditMode ? ' updated ' :  'created ')} successfully`, "success");
+      navigate("/products");
+    } catch (error) {
+      showMessage("Something went wrong. Please try again.", "error");
+    } finally {
+      setIsDisabled(false);
+    }
+  };
+
+  const handleCancelAction = () => {
+    // Handle cancel action here
+    console.log("Action cancelled");
+    navigate("/products");
+  };
+
+  const handleResetAllAction = () => {
+    // Handle Reset action here
+    console.log("All Data Reset");
+    setFormData(initialProductData);
+  };
+  
   const responsiveBox = { width: { xs: "100%", sm: "48%" } };
   return (
     <Box sx={{ p: 4, bgcolor: DARK_THEME_BG, minHeight: "100vh", color: "white" }}>
+      <GlobalLoader loading={loading} />
+      {errorMsg && (
+        <Typography color="error" sx={{ mt: 2 }}>
+          {errorMsg}
+        </Typography>
+      )}
       <Card sx={{ bgcolor: "#2e2e2e", p: 2 }}>
         <CardContent>
           <Typography
@@ -214,16 +304,39 @@ export const ProductCreate = () => {
 
           {/* Buttons */}
           <Box display="flex" justifyContent="flex-end" gap={2} mt={4}>
-            <Button
-              onClick={() => navigate("/products")}
-              variant="outlined"
+
+            <CmxButton 
+              size="small"
+              variant="contained"
+              color="error"
+              label="Reset All"
+              fullWidth={false}
+              type="reset"
               sx={{ color: "white", borderColor: "grey.500" }}
-            >
-              Cancel
-            </Button>
-            <Button variant="contained" color="success">
-              Save
-            </Button>
+              disabled={isDisabled}
+              onClick={handleResetAllAction}
+            />
+
+            <CmxButton
+              size="small"
+              variant="outlined"
+              label="Cancel"
+              fullWidth={false}
+              sx={{ color: "white", borderColor: "grey.500" }}
+              disabled={isDisabled}
+              onClick={handleCancelAction}
+            />
+            
+            <CmxButton 
+              variant="contained" 
+              color="success"
+              size="small"
+              label={ isEditMode ? 'Update' : "Save" }
+              fullWidth={false}
+              type="submit"
+              disabled={isDisabled}
+              onClick={handleSaveAction}
+            />
           </Box>
         </CardContent>
       </Card>

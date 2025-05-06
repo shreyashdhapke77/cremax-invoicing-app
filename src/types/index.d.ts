@@ -48,3 +48,14 @@ export interface Client {
     status: string,
     fixedDiscount: number
   }
+
+  export interface Product {
+    name: string,
+    productNo: string,
+    price: number,
+    taxCode: string,
+    totalPrice: string,
+    updatedAt: string,
+    timesInvoiced: string,
+    totalInvoiced: string,
+  }

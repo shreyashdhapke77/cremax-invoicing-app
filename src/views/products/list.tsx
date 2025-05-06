@@ -3,11 +3,34 @@ import AddIcon from "@mui/icons-material/Add";
 import CardDataGrid from "../../components/common/cx/table";
 import { useNavigate } from "react-router-dom";
 import { productListColumns } from "../../constants/columns/product";
-import { products } from "../../constants/product-list";
 import { DARK_THEME_BG } from "../../utils/colors";
+import React, { useEffect } from "react";
+import BaseApi from "../../services/base-api";
+import { useSnackbar } from "../../components/common/context/snackbar-context";
 
 export default function ProductList() {
   const navigate = useNavigate();
+  const { showMessage } = useSnackbar();
+  
+  const [products, setProducts] = React.useState<any[]>([]);
+  
+  useEffect(() => {
+    const getProduct = () => {
+      try {
+        BaseApi.get("/products").then((res) => {
+          console.log("Res -- ", res);
+          if (Array.isArray(res)) {
+            // Check if `res` is an array
+            setProducts(res); // Directly pass `res` to setMyBusiness
+          }
+        })
+      } catch (error) {
+        showMessage("Something went wrong. Please try again.", "error");
+      }
+    };
+    getProduct();
+  }, []);
+
   return (
     <Box sx={{ backgroundColor: DARK_THEME_BG, minHeight: "100vh", px: 2 }}>
       {/* Header */}
@@ -29,7 +52,7 @@ export default function ProductList() {
             Home
           </Typography> */}
           <Typography variant="h4" fontWeight="bold" color="white">
-            {"Products"}
+            Products
           </Typography>
         </Box>
         <Button
@@ -49,7 +72,7 @@ export default function ProductList() {
           }}
           onClick={() => navigate('/products/create')}
         >
-          New product
+          New Product
         </Button>
       </Box>
 

@@ -17,6 +17,8 @@ import CmxButton from "../../components/common/cmx-button";
 import BaseApi from "../../services/base-api";
 import { useSnackbar } from "../../components/common/context/snackbar-context";
 import type { Businesses, Client } from '../../types/index';
+import { useLoader } from "../../components/common/context/loader-context";
+import GlobalLoader from "../../components/common/global-loader";
 
 interface ClientFormErrors {
  [key: string]: string | undefined;
@@ -42,44 +44,47 @@ const initialFormData: Client = {
 
 
 export const ClientsCreate = () => {
+
   const navigate = useNavigate();
   const { showMessage } = useSnackbar();
+  const { loading } = useLoader();
+
   const [isDisabled, setIsDisabled] = useState(false);
   const [formData, setFormData] = useState<Client>(initialFormData);
   const [errorMsg, setErrorMsg] = useState("");
   const [errors, setErrors] = useState<ClientFormErrors>({});
+  const [isEditMode, setIsEditMode] = useState<boolean>(false);
+
+  const responsiveBox = { width: { xs: "100%", sm: "48%" } };
+
+  const validateForm = (): ClientFormErrors => {
+    if (!formData.name.trim()) {
+      errors.name = "Client name is required.";
+    }
+    if (!formData.email.trim()) {
+      errors.email = "Email is required.";
+    } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(formData.email)) {
+      errors.email = "Enter a valid email address.";
+    }
+    if (!formData.postalCode.trim()) {
+      errors.postalCode = "Postal Code is required.";
+    }
+    if (!formData.state.trim()) {
+      errors.state = "State is required.";
+    }
+    if (!formData.city.trim()) {
+      errors.city = "City is required.";
+    }
+    if (!formData.country.trim()) {
+      errors.country = "Country is required.";
+    }
+    return errors;
+  };
 
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const responsiveBox = { width: { xs: "100%", sm: "48%" } };
-
-  const validateForm = (): ClientFormErrors => {
-    const newErrors: ClientFormErrors = {};
-    if (!formData.name.trim()) {
-      newErrors.name = "Client name is required.";
-    }
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required.";
-    } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(formData.email)) {
-      newErrors.email = "Enter a valid email address.";
-    }
-    if (!formData.postalCode.trim()) {
-      newErrors.postalCode = "Postal Code is required.";
-    }
-    if (!formData.state.trim()) {
-      newErrors.state = "State is required.";
-    }
-    if (!formData.city.trim()) {
-      newErrors.city = "City is required.";
-    }
-    if (!formData.country.trim()) {
-      newErrors.country = "Country is required.";
-    }
-    return newErrors;
   };
 
   const handleSaveAction = async() => {
@@ -105,14 +110,15 @@ export const ClientsCreate = () => {
       const payload = { ...formData, business_id: business.id };
 
       // API Call to create client
-      const res: any = await BaseApi.post("/clients", payload);
+      const fetchFn = isEditMode ? BaseApi.put("/clients", payload) : BaseApi.post("/clients", payload)
+      const res: any = await fetchFn;
       console.log("Res -- ", res);
       if (res.error) {
         setErrorMsg(res.error);
         showMessage(res.error, "error");
         return;
       }
-      showMessage(`Client ${res.name} created successfully`, "success");
+      showMessage(`Client ${res.name + (isEditMode ? ' updated ' :  'created ')} successfully`, "success");
       navigate("/clients");
     } catch (error) {
       showMessage("Something went wrong. Please try again.", "error");
@@ -129,42 +135,13 @@ export const ClientsCreate = () => {
 
   const handleResetAllAction = () => {
     // Handle Reset action here
-    console.log("Data deleted");
+    console.log("All Data Reset");
     setFormData(initialFormData);
-  };
-  const handleDeleteAction = () => {
-    // Handle delete action here
-    console.log("Data deleted");
-    navigate("/clients");
-  };
-  const handleEditAction = (data: any) => {
-    // Handle edit action here
-    console.log("Data edited:", data);
-    navigate("/clients");
-  };
-  const handleViewAction = (data: any) => {
-    // Handle view action here
-    console.log("Data viewed:", data);
-    navigate("/clients");
-  };
-  const handlePrintAction = (data: any) => {
-    // Handle print action here
-    console.log("Data printed:", data);
-    navigate("/clients");
-  };
-  const handleEmailAction = (data: any) => {
-    // Handle email action here
-    console.log("Data emailed:", data);
-    navigate("/clients");
-  };
-  const handleDownloadAction = (data: any) => {
-    // Handle download action here
-    console.log("Data downloaded:", data);
-    navigate("/clients");
   };
 
   return (
     <Box sx={{ p: 4, bgcolor: DARK_THEME_BG, minHeight: "100vh", color: "white" }}>
+      <GlobalLoader loading={loading} />
       {errorMsg && (
         <Typography color="error" sx={{ mt: 2 }}>
           {errorMsg}
@@ -468,6 +445,7 @@ export const ClientsCreate = () => {
             </Box>
           </Box>
           <Box display="flex" justifyContent="flex-end" gap={2} mt={4}>
+
             <CmxButton 
               size="small"
               variant="contained"
@@ -494,7 +472,7 @@ export const ClientsCreate = () => {
               variant="contained" 
               color="success"
               size="small"
-              label="Save"
+              label={ isEditMode ? 'Update' : "Save" }
               fullWidth={false}
               type="submit"
               disabled={isDisabled}
