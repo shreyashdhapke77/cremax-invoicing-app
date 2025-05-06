@@ -40,10 +40,8 @@
   right: 0;
   z-index: 1100; /* above most MUI components */
   background-color: #1e1e1e; /* match your design */
-  height: 60px;
   display: flex;
   align-items: center;
-  /* padding: 0 24px; */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 

@@ -69,13 +69,20 @@ export const Business = () => {
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
       <IconButton
-        size="large"
+        size="small"
         edge="start"
         color="inherit"
         onClick={handleOpenNavMenu}
+        sx={{
+          "&:hover": {
+            backgroundColor: "transparent", // Removes hover background
+          },
+          fontWeight: 'bold',
+          fontFamily: 'sans-serif'
+        }}
       >
         {mySelectedBusiness?.name ? mySelectedBusiness?.name : "Business Name"}{" "}
-        {anchorElNav ? <ArrowDropDownIcon /> : <ArrowDropUpIcon />}
+        {anchorElNav ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
       </IconButton>
       <Menu
         anchorEl={anchorElNav}
