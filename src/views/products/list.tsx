@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CardDataGrid from "../../components/common/cx/table";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,9 @@ import React, { useEffect } from "react";
 import BaseApi from "../../services/base-api";
 import { useSnackbar } from "../../components/common/context/snackbar-context";
 import { Product } from "../../types";
+import CmxText from "../../components/common/cmx-text";
+import CmxButton from "../../components/common/cmx-button";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 export default function ProductList() {
   const navigate = useNavigate();
@@ -44,21 +47,20 @@ export default function ProductList() {
         }}
       >
         <Box>
-          {/* <Typography
-            variant="body2"
-            color="gray"
-            textAlign="left"
-            onClick={() => navigate("/dashboard")}
-          >
-            Home
-          </Typography> */}
-          <Typography variant="h4" fontWeight="bold" color="white">
-            Products
-          </Typography>
+         {/* <CmxText label='Home' variant="body2" sx={{ mb: 2 }} color="gray" onClick={() => navigate("/dashboard")}/> */}
+          <AddShoppingCartIcon fontSize="medium" /> 
+          <CmxText label='Products' isBold variant="h4" sx={{ mb: 2 }} color="white"/>
         </Box>
-        <Button
-          variant="outlined"
+
+        <CmxButton 
           startIcon={<AddIcon />}
+          variant="outlined" 
+          color="success"
+          size="small"
+          label='New Product'
+          fullWidth={false}
+          type="submit"
+          onClick={() => navigate('/products/create')}
           sx={{
             color: "white",
             borderColor: "gray",
@@ -71,10 +73,7 @@ export default function ProductList() {
               borderColor: "white",
             },
           }}
-          onClick={() => navigate('/products/create')}
-        >
-          New Product
-        </Button>
+        />
       </Box>
 
       {/* Table */}

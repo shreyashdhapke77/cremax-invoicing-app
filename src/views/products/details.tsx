@@ -121,7 +121,7 @@ export default function ProductDetails() {
       {/* Product Info Card */}
       <Card sx={{ bgcolor: "#2e2e2e", color: WHITE, mb: 4 }}>
         <CardContent>
-        <CmxText label={product.name} align='left' isBold variant = "h5" sx={{ mb: 1 }}/>
+        <CmxText label={product.name} align='left' isBold variant="h5" sx={{ mb: 1 }}/>
           <Box
             display="flex"
             flexDirection={{ xs: "column", sm: "row" }}
@@ -132,14 +132,14 @@ export default function ProductDetails() {
             {/* Left side: Labels and Values */}
             <Box display="flex">
               <Box display="block">
-                <CmxText noWrap label='Product number :' align='left' variant = "subtitle1"/>
-                <CmxText noWrap label='Price excl. GST :' align='left' variant = "subtitle1"/>
-                <CmxText noWrap label='Tax code :' align='left' variant = "subtitle1"/>
+                <CmxText noWrap label='Product number :' align='left' variant="subtitle1"/>
+                <CmxText noWrap label='Price excl. GST :' align='left' variant="subtitle1"/>
+                <CmxText noWrap label='Tax code :' align='left' variant="subtitle1"/>
               </Box>
               <Box sx={{ ml: 3 }}>
-                <CmxText noWrap label={product.productNo} align='left' variant = "subtitle1"/>
-                <CmxText noWrap label={String(product.price)} align='left' variant = "subtitle1"/>
-                <CmxText noWrap label={product.taxCode} align='left' variant = "subtitle1"/>
+                <CmxText noWrap label={product.productNo} align='left' variant="subtitle1"/>
+                <CmxText noWrap label={String(product.price)} align='left' variant="subtitle1"/>
+                <CmxText noWrap label={product.taxCode} align='left' variant="subtitle1"/>
                
               </Box>
             </Box>
@@ -174,16 +174,16 @@ export default function ProductDetails() {
             }}
           >
             <Box>
-              <CmxText label='Last changed' variant = "body2" sx={{ mt: { xs: 1, sm: 0, lg: 0, xl: 0 }}}/>
-              <CmxText label={product?.updatedAt} variant = "h6" sx={{ mt: { xs: 0, sm: 1, lg: 1, xl: 1 }}}/>
+              <CmxText label='Last changed' variant="body2" sx={{ mt: { xs: 1, sm: 0, lg: 0, xl: 0 }}}/>
+              <CmxText label={product?.updatedAt} variant="h6" sx={{ mt: { xs: 0, sm: 1, lg: 1, xl: 1 }}}/>
             </Box>
             <Box>
-              <CmxText label='Times invoiced' variant = "body2" sx={{ mt: { xs: 1, sm: 0, lg: 0, xl: 0 }}}/>
-              <CmxText label={product?.timesInvoiced} variant = "h6" sx={{ mt: { xs: 0, sm: 1, lg: 1, xl: 1 }}}/>
+              <CmxText label='Times invoiced' variant="body2" sx={{ mt: { xs: 1, sm: 0, lg: 0, xl: 0 }}}/>
+              <CmxText label={product?.timesInvoiced} variant="h6" sx={{ mt: { xs: 0, sm: 1, lg: 1, xl: 1 }}}/>
             </Box>
             <Box>
-              <CmxText label='Total invoiced' variant = "body2" sx={{ mt: { xs: 1, sm: 0, lg: 0, xl: 0 }}}/>
-              <CmxText label={product?.totalInvoiced} variant = "h6" sx={{ mt: { xs: 0, sm: 1, lg: 1, xl: 1 }}}/>
+              <CmxText label='Total invoiced' variant="body2" sx={{ mt: { xs: 1, sm: 0, lg: 0, xl: 0 }}}/>
+              <CmxText label={product?.totalInvoiced} variant="h6" sx={{ mt: { xs: 0, sm: 1, lg: 1, xl: 1 }}}/>
             </Box>
           </Box>
         </CardContent>
@@ -313,7 +313,7 @@ export default function ProductDetails() {
             {/* Total price */}
             <Box sx={{ width: "100%", textAlign: "right", mt: 2 }}>
               <CmxText label={'Total price (incl. GST): '} variant="h6" sx={{ color: "white" }}/>
-              <CmxText label={String(product.totalPrice)} isBold variant="h6" sx={{ color: "white" }}/>
+              <CmxText label={String(product.totalPrice || 0)} isBold variant="h6" sx={{ color: "white" }}/>
             </Box>
           </Box>
 
@@ -329,7 +329,7 @@ export default function ProductDetails() {
 
   return (
     <Box sx={{ p: 4, bgcolor: DARK_THEME_BG, minHeight: "100vh", color: "white" }}>
-      <CmxText label={product.name} isBold variant = "h4" sx={{ mb: 2 }} />
+      <CmxText label={product.name} isBold variant="h4" sx={{ mb: 2 }} />
   
       <ProductTabs value={tabValue} onChange={handleTabChange} />
 

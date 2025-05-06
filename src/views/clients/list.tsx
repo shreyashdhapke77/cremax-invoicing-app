@@ -1,12 +1,15 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CardDataGrid from "../../components/common/cx/table";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { clientListColumns } from "../../constants/columns/client";
 import { useNavigate } from "react-router-dom";
 import { DARK_THEME_BG } from "../../utils/colors";
 import BaseApi from "../../services/base-api";
 import { useSnackbar } from "../../components/common/context/snackbar-context";
+import CmxText from "../../components/common/cmx-text";
+import CmxButton from "../../components/common/cmx-button";
+import ContactPageIcon from "@mui/icons-material/ContactPage";
 
 export default function ClientList() {
   const navigate = useNavigate();
@@ -43,21 +46,19 @@ export default function ClientList() {
         }}
       >
         <Box>
-          <Typography
-            variant="body2"
-            color="gray"
-            textAlign="left"
-            onClick={() => navigate("/dashboard")}
-          >
-            Home
-          </Typography>
-          <Typography variant="h4" fontWeight="bold" color="white">
-            Clients
-          </Typography>
+          <CmxText label='Home' variant="body2" sx={{ mb: 2 }} color="gray" onClick={() => navigate("/dashboard")}/>
+          <ContactPageIcon fontSize="medium" />
+          <CmxText label='Clients' isBold variant="h4" sx={{ mb: 2 }} color="white"/>
         </Box>
-        <Button
-          variant="outlined"
+        <CmxButton
           startIcon={<AddIcon />}
+          variant="outlined" 
+          color="success"
+          size="small"
+          label='New Client'
+          fullWidth={false}
+          type="submit"
+          onClick={() => navigate('/clients/create')}
           sx={{
             color: "white",
             borderColor: "gray",
@@ -70,10 +71,7 @@ export default function ClientList() {
               borderColor: "white",
             },
           }}
-          onClick={() => navigate('/clients/create')}
-        >
-          New client
-        </Button>
+        />
       </Box>
 
       {/* Table */}

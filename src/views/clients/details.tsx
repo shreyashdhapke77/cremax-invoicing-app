@@ -127,7 +127,7 @@ const getAddress = (client: Client) => {
   return (
     <Box sx={{ p: 4, bgcolor: DARK_THEME_BG, minHeight: "100vh", color: "white" }}>
       {/* Header */}
-      <CmxText label={client.name} isBold variant = "h4" sx={{ mb: 2 }} />
+      <CmxText label={client.name} isBold variant="h4" sx={{ mb: 2 }} />
       {/* Tabs */}
       <Tabs
         value={tabValue}
@@ -149,16 +149,16 @@ const getAddress = (client: Client) => {
           {/* Client Info Card */}
           <Card sx={{ bgcolor: "#2e2e2e", color: WHITE, mb: 4 }}>
             <CardContent>
-            <CmxText label={client.name} align='left' isBold variant = "h5" sx={{ mb: 1 }}/>
+            <CmxText label={client.name} align='left' isBold variant="h5" sx={{ mb: 1 }}/>
               <Box
                 display="flex"
                 justifyContent="space-between"
                 alignItems="flex-start"
               >
                 <Box>
-                <CmxText label={client?.addressLine1} align='left' variant = "body2"/>
-                <CmxText label={getAddress(client)} align='left' variant = "body2"/>
-                <CmxText label={client?.country} align='left' variant = "body2"/>
+                <CmxText label={client?.addressLine1} align='left' variant="body2"/>
+                <CmxText label={getAddress(client)} align='left' variant="body2"/>
+                <CmxText label={client?.country} align='left' variant="body2"/>
                 </Box>
                 <Box
                   display="flex"
@@ -210,16 +210,16 @@ const getAddress = (client: Client) => {
                 }}
               >
                 <Box>
-                  <CmxText label='Number of invoices' variant = "body2" sx={{ mt: { xs: 1, sm: 0, lg: 0, xl: 0 }}}/>
-                  <CmxText label={/*client?.numberOfInvoices || */ '0'} variant = "body2" sx={{ mt: { xs: 0, sm: 1, lg: 1, xl: 1 }}}/>
+                  <CmxText label='Number of invoices' variant="body2" sx={{ mt: { xs: 1, sm: 0, lg: 0, xl: 0 }}}/>
+                  <CmxText label={/*client?.numberOfInvoices || */ '0'} variant="body2" sx={{ mt: { xs: 0, sm: 1, lg: 1, xl: 1 }}}/>
                 </Box>
                 <Box>
-                  <CmxText label='Total Invoices' variant = "body2" sx={{ mt: { xs: 1, sm: 0, lg: 0, xl: 0, },}}/>
-                  <CmxText label={/*client?.totalInvoices ||*/ '0'} variant = "body2" sx={{ mt: { xs: 0, sm: 1, lg: 1, xl: 1 }}}/>
+                  <CmxText label='Total Invoices' variant="body2" sx={{ mt: { xs: 1, sm: 0, lg: 0, xl: 0, },}}/>
+                  <CmxText label={/*client?.totalInvoices ||*/ '0'} variant="body2" sx={{ mt: { xs: 0, sm: 1, lg: 1, xl: 1 }}}/>
                 </Box>
                 <Box>
-                <CmxText label='Total Unpaid' variant = "body2" sx={{ mt: { xs: 1, sm: 0, lg: 0, xl: 0, }}}/>
-                <CmxText label={ /*client?.totalUnpaid || */ '0'} variant = "body2" sx={{mt: { xs: 0, sm: 1, lg: 1, xl: 1 }}}/>
+                <CmxText label='Total Unpaid' variant="body2" sx={{ mt: { xs: 1, sm: 0, lg: 0, xl: 0, }}}/>
+                <CmxText label={ /*client?.totalUnpaid || */ '0'} variant="body2" sx={{mt: { xs: 0, sm: 1, lg: 1, xl: 1 }}}/>
                 </Box>
               </Box>
             </CardContent>
@@ -237,7 +237,7 @@ const getAddress = (client: Client) => {
                 gap={2}
                 justifyContent="space-between"
               >
-                <CmxText label='Edit Client' align='left' isBold variant = "h5" />
+                <CmxText label='Edit Client' align='left' isBold variant="h5" />
                 {/* Full width fields */}
                 <Box width="100%">
                   <TextField
