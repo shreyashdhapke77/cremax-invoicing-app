@@ -25,6 +25,7 @@ interface Props {
   isBold?: boolean;
   onClick?: () => void;
   className?: string;
+  color?: string;
 }
 
 /**
@@ -39,6 +40,7 @@ const CmxText: React.FC<Props> = ({
   isBold = false,
   onClick,
   className,
+  color,
 }) => {
   return (
     <Typography
@@ -47,6 +49,7 @@ const CmxText: React.FC<Props> = ({
       noWrap={noWrap}
       onClick={onClick}
       className={className}
+      color={color}
       sx={{
         fontWeight: isBold ? "bold" : "normal",
         ...sx,

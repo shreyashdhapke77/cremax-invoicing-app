@@ -5,7 +5,6 @@ import {
   InputAdornment,
   MenuItem,
   TextField,
-  Typography,
 } from "@mui/material";
 import { useState } from "react";
 import EmailIcon from "@mui/icons-material/Email";
@@ -19,6 +18,7 @@ import { useSnackbar } from "../../components/common/context/snackbar-context";
 import type { Businesses, Client } from '../../types/index';
 import { useLoader } from "../../components/common/context/loader-context";
 import GlobalLoader from "../../components/common/global-loader";
+import CmxText from "../../components/common/cmx-text";
 
 interface ClientFormErrors {
  [key: string]: string | undefined;
@@ -139,13 +139,21 @@ export const ClientsCreate = () => {
     setFormData(initialClientData);
   };
 
+  const textFieldStyle = {
+    input: { color: "white" },
+    label: { color: "white" },
+    ".MuiOutlinedInput-root": {
+      "& fieldset": { borderColor: "#777" },
+      "&:hover fieldset": { borderColor: "white" },
+      "&.Mui-focused fieldset": { borderColor: "white" },
+    },
+  };
+
   return (
     <Box sx={{ p: 4, bgcolor: DARK_THEME_BG, minHeight: "100vh", color: "white" }}>
       <GlobalLoader loading={loading} />
       {errorMsg && (
-        <Typography color="error" sx={{ mt: 2 }}>
-          {errorMsg}
-        </Typography>
+        <CmxText label={errorMsg} variant="h6" color="error"/>
       )}
       <Card sx={{ bgcolor: "#2e2e2e" }}>
         <CardContent>
@@ -156,15 +164,8 @@ export const ClientsCreate = () => {
             gap={2}
             justifyContent="space-between"
           >
-            <Typography
-              textAlign="left"
-              fontWeight="bold"
-              variant="h5"
-              color={WHITE}
-              sx={{ mb: 1 }}
-            >
-              Create New Client
-            </Typography>
+            <CmxText label='Create New Client' isBold align='left' variant="h5" color={WHITE} sx={{ mb: 1 }}/>
+
             {/* Full width fields */}
             <Box width="100%">
               <TextField
@@ -173,15 +174,7 @@ export const ClientsCreate = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                sx={{
-                  input: { color: "white" },
-                  label: { color: "white" },
-                  ".MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#777" },
-                    "&:hover fieldset": { borderColor: "white" },
-                    "&.Mui-focused fieldset": { borderColor: "white" },
-                  },
-                }}
+                sx={textFieldStyle}
               />
             </Box>
 
@@ -192,15 +185,7 @@ export const ClientsCreate = () => {
                 name="addressLine1"
                 value={formData.addressLine1}
                 onChange={handleInputChange}
-                sx={{
-                  input: { color: "white" },
-                  label: { color: "white" },
-                  ".MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#777" },
-                    "&:hover fieldset": { borderColor: "white" },
-                    "&.Mui-focused fieldset": { borderColor: "white" },
-                  },
-                }}
+                sx={textFieldStyle}
               />
             </Box>
 
@@ -211,15 +196,7 @@ export const ClientsCreate = () => {
                 name="addressLine2"
                 value={formData.addressLine2}
                 onChange={handleInputChange}
-                sx={{
-                  input: { color: "white" },
-                  label: { color: "white" },
-                  ".MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#777" },
-                    "&:hover fieldset": { borderColor: "white" },
-                    "&.Mui-focused fieldset": { borderColor: "white" },
-                  },
-                }}
+                sx={textFieldStyle}
               />
             </Box>
 
@@ -231,15 +208,7 @@ export const ClientsCreate = () => {
                 name="postalCode"
                 value={formData.postalCode}
                 onChange={handleInputChange}
-                sx={{
-                  input: { color: "white" },
-                  label: { color: "white" },
-                  ".MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#777" },
-                    "&:hover fieldset": { borderColor: "white" },
-                    "&.Mui-focused fieldset": { borderColor: "white" },
-                  },
-                }}
+                sx={textFieldStyle}
               />
             </Box>
             <Box sx={responsiveBox}>
@@ -249,15 +218,7 @@ export const ClientsCreate = () => {
                 name="state"
                 value={formData.state}
                 onChange={handleInputChange}
-                sx={{
-                  input: { color: "white" },
-                  label: { color: "white" },
-                  ".MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#777" },
-                    "&:hover fieldset": { borderColor: "white" },
-                    "&.Mui-focused fieldset": { borderColor: "white" },
-                  },
-                }}
+                sx={textFieldStyle}
               />
             </Box>
 
@@ -268,15 +229,7 @@ export const ClientsCreate = () => {
                 name="cin"
                 value={formData.cin}
                 onChange={handleInputChange}
-                sx={{
-                  input: { color: "white" },
-                  label: { color: "white" },
-                  ".MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#777" },
-                    "&:hover fieldset": { borderColor: "white" },
-                    "&.Mui-focused fieldset": { borderColor: "white" },
-                  },
-                }}
+                sx={textFieldStyle}
               />
             </Box>
             <Box sx={responsiveBox}>
@@ -286,15 +239,7 @@ export const ClientsCreate = () => {
                 name="gstin"
                 value={formData.gstin}
                 onChange={handleInputChange}
-                sx={{
-                  input: { color: "white" },
-                  label: { color: "white" },
-                  ".MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#777" },
-                    "&:hover fieldset": { borderColor: "white" },
-                    "&.Mui-focused fieldset": { borderColor: "white" },
-                  },
-                }}
+                sx={textFieldStyle}
               />
             </Box>
 
@@ -306,15 +251,7 @@ export const ClientsCreate = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                sx={{
-                  input: { color: "white" },
-                  label: { color: "white" },
-                  ".MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#777" },
-                    "&:hover fieldset": { borderColor: "white" },
-                    "&.Mui-focused fieldset": { borderColor: "white" },
-                  },
-                }}
+                sx={textFieldStyle}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -338,15 +275,7 @@ export const ClientsCreate = () => {
                     </InputAdornment>
                   ),
                 }}
-                sx={{
-                  input: { color: "white" },
-                  label: { color: "white" },
-                  ".MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#777" },
-                    "&:hover fieldset": { borderColor: "white" },
-                    "&.Mui-focused fieldset": { borderColor: "white" },
-                  },
-                }}
+                sx={textFieldStyle}
               />
             </Box>
 
@@ -358,15 +287,7 @@ export const ClientsCreate = () => {
                 name="city"
                 value={formData.city}
                 onChange={handleInputChange}
-                sx={{
-                  input: { color: "white" },
-                  label: { color: "white" },
-                  ".MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#777" },
-                    "&:hover fieldset": { borderColor: "white" },
-                    "&.Mui-focused fieldset": { borderColor: "white" },
-                  },
-                }}
+                sx={textFieldStyle}
               />
             </Box>
             <Box sx={responsiveBox}>
@@ -377,15 +298,7 @@ export const ClientsCreate = () => {
                 name="country"
                 value={formData.country}
                 onChange={handleInputChange}
-                sx={{
-                  input: { color: "white" },
-                  label: { color: "white" },
-                  ".MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#777" },
-                    "&:hover fieldset": { borderColor: "white" },
-                    "&.Mui-focused fieldset": { borderColor: "white" },
-                  },
-                }}
+                sx={textFieldStyle}
               >
                 <MenuItem value="India">India</MenuItem>
                 <MenuItem value="USA">USA</MenuItem>
@@ -407,15 +320,7 @@ export const ClientsCreate = () => {
                     </InputAdornment>
                   ),
                 }}
-                sx={{
-                  input: { color: "white" },
-                  label: { color: "white" },
-                  ".MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#777" },
-                    "&:hover fieldset": { borderColor: "white" },
-                    "&.Mui-focused fieldset": { borderColor: "white" },
-                  },
-                }}
+                sx={textFieldStyle}
               />
             </Box>
             <Box sx={responsiveBox}>
@@ -432,15 +337,7 @@ export const ClientsCreate = () => {
                     </InputAdornment>
                   ),
                 }}
-                sx={{
-                  input: { color: "white" },
-                  label: { color: "white" },
-                  ".MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#777" },
-                    "&:hover fieldset": { borderColor: "white" },
-                    "&.Mui-focused fieldset": { borderColor: "white" },
-                  },
-                }}
+                sx={textFieldStyle}
               />
             </Box>
           </Box>

@@ -7,12 +7,13 @@ import { DARK_THEME_BG } from "../../utils/colors";
 import React, { useEffect } from "react";
 import BaseApi from "../../services/base-api";
 import { useSnackbar } from "../../components/common/context/snackbar-context";
+import { Product } from "../../types";
 
 export default function ProductList() {
   const navigate = useNavigate();
   const { showMessage } = useSnackbar();
   
-  const [products, setProducts] = React.useState<any[]>([]);
+  const [products, setProducts] = React.useState<Product[]>([]);
   
   useEffect(() => {
     const getProduct = () => {

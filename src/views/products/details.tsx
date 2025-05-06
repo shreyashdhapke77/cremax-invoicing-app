@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Box,
   Tabs,
   Tab,
   Card,
   CardContent,
-  Typography,
   Divider,
   TextField,
   Button,
@@ -20,24 +19,46 @@ import EditIcon from "@mui/icons-material/Edit";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import PercentIcon from "@mui/icons-material/Percent";
 import { useParams } from "react-router-dom";
-import { products } from "../../constants/product-list";
 import { DARK_THEME_BG, WHITE } from "../../utils/colors";
+import { Product } from "../../types";
+import BaseApi from "../../services/base-api";
+import { useSnackbar } from "../../components/common/context/snackbar-context";
+import CmxText from "../../components/common/cmx-text";
 
 export default function ProductDetails() {
   const [tabValue, setTabValue] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
   const { id } = useParams();
-  const productDetails = products.find((product) => product.id === Number(id));
-  const [formData, setFormData] = useState({
-    name: productDetails?.name,
-    productNo: productDetails?.productNo,
-    price: productDetails?.price,
-    taxCode: productDetails?.taxCode,
-    totalPrice: 56.2,
-    updatedAt: "27/1/2025",
-    timesInvoiced: productDetails?.timesInvoiced,
-    totalInvoiced: productDetails?.totalInvoiced,
-  });
+  const { showMessage } = useSnackbar();
+
+
+  useEffect(() => {
+    const getProductById = () => {
+      try {
+        BaseApi.get(`/products/${id}`).then((res) => {
+          console.log("Res -- ", res);
+          setProduct(res); // Directly pass `res` to setMyBusiness
+        })
+      } catch (error) {
+        showMessage("Something went wrong. Please try again.", "error");
+      }
+    };
+    getProductById();
+  }, []);
+
+  const initialProductData: Product = {
+    name: '',
+    productNo: '',
+    price: 0,
+    taxCode: '',
+    totalPrice: 0,
+    updatedAt: '',
+    timesInvoiced: '',
+    totalInvoiced: '',
+  };
+
+
+  const [product, setProduct] = useState<Product>(initialProductData);
 
   const handleTabChange = (event: any, newValue: any) => {
     setTabValue(newValue);
@@ -45,24 +66,32 @@ export default function ProductDetails() {
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setProduct((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleEdit = () => setIsEditing(true);
   const handleCancel = () => setIsEditing(false);
   const handleSave = () => {
-    console.log("Saved data:", formData);
+    console.log("Saved data:", product);
     setIsEditing(false);
   };
-
-  const responsiveBox = { width: { xs: "100%", sm: "48%" } };
+  
+  const responsiveBox = useMemo(() => ({ width: { xs: "100%", sm: "48%" } }), []);
+  const textFieldStyles = useMemo(
+    () => ({
+    input: { color: "white" },
+    label: { color: "white" },
+    ".MuiOutlinedInput-root": {
+      "& fieldset": { borderColor: "#777" },
+      "&:hover fieldset": { borderColor: "white" },
+      "&.Mui-focused fieldset": { borderColor: "white" },
+    },
+  }), []);
 
   return (
     <Box sx={{ p: 4, bgcolor: DARK_THEME_BG, minHeight: "100vh", color: "white" }}>
       {/* Header */}
-      <Typography variant="h4" sx={{ mb: 2 }}>
-        {formData.name}
-      </Typography>
+      <CmxText label={product.name} isBold variant = "h4" sx={{ mb: 2 }} />
 
       {/* Tabs */}
       <Tabs
@@ -81,17 +110,10 @@ export default function ProductDetails() {
       {/* Content */}
       {!isEditing ? (
         <>
-          {/* Client Info Card */}
+          {/* Product Info Card */}
           <Card sx={{ bgcolor: "#2e2e2e", color: WHITE, mb: 4 }}>
             <CardContent>
-              <Typography
-                textAlign="left"
-                fontWeight="bold"
-                variant="h5"
-                sx={{ mb: 1 }}
-              >
-                {formData.name}
-              </Typography>
+            <CmxText label={product.name} align='left' isBold variant = "h5" sx={{ mb: 1 }}/>
               <Box
                 display="flex"
                 flexDirection={{ xs: "column", sm: "row" }}
@@ -102,26 +124,15 @@ export default function ProductDetails() {
                 {/* Left side: Labels and Values */}
                 <Box display="flex">
                   <Box display="block">
-                    <Typography noWrap textAlign="left" variant="subtitle1">
-                      Product number :
-                    </Typography>
-                    <Typography noWrap textAlign="left" variant="subtitle1">
-                      Price excl. GST :
-                    </Typography>
-                    <Typography noWrap textAlign="left" variant="subtitle1">
-                      Tax code :
-                    </Typography>
+                    <CmxText noWrap label='Product number :' align='left' variant = "subtitle1"/>
+                    <CmxText noWrap label='Price excl. GST :' align='left' variant = "subtitle1"/>
+                    <CmxText noWrap label='Tax code :' align='left' variant = "subtitle1"/>
                   </Box>
                   <Box sx={{ ml: 3 }}>
-                    <Typography textAlign="left" variant="subtitle1" noWrap>
-                      {formData.productNo}
-                    </Typography>
-                    <Typography textAlign="left" variant="subtitle1">
-                      {formData.price}
-                    </Typography>
-                    <Typography textAlign="left" variant="subtitle1">
-                      {formData.taxCode}
-                    </Typography>
+                    <CmxText noWrap label={product.productNo} align='left' variant = "subtitle1"/>
+                    <CmxText noWrap label={product.price.toLocaleString()} align='left' variant = "subtitle1"/>
+                    <CmxText noWrap label={product.taxCode} align='left' variant = "subtitle1"/>
+                   
                   </Box>
                 </Box>
 
@@ -185,91 +196,16 @@ export default function ProductDetails() {
                 }}
               >
                 <Box>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      mt: {
-                        xs: 1,
-                        sm: 0,
-                        lg: 0,
-                        xl: 0,
-                      },
-                    }}
-                  >
-                    Last changed
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    fontWeight="bold"
-                    sx={{
-                      mt: {
-                        xs: 0,
-                        sm: 1,
-                        lg: 1,
-                        xl: 1,
-                      },
-                    }}
-                  >
-                    {productDetails?.updatedAt}
-                  </Typography>
+                  <CmxText label='Last changed' variant = "body2" sx={{ mt: { xs: 1, sm: 0, lg: 0, xl: 0 }}}/>
+                  <CmxText label={product?.updatedAt} variant = "h6" sx={{ mt: { xs: 0, sm: 1, lg: 1, xl: 1 }}}/>
                 </Box>
                 <Box>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      mt: {
-                        xs: 1,
-                        sm: 0,
-                        lg: 0,
-                        xl: 0,
-                      },
-                    }}
-                  >
-                    Times invoiced
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    fontWeight="bold"
-                    sx={{
-                      mt: {
-                        xs: 0,
-                        sm: 1,
-                        lg: 1,
-                        xl: 1,
-                      },
-                    }}
-                  >
-                    {productDetails?.timesInvoiced}
-                  </Typography>
+                  <CmxText label='Times invoiced' variant = "body2" sx={{ mt: { xs: 1, sm: 0, lg: 0, xl: 0 }}}/>
+                  <CmxText label={product?.timesInvoiced} variant = "h6" sx={{ mt: { xs: 0, sm: 1, lg: 1, xl: 1 }}}/>
                 </Box>
                 <Box>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      mt: {
-                        xs: 1,
-                        sm: 0,
-                        lg: 0,
-                        xl: 0,
-                      },
-                    }}
-                  >
-                    Total invoiced
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    fontWeight="bold"
-                    sx={{
-                      mt: {
-                        xs: 0,
-                        sm: 1,
-                        lg: 1,
-                        xl: 1,
-                      },
-                    }}
-                  >
-                    {productDetails?.totalInvoiced}
-                  </Typography>
+                  <CmxText label='Total invoiced' variant = "body2" sx={{ mt: { xs: 1, sm: 0, lg: 0, xl: 0 }}}/>
+                  <CmxText label={product?.totalInvoiced} variant = "h6" sx={{ mt: { xs: 0, sm: 1, lg: 1, xl: 1 }}}/>
                 </Box>
               </Box>
             </CardContent>
@@ -293,19 +229,11 @@ export default function ProductDetails() {
                     fullWidth
                     label="Product no."
                     name="productNo"
-                    value={formData.productNo}
+                    value={product.productNo}
                     onChange={handleInputChange}
                     variant="outlined"
                     InputProps={{ style: { color: "white" } }}
-                    sx={{
-                      input: { color: "white" },
-                      label: { color: "white" },
-                      ".MuiOutlinedInput-root": {
-                        "& fieldset": { borderColor: "#777" },
-                        "&:hover fieldset": { borderColor: "white" },
-                        "&.Mui-focused fieldset": { borderColor: "white" },
-                      },
-                    }}
+                    sx={textFieldStyles}
                   />
                 </Box>
 
@@ -315,19 +243,11 @@ export default function ProductDetails() {
                     fullWidth
                     label="Product name (this will appear on the invoice) *"
                     name="productName"
-                    value={formData.name}
+                    value={product.name}
                     onChange={handleInputChange}
                     variant="outlined"
                     InputProps={{ style: { color: "white" } }}
-                    sx={{
-                      input: { color: "white" },
-                      label: { color: "white" },
-                      ".MuiOutlinedInput-root": {
-                        "& fieldset": { borderColor: "#777" },
-                        "&:hover fieldset": { borderColor: "white" },
-                        "&.Mui-focused fieldset": { borderColor: "white" },
-                      },
-                    }}
+                    sx={textFieldStyles}
                   />
                 </Box>
 
@@ -338,19 +258,11 @@ export default function ProductDetails() {
                     fullWidth
                     label="Tax code *"
                     name="taxCode"
-                    value={formData.taxCode}
+                    value={product.taxCode}
                     onChange={handleInputChange}
                     variant="outlined"
                     InputProps={{ style: { color: "white" } }}
-                    sx={{
-                      input: { color: "white" },
-                      label: { color: "white" },
-                      ".MuiOutlinedInput-root": {
-                        "& fieldset": { borderColor: "#777" },
-                        "&:hover fieldset": { borderColor: "white" },
-                        "&.Mui-focused fieldset": { borderColor: "white" },
-                      },
-                    }}
+                    sx={textFieldStyles}
                   >
                     {/* Example tax codes */}
                     <MenuItem value="0%">0% - Exports, Food, etc.</MenuItem>
@@ -364,7 +276,7 @@ export default function ProductDetails() {
                     fullWidth
                     label="GST *"
                     name="gst"
-                    value={formData.taxCode}
+                    value={product.taxCode}
                     onChange={handleInputChange}
                     variant="outlined"
                     InputProps={{
@@ -375,15 +287,7 @@ export default function ProductDetails() {
                       ),
                       style: { color: "white" },
                     }}
-                    sx={{
-                      input: { color: "white" },
-                      label: { color: "white" },
-                      ".MuiOutlinedInput-root": {
-                        "& fieldset": { borderColor: "#777" },
-                        "&:hover fieldset": { borderColor: "white" },
-                        "&.Mui-focused fieldset": { borderColor: "white" },
-                      },
-                    }}
+                    sx={textFieldStyles}
                   />
                 </Box>
 
@@ -393,19 +297,11 @@ export default function ProductDetails() {
                     fullWidth
                     label="Unit price *"
                     name="unitPrice"
-                    value={formData.price}
+                    value={product.price}
                     onChange={handleInputChange}
                     variant="outlined"
                     InputProps={{ style: { color: "white" } }}
-                    sx={{
-                      input: { color: "white" },
-                      label: { color: "white" },
-                      ".MuiOutlinedInput-root": {
-                        "& fieldset": { borderColor: "#777" },
-                        "&:hover fieldset": { borderColor: "white" },
-                        "&.Mui-focused fieldset": { borderColor: "white" },
-                      },
-                    }}
+                    sx={textFieldStyles}
                   />
                 </Box>
 
@@ -415,7 +311,7 @@ export default function ProductDetails() {
                     <RadioGroup
                       row
                       name="gstIncluded"
-                      value={formData.totalPrice}
+                      value={product.totalPrice}
                       onChange={handleInputChange}
                     >
                       <FormControlLabel
@@ -436,10 +332,7 @@ export default function ProductDetails() {
 
                 {/* Total price */}
                 <Box sx={{ width: "100%", textAlign: "right", mt: 2 }}>
-                  <Typography variant="h6" sx={{ color: "white" }}>
-                    Total price (incl. GST):{" "}
-                    <strong>{formData.totalPrice}</strong>
-                  </Typography>
+                  <CmxText label={`Total price (incl. GST): <strong>{product.totalPrice}</strong>`} variant="h6" sx={{ color: "white" }}/>
                 </Box>
               </Box>
 

@@ -53,20 +53,6 @@ export const ProductCreate = () => {
   // Memoized styles for responsive boxes
   const responsiveBox = useMemo(() => ({ width: { xs: "100%", sm: "48%" } }), []);
 
-  // Shared styles for TextField components
-  const textFieldStyles = useMemo(
-    () => ({
-      input: { color: "white" },
-      label: { color: "white" },
-      ".MuiOutlinedInput-root": {
-        "& fieldset": { borderColor: "#777" },
-        "&:hover fieldset": { borderColor: "white" },
-        "&.Mui-focused fieldset": { borderColor: "white" },
-      },
-    }),
-    []
-  );
-
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -137,7 +123,20 @@ export const ProductCreate = () => {
     console.log("All Data Reset");
     setFormData(initialProductData);
   };
-  
+
+  // Shared styles for TextField components
+  const textFieldStyles = useMemo(
+    () => ({
+      input: { color: "white" },
+      label: { color: "white" },
+      ".MuiOutlinedInput-root": {
+        "& fieldset": { borderColor: "#777" },
+        "&:hover fieldset": { borderColor: "white" },
+        "&.Mui-focused fieldset": { borderColor: "white" },
+      },
+    }),
+    []
+  );
   return (
     <Box sx={{ p: 4, bgcolor: DARK_THEME_BG, minHeight: "100vh", color: "white" }}>
       <GlobalLoader loading={loading} />
@@ -174,15 +173,7 @@ export const ProductCreate = () => {
                 onChange={handleInputChange}
                 variant="outlined"
                 InputProps={{ style: { color: "white" } }}
-                sx={{
-                  input: { color: "white" },
-                  label: { color: "white" },
-                  ".MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#777" },
-                    "&:hover fieldset": { borderColor: "white" },
-                    "&.Mui-focused fieldset": { borderColor: "white" },
-                  },
-                }}
+                sx={textFieldStyles}
               />
             </Box>
 

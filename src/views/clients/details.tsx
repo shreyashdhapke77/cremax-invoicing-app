@@ -5,7 +5,6 @@ import {
   Tab,
   Card,
   CardContent,
-  Typography,
   Divider,
   TextField,
   Button,
@@ -51,9 +50,7 @@ export default function ClientDetails() {
     status: "inactive",
   };
   
-  const [formData, setFormData] = useState(initialClientData);
-
-  const [client, setClient] = React.useState<Client[]>([]);
+  const [client, setClient] = useState<Client>(initialClientData);
 
   useEffect(() => {
     const getClientById = () => {
@@ -61,7 +58,6 @@ export default function ClientDetails() {
         BaseApi.get(`/clients/${id}`).then((res) => {
           console.log("Res -- ", res);
           setClient(res); // Directly pass `res` to setMyBusiness
-          setFormData(res); // Set formData with the response
         })
       } catch (error) {
         showMessage("Something went wrong. Please try again.", "error");
@@ -76,13 +72,13 @@ export default function ClientDetails() {
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setClient((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleEdit = () => setIsEditing(true);
   const handleCancel = () => setIsEditing(false);
   const handleSave = () => {
-    console.log("Saved data:", formData);
+    console.log("Saved data:", client);
     setIsEditing(false);
   };
 
@@ -98,17 +94,40 @@ export default function ClientDetails() {
       "&:hover fieldset": { borderColor: "white" },
       "&.Mui-focused fieldset": { borderColor: "white" },
     },
-  }),
-  []
-);
+  }),[]);
 
+  const buttontextStyle = useMemo(
+    () => ({
+      color: "white",
+      borderColor: "grey.600",
+      textTransform: "none",
+      "&:hover": {
+        backgroundColor: "grey.800",
+        borderColor: "white",
+      },
+    }),
+    []
+  );
+const getAddress = (client: Client) => {
+  let address = ''
+  if (client.city) {
+    address += client.city + ', '
+  }
+  if (client.state) {
+    address += client.state + ', '
+  }
+  if (client.postalCode) {
+    address += client.postalCode + ', '
+  }
+  if (address.endsWith(', ')) {
+    address = address.slice(0, -2)
+  }
+  return address
+}
   return (
     <Box sx={{ p: 4, bgcolor: DARK_THEME_BG, minHeight: "100vh", color: "white" }}>
       {/* Header */}
-      <Typography variant="h4" sx={{ mb: 2 }}>
-        {formData.name}
-      </Typography>
-
+      <CmxText label={client.name} isBold variant = "h4" sx={{ mb: 2 }} />
       {/* Tabs */}
       <Tabs
         value={tabValue}
@@ -130,29 +149,16 @@ export default function ClientDetails() {
           {/* Client Info Card */}
           <Card sx={{ bgcolor: "#2e2e2e", color: WHITE, mb: 4 }}>
             <CardContent>
-              <Typography
-                textAlign="left"
-                fontWeight="bold"
-                variant="h5"
-                sx={{ mb: 1 }}
-              >
-                {formData.name}
-              </Typography>
+            <CmxText label={client.name} align='left' isBold variant = "h5" sx={{ mb: 1 }}/>
               <Box
                 display="flex"
                 justifyContent="space-between"
                 alignItems="flex-start"
               >
                 <Box>
-                  <Typography textAlign="left" variant="body2">
-                    {formData.addressLine1}
-                  </Typography>
-                  <Typography textAlign="left" variant="body2">
-                    {formData.city}, {formData.state}, {formData.postalCode}
-                  </Typography>
-                  <Typography textAlign="left" variant="body2">
-                    {formData.country}
-                  </Typography>
+                <CmxText label={client?.addressLine1} align='left' variant = "body2"/>
+                <CmxText label={getAddress(client)} align='left' variant = "body2"/>
+                <CmxText label={client?.country} align='left' variant = "body2"/>
                 </Box>
                 <Box
                   display="flex"
@@ -170,15 +176,7 @@ export default function ClientDetails() {
                     onClick={handleEdit}
                     variant="outlined"
                     startIcon={<EditIcon />}
-                    sx={{
-                      color: "white",
-                      borderColor: "grey.600",
-                      textTransform: "none",
-                      "&:hover": {
-                        backgroundColor: "grey.800",
-                        borderColor: "white",
-                      },
-                    }}
+                    sx={buttontextStyle}
                   >
                     Edit
                   </Button>
@@ -186,15 +184,7 @@ export default function ClientDetails() {
                   <Button
                     variant="outlined"
                     startIcon={<ArchiveIcon />}
-                    sx={{
-                      color: "white",
-                      borderColor: "grey.600",
-                      textTransform: "none",
-                      "&:hover": {
-                        backgroundColor: "grey.800",
-                        borderColor: "white",
-                      },
-                    }}
+                    sx={buttontextStyle}
                   >
                     Archive
                   </Button>
@@ -220,91 +210,16 @@ export default function ClientDetails() {
                 }}
               >
                 <Box>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      mt: {
-                        xs: 1,
-                        sm: 0,
-                        lg: 0,
-                        xl: 0,
-                      },
-                    }}
-                  >
-                    Number of invoices
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    fontWeight="bold"
-                    sx={{
-                      mt: {
-                        xs: 0,
-                        sm: 1,
-                        lg: 1,
-                        xl: 1,
-                      },
-                    }}
-                  >
-                    {/* {client?.numberOfInvoices || 0} */}
-                  </Typography>
+                  <CmxText label='Number of invoices' variant = "body2" sx={{ mt: { xs: 1, sm: 0, lg: 0, xl: 0 }}}/>
+                  <CmxText label={/*client?.numberOfInvoices || */ '0'} variant = "body2" sx={{ mt: { xs: 0, sm: 1, lg: 1, xl: 1 }}}/>
                 </Box>
                 <Box>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      mt: {
-                        xs: 1,
-                        sm: 0,
-                        lg: 0,
-                        xl: 0,
-                      },
-                    }}
-                  >
-                    Total invoiced
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    fontWeight="bold"
-                    sx={{
-                      mt: {
-                        xs: 0,
-                        sm: 1,
-                        lg: 1,
-                        xl: 1,
-                      },
-                    }}
-                  >
-                    {/* {client?.totalInvoiced || 0} */}
-                  </Typography>
+                  <CmxText label='Total Invoices' variant = "body2" sx={{ mt: { xs: 1, sm: 0, lg: 0, xl: 0, },}}/>
+                  <CmxText label={/*client?.totalInvoices ||*/ '0'} variant = "body2" sx={{ mt: { xs: 0, sm: 1, lg: 1, xl: 1 }}}/>
                 </Box>
                 <Box>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      mt: {
-                        xs: 1,
-                        sm: 0,
-                        lg: 0,
-                        xl: 0,
-                      },
-                    }}
-                  >
-                    Total unpaid
-                  </Typography>
-                  <Typography
-                    variant="h6"
-                    fontWeight="bold"
-                    sx={{
-                      mt: {
-                        xs: 0,
-                        sm: 1,
-                        lg: 1,
-                        xl: 1,
-                      },
-                    }}
-                  >
-                    {/* {client?.totalUnpaid || 0} */}
-                  </Typography>
+                <CmxText label='Total Unpaid' variant = "body2" sx={{ mt: { xs: 1, sm: 0, lg: 0, xl: 0, }}}/>
+                <CmxText label={ /*client?.totalUnpaid || */ '0'} variant = "body2" sx={{mt: { xs: 0, sm: 1, lg: 1, xl: 1 }}}/>
                 </Box>
               </Box>
             </CardContent>
@@ -329,7 +244,7 @@ export default function ClientDetails() {
                     fullWidth
                     label="Name *"
                     name="name"
-                    value={formData.name}
+                    value={client.name}
                     onChange={handleInputChange}
                     sx={textFieldStyles}
                   />
@@ -340,7 +255,7 @@ export default function ClientDetails() {
                     fullWidth
                     label="Address line *"
                     name="addressLine1"
-                    value={formData.addressLine1}
+                    value={client.addressLine1}
                     onChange={handleInputChange}
                     sx={textFieldStyles}
                   />
@@ -351,7 +266,7 @@ export default function ClientDetails() {
                     fullWidth
                     label="Address line 2"
                     name="addressLine2"
-                    value={formData.addressLine2}
+                    value={client.addressLine2}
                     onChange={handleInputChange}
                     sx={textFieldStyles}
                   />
@@ -363,7 +278,7 @@ export default function ClientDetails() {
                     fullWidth
                     label="Postal code *"
                     name="postalCode"
-                    value={formData.postalCode}
+                    value={client.postalCode}
                     onChange={handleInputChange}
                     sx={textFieldStyles}
                   />
@@ -373,7 +288,7 @@ export default function ClientDetails() {
                     fullWidth
                     label="State *"
                     name="state"
-                    value={formData.state}
+                    value={client.state}
                     onChange={handleInputChange}
                     sx={textFieldStyles}
                   />
@@ -384,7 +299,7 @@ export default function ClientDetails() {
                     fullWidth
                     label="CIN"
                     name="cin"
-                    value={formData.cin}
+                    value={client.cin}
                     onChange={handleInputChange}
                     sx={textFieldStyles}
                   />
@@ -394,7 +309,7 @@ export default function ClientDetails() {
                     fullWidth
                     label="GSTIN"
                     name="gstin"
-                    value={formData.gstin}
+                    value={client.gstin}
                     onChange={handleInputChange}
                     sx={textFieldStyles}
                   />
@@ -406,7 +321,7 @@ export default function ClientDetails() {
                     fullWidth
                     label="Email"
                     name="email"
-                    value={formData.email}
+                    value={client.email}
                     onChange={handleInputChange}
                     sx={textFieldStyles}
                     InputProps={{
@@ -423,7 +338,7 @@ export default function ClientDetails() {
                     fullWidth
                     label="Cc"
                     name="cc"
-                    value={formData.cc}
+                    value={client.cc}
                     onChange={handleInputChange}
                     InputProps={{
                       startAdornment: (
@@ -442,7 +357,7 @@ export default function ClientDetails() {
                     fullWidth
                     label="City/Suburb *"
                     name="city"
-                    value={formData.city}
+                    value={client.city}
                     onChange={handleInputChange}
                     sx={textFieldStyles}
                   />
@@ -453,7 +368,7 @@ export default function ClientDetails() {
                     select
                     label="Country *"
                     name="country"
-                    value={formData.country}
+                    value={client.country}
                     onChange={handleInputChange}
                     sx={textFieldStyles}
                   >
@@ -468,7 +383,7 @@ export default function ClientDetails() {
                     fullWidth
                     label="Phone number"
                     name="phone"
-                    value={formData.phoneNumber}
+                    value={client.phoneNumber}
                     onChange={handleInputChange}
                     InputProps={{
                       startAdornment: (
@@ -485,7 +400,7 @@ export default function ClientDetails() {
                     fullWidth
                     label="Fixed discount"
                     name="fixedDiscount"
-                    value={formData.fixedDiscount}
+                    value={client.fixedDiscount}
                     onChange={handleInputChange}
                     InputProps={{
                       endAdornment: (
