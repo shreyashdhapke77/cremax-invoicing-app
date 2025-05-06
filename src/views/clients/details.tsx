@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Box,
   Tabs,
@@ -18,29 +18,57 @@ import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
 import PercentIcon from "@mui/icons-material/Percent";
 import { useParams } from "react-router-dom";
-import { clients } from "../../constants/client-list";
 import { DARK_THEME_BG, WHITE } from "../../utils/colors";
+import { Client } from "../../types";
+import BaseApi from "../../services/base-api";
+import { useSnackbar } from "../../components/common/context/snackbar-context";
+import CmxText from "../../components/common/cmx-text";
 
 export default function ClientDetails() {
   const [tabValue, setTabValue] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
+  const { showMessage } = useSnackbar();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  
   const { id } = useParams();
-  const clientDetails = clients.find((client) => client.id === Number(id));
-  const [formData, setFormData] = useState({
-    name: clientDetails?.name,
-    addressLine1: "Railway Station Road",
+
+  const initialClientData: Client = {
+    businessId: "",
+    name: "",
+    addressLine1: "",
     addressLine2: "",
-    postalCode: "441107",
-    state: "Maharashtra",
-    city: "Saoner",
-    country: "India",
+    postalCode: "",
+    state: "",
+    city: "",
+    country: "",
     cin: "",
     gstin: "",
     email: "",
     cc: "",
-    phone: "",
+    phoneNumber: "",
     fixedDiscount: 0,
-  });
+    status: "inactive",
+  };
+  
+  const [formData, setFormData] = useState(initialClientData);
+
+  const [client, setClient] = React.useState<Client[]>([]);
+
+  useEffect(() => {
+    const getClientById = () => {
+      try {
+        BaseApi.get(`/clients/${id}`).then((res) => {
+          console.log("Res -- ", res);
+          setClient(res); // Directly pass `res` to setMyBusiness
+          setFormData(res); // Set formData with the response
+        })
+      } catch (error) {
+        showMessage("Something went wrong. Please try again.", "error");
+      }
+    };
+    getClientById();
+  }, []);
 
   const handleTabChange = (event: any, newValue: any) => {
     setTabValue(newValue);
@@ -58,7 +86,21 @@ export default function ClientDetails() {
     setIsEditing(false);
   };
 
-  const responsiveBox = { width: { xs: "100%", sm: "48%" } };
+  // Memoized styles for responsive boxes
+  const responsiveBox = useMemo(() => ({ width: { xs: "100%", sm: "48%" } }), []);
+
+  const textFieldStyles = useMemo(
+    () => ({
+    input: { color: "white" },
+    label: { color: "white" },
+    ".MuiOutlinedInput-root": {
+      "& fieldset": { borderColor: "#777" },
+      "&:hover fieldset": { borderColor: "white" },
+      "&.Mui-focused fieldset": { borderColor: "white" },
+    },
+  }),
+  []
+);
 
   return (
     <Box sx={{ p: 4, bgcolor: DARK_THEME_BG, minHeight: "100vh", color: "white" }}>
@@ -203,7 +245,7 @@ export default function ClientDetails() {
                       },
                     }}
                   >
-                    {clientDetails?.numberOfInvoices}
+                    {/* {client?.numberOfInvoices || 0} */}
                   </Typography>
                 </Box>
                 <Box>
@@ -232,7 +274,7 @@ export default function ClientDetails() {
                       },
                     }}
                   >
-                    {clientDetails?.totalInvoiced}
+                    {/* {client?.totalInvoiced || 0} */}
                   </Typography>
                 </Box>
                 <Box>
@@ -261,7 +303,7 @@ export default function ClientDetails() {
                       },
                     }}
                   >
-                    {clientDetails?.totalUnpaid}
+                    {/* {client?.totalUnpaid || 0} */}
                   </Typography>
                 </Box>
               </Box>
@@ -280,15 +322,7 @@ export default function ClientDetails() {
                 gap={2}
                 justifyContent="space-between"
               >
-                <Typography
-                  textAlign="left"
-                  fontWeight="bold"
-                  variant="h5"
-                  color={WHITE}
-                  sx={{ mb: 1 }}
-                >
-                  Edit Client
-                </Typography>
+                <CmxText label='Edit Client' align='left' isBold variant = "h5" />
                 {/* Full width fields */}
                 <Box width="100%">
                   <TextField
@@ -297,15 +331,7 @@ export default function ClientDetails() {
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    sx={{
-                      input: { color: "white" },
-                      label: { color: "white" },
-                      ".MuiOutlinedInput-root": {
-                        "& fieldset": { borderColor: "#777" },
-                        "&:hover fieldset": { borderColor: "white" },
-                        "&.Mui-focused fieldset": { borderColor: "white" },
-                      },
-                    }}
+                    sx={textFieldStyles}
                   />
                 </Box>
 
@@ -316,15 +342,7 @@ export default function ClientDetails() {
                     name="addressLine1"
                     value={formData.addressLine1}
                     onChange={handleInputChange}
-                    sx={{
-                      input: { color: "white" },
-                      label: { color: "white" },
-                      ".MuiOutlinedInput-root": {
-                        "& fieldset": { borderColor: "#777" },
-                        "&:hover fieldset": { borderColor: "white" },
-                        "&.Mui-focused fieldset": { borderColor: "white" },
-                      },
-                    }}
+                    sx={textFieldStyles}
                   />
                 </Box>
 
@@ -335,15 +353,7 @@ export default function ClientDetails() {
                     name="addressLine2"
                     value={formData.addressLine2}
                     onChange={handleInputChange}
-                    sx={{
-                      input: { color: "white" },
-                      label: { color: "white" },
-                      ".MuiOutlinedInput-root": {
-                        "& fieldset": { borderColor: "#777" },
-                        "&:hover fieldset": { borderColor: "white" },
-                        "&.Mui-focused fieldset": { borderColor: "white" },
-                      },
-                    }}
+                    sx={textFieldStyles}
                   />
                 </Box>
 
@@ -355,15 +365,7 @@ export default function ClientDetails() {
                     name="postalCode"
                     value={formData.postalCode}
                     onChange={handleInputChange}
-                    sx={{
-                      input: { color: "white" },
-                      label: { color: "white" },
-                      ".MuiOutlinedInput-root": {
-                        "& fieldset": { borderColor: "#777" },
-                        "&:hover fieldset": { borderColor: "white" },
-                        "&.Mui-focused fieldset": { borderColor: "white" },
-                      },
-                    }}
+                    sx={textFieldStyles}
                   />
                 </Box>
                 <Box sx={responsiveBox}>
@@ -373,15 +375,7 @@ export default function ClientDetails() {
                     name="state"
                     value={formData.state}
                     onChange={handleInputChange}
-                    sx={{
-                      input: { color: "white" },
-                      label: { color: "white" },
-                      ".MuiOutlinedInput-root": {
-                        "& fieldset": { borderColor: "#777" },
-                        "&:hover fieldset": { borderColor: "white" },
-                        "&.Mui-focused fieldset": { borderColor: "white" },
-                      },
-                    }}
+                    sx={textFieldStyles}
                   />
                 </Box>
 
@@ -392,15 +386,7 @@ export default function ClientDetails() {
                     name="cin"
                     value={formData.cin}
                     onChange={handleInputChange}
-                    sx={{
-                      input: { color: "white" },
-                      label: { color: "white" },
-                      ".MuiOutlinedInput-root": {
-                        "& fieldset": { borderColor: "#777" },
-                        "&:hover fieldset": { borderColor: "white" },
-                        "&.Mui-focused fieldset": { borderColor: "white" },
-                      },
-                    }}
+                    sx={textFieldStyles}
                   />
                 </Box>
                 <Box sx={responsiveBox}>
@@ -410,15 +396,7 @@ export default function ClientDetails() {
                     name="gstin"
                     value={formData.gstin}
                     onChange={handleInputChange}
-                    sx={{
-                      input: { color: "white" },
-                      label: { color: "white" },
-                      ".MuiOutlinedInput-root": {
-                        "& fieldset": { borderColor: "#777" },
-                        "&:hover fieldset": { borderColor: "white" },
-                        "&.Mui-focused fieldset": { borderColor: "white" },
-                      },
-                    }}
+                    sx={textFieldStyles}
                   />
                 </Box>
 
@@ -430,15 +408,7 @@ export default function ClientDetails() {
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    sx={{
-                      input: { color: "white" },
-                      label: { color: "white" },
-                      ".MuiOutlinedInput-root": {
-                        "& fieldset": { borderColor: "#777" },
-                        "&:hover fieldset": { borderColor: "white" },
-                        "&.Mui-focused fieldset": { borderColor: "white" },
-                      },
-                    }}
+                    sx={textFieldStyles}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -462,15 +432,7 @@ export default function ClientDetails() {
                         </InputAdornment>
                       ),
                     }}
-                    sx={{
-                      input: { color: "white" },
-                      label: { color: "white" },
-                      ".MuiOutlinedInput-root": {
-                        "& fieldset": { borderColor: "#777" },
-                        "&:hover fieldset": { borderColor: "white" },
-                        "&.Mui-focused fieldset": { borderColor: "white" },
-                      },
-                    }}
+                    sx={textFieldStyles}
                   />
                 </Box>
 
@@ -482,15 +444,7 @@ export default function ClientDetails() {
                     name="city"
                     value={formData.city}
                     onChange={handleInputChange}
-                    sx={{
-                      input: { color: "white" },
-                      label: { color: "white" },
-                      ".MuiOutlinedInput-root": {
-                        "& fieldset": { borderColor: "#777" },
-                        "&:hover fieldset": { borderColor: "white" },
-                        "&.Mui-focused fieldset": { borderColor: "white" },
-                      },
-                    }}
+                    sx={textFieldStyles}
                   />
                 </Box>
                 <Box sx={responsiveBox}>
@@ -501,15 +455,7 @@ export default function ClientDetails() {
                     name="country"
                     value={formData.country}
                     onChange={handleInputChange}
-                    sx={{
-                      input: { color: "white" },
-                      label: { color: "white" },
-                      ".MuiOutlinedInput-root": {
-                        "& fieldset": { borderColor: "#777" },
-                        "&:hover fieldset": { borderColor: "white" },
-                        "&.Mui-focused fieldset": { borderColor: "white" },
-                      },
-                    }}
+                    sx={textFieldStyles}
                   >
                     <MenuItem value="India">India</MenuItem>
                     <MenuItem value="USA">USA</MenuItem>
@@ -522,7 +468,7 @@ export default function ClientDetails() {
                     fullWidth
                     label="Phone number"
                     name="phone"
-                    value={formData.phone}
+                    value={formData.phoneNumber}
                     onChange={handleInputChange}
                     InputProps={{
                       startAdornment: (
@@ -531,15 +477,7 @@ export default function ClientDetails() {
                         </InputAdornment>
                       ),
                     }}
-                    sx={{
-                      input: { color: "white" },
-                      label: { color: "white" },
-                      ".MuiOutlinedInput-root": {
-                        "& fieldset": { borderColor: "#777" },
-                        "&:hover fieldset": { borderColor: "white" },
-                        "&.Mui-focused fieldset": { borderColor: "white" },
-                      },
-                    }}
+                    sx={textFieldStyles}
                   />
                 </Box>
                 <Box sx={responsiveBox}>
@@ -556,15 +494,7 @@ export default function ClientDetails() {
                         </InputAdornment>
                       ),
                     }}
-                    sx={{
-                      input: { color: "white" },
-                      label: { color: "white" },
-                      ".MuiOutlinedInput-root": {
-                        "& fieldset": { borderColor: "#777" },
-                        "&:hover fieldset": { borderColor: "white" },
-                        "&.Mui-focused fieldset": { borderColor: "white" },
-                      },
-                    }}
+                    sx={textFieldStyles}
                   />
                 </Box>
               </Box>

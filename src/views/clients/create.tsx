@@ -24,7 +24,7 @@ interface ClientFormErrors {
  [key: string]: string | undefined;
 }
 
-const initialFormData: Client = {
+const initialClientData: Client = {
   businessId: "",
   name: "",
   addressLine1: "",
@@ -50,7 +50,7 @@ export const ClientsCreate = () => {
   const { loading } = useLoader();
 
   const [isDisabled, setIsDisabled] = useState(false);
-  const [formData, setFormData] = useState<Client>(initialFormData);
+  const [formData, setFormData] = useState<Client>(initialClientData);
   const [errorMsg, setErrorMsg] = useState("");
   const [errors, setErrors] = useState<ClientFormErrors>({});
   const [isCreateMode, setIsCreateMode] = useState<boolean>(true);
@@ -136,7 +136,7 @@ export const ClientsCreate = () => {
   const handleResetAllAction = () => {
     // Handle Reset action here
     console.log("All Data Reset");
-    setFormData(initialFormData);
+    setFormData(initialClientData);
   };
 
   return (

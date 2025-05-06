@@ -54,7 +54,7 @@ export interface Client {
     productNo: string,
     price: number,
     taxCode: string,
-    totalPrice: string,
+    totalPrice: number,
     updatedAt: string,
     timesInvoiced: string,
     totalInvoiced: string,

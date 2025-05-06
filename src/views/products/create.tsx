@@ -11,7 +11,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import PercentIcon from "@mui/icons-material/Percent";
 import { DARK_THEME_BG, WHITE } from "../../utils/colors";
@@ -22,6 +22,7 @@ import type { Businesses, Product } from '../../types/index';
 import { useLoader } from "../../components/common/context/loader-context";
 import GlobalLoader from "../../components/common/global-loader";
 
+
 interface ProductFormErrors {
   [key: string]: string | undefined;
  }
@@ -31,7 +32,7 @@ interface ProductFormErrors {
   productNo: "",
   price: 0.0,
   taxCode: "",
-  totalPrice: "0.00",
+  totalPrice: 0.0,
   updatedAt: "",
   timesInvoiced: "",
   totalInvoiced: "",
@@ -48,6 +49,23 @@ export const ProductCreate = () => {
   const [errors, setErrors] = useState<ProductFormErrors>({});
   const [formData, setFormData] = useState(initialProductData);
   const [isCreateMode, setIsCreateMode] = useState<boolean>(true);
+
+  // Memoized styles for responsive boxes
+  const responsiveBox = useMemo(() => ({ width: { xs: "100%", sm: "48%" } }), []);
+
+  // Shared styles for TextField components
+  const textFieldStyles = useMemo(
+    () => ({
+      input: { color: "white" },
+      label: { color: "white" },
+      ".MuiOutlinedInput-root": {
+        "& fieldset": { borderColor: "#777" },
+        "&:hover fieldset": { borderColor: "white" },
+        "&.Mui-focused fieldset": { borderColor: "white" },
+      },
+    }),
+    []
+  );
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
@@ -120,7 +138,6 @@ export const ProductCreate = () => {
     setFormData(initialProductData);
   };
   
-  const responsiveBox = { width: { xs: "100%", sm: "48%" } };
   return (
     <Box sx={{ p: 4, bgcolor: DARK_THEME_BG, minHeight: "100vh", color: "white" }}>
       <GlobalLoader loading={loading} />
@@ -179,15 +196,9 @@ export const ProductCreate = () => {
                 onChange={handleInputChange}
                 variant="outlined"
                 InputProps={{ style: { color: "white" } }}
-                sx={{
-                  input: { color: "white" },
-                  label: { color: "white" },
-                  ".MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#777" },
-                    "&:hover fieldset": { borderColor: "white" },
-                    "&.Mui-focused fieldset": { borderColor: "white" },
-                  },
-                }}
+                sx={textFieldStyles}
+                error={!!errors.name}
+                helperText={errors.name}
               />
             </Box>
 
@@ -201,16 +212,7 @@ export const ProductCreate = () => {
                 value={formData.taxCode}
                 onChange={handleInputChange}
                 variant="outlined"
-                InputProps={{ style: { color: "white" } }}
-                sx={{
-                  input: { color: "white" },
-                  label: { color: "white" },
-                  ".MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#777" },
-                    "&:hover fieldset": { borderColor: "white" },
-                    "&.Mui-focused fieldset": { borderColor: "white" },
-                  },
-                }}
+                sx={textFieldStyles}
               >
                 {/* Example tax codes */}
                 <MenuItem value="0%">0% - Exports, Food, etc.</MenuItem>
@@ -235,15 +237,7 @@ export const ProductCreate = () => {
                   ),
                   style: { color: "white" },
                 }}
-                sx={{
-                  input: { color: "white" },
-                  label: { color: "white" },
-                  ".MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#777" },
-                    "&:hover fieldset": { borderColor: "white" },
-                    "&.Mui-focused fieldset": { borderColor: "white" },
-                  },
-                }}
+                sx={textFieldStyles}
               />
             </Box>
 
@@ -257,16 +251,9 @@ export const ProductCreate = () => {
                 value={formData.price}
                 onChange={handleInputChange}
                 variant="outlined"
-                InputProps={{ style: { color: "white" } }}
-                sx={{
-                  input: { color: "white" },
-                  label: { color: "white" },
-                  ".MuiOutlinedInput-root": {
-                    "& fieldset": { borderColor: "#777" },
-                    "&:hover fieldset": { borderColor: "white" },
-                    "&.Mui-focused fieldset": { borderColor: "white" },
-                  },
-                }}
+                sx={textFieldStyles}
+                error={!!errors.price}
+                helperText={errors.price}
               />
             </Box>
 

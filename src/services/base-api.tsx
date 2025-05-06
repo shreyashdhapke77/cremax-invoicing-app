@@ -62,7 +62,7 @@ export default class BaseApi {
 
   static async post(endpoint: string, payload: any, extraHeaders = {}, config = {}) {
     try {
-      const res = await axiosInstance.post(`${endpoint}`, payload, {
+      const res = await axiosInstance.post(`${endpoint}`, this.convertKeysToSnakeCase(payload), {
         headers: this.getHeaders(extraHeaders),
         ...config
       });
@@ -74,7 +74,7 @@ export default class BaseApi {
 
   static async put(endpoint: string, payload: any, extraHeaders = {}, config = {}) {
     try {
-      const res = await axiosInstance.put(`${endpoint}`, payload, {
+      const res = await axiosInstance.put(`${endpoint}`, this.convertKeysToSnakeCase(payload), {
         headers: this.getHeaders(extraHeaders),
         ...config
       });
