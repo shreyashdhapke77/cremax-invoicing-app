@@ -31,6 +31,23 @@ export default class BaseApi {
     };
   }
 
+  static camelToSnake(str: string) {
+    return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+  }
+  
+  static convertKeysToSnakeCase(obj: any): any {
+    if (Array.isArray(obj)) {
+      return obj.map(this.convertKeysToSnakeCase);
+    } else if (obj !== null && typeof obj === 'object') {
+      return Object.keys(obj).reduce((acc: any, key: string) => {
+        const newKey = this.camelToSnake(key);
+        acc[newKey] = this.convertKeysToSnakeCase(obj[key]);
+        return acc;
+      }, {});
+    }
+    return obj;
+  };
+
   static async get(endpoint: string, extraHeaders = {}, config = {}) {
     try {
       const res = await axiosInstance.get(`${endpoint}`, {
@@ -45,7 +62,7 @@ export default class BaseApi {
 
   static async post(endpoint: string, payload: any, extraHeaders = {}, config = {}) {
     try {
-      const res = await axiosInstance.post(`${endpoint}`, payload, {
+      const res = await axiosInstance.post(`${endpoint}`, this.convertKeysToSnakeCase(payload), {
         headers: this.getHeaders(extraHeaders),
         ...config
       });
@@ -57,7 +74,7 @@ export default class BaseApi {
 
   static async put(endpoint: string, payload: any, extraHeaders = {}, config = {}) {
     try {
-      const res = await axiosInstance.put(`${endpoint}`, payload, {
+      const res = await axiosInstance.put(`${endpoint}`, this.convertKeysToSnakeCase(payload), {
         headers: this.getHeaders(extraHeaders),
         ...config
       });

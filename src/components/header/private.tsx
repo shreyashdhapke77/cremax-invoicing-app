@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { GREY_BACKGROUND_HOVER } from "../../utils/colors";
 import AddIcon from "@mui/icons-material/Add";
 import ReceiptIcon from "@mui/icons-material/Receipt";
-import ContactPageIcon from "@mui/icons-material/ContactPage";
+import PeopleIcon from "@mui/icons-material/People";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import InfoOutlineIcon from "@mui/icons-material/InfoOutline";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
@@ -160,7 +160,7 @@ function PrivateHeader() {
               }}
               sx={{ gap: 1, mb: 1 }}
             >
-              <ContactPageIcon fontSize="medium" />
+              <PeopleIcon fontSize="medium" />
               Clients
             </MenuItem>
 

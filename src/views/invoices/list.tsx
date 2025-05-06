@@ -5,6 +5,8 @@ import { invoices } from "../../constants/invoice-list";
 import { invoiceListColumns } from "../../constants/columns/invoice";
 import { useNavigate } from "react-router-dom";
 import { DARK_THEME_BG } from "../../utils/colors";
+import ReceiptIcon from "@mui/icons-material/Receipt";
+import CmxText from "../../components/common/cmx-text";
 
 export default function InvoiceList() {
   const navigate = useNavigate();
@@ -28,9 +30,8 @@ export default function InvoiceList() {
           >
             Home
           </Typography>
-          <Typography variant="h4" fontWeight="bold" color="white">
-            Invoices
-          </Typography>
+          <ReceiptIcon fontSize="medium" />
+          <CmxText label='Invoices' isBold variant="h4" sx={{ mb: 2 }} color="white"/>
         </Box>
         <Button
           variant="outlined"

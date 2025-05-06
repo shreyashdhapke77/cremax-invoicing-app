@@ -1,31 +1,61 @@
 export interface Businesses {
     id: string;
     name: string;
-    user_id: number;
+    userId: number;
     cin: string;
     gstin: string;
-    address_line_1: string;
-    address_line_2: string;
-    postal_code: string;
+    addressLine1: string;
+    addressLine2: string;
+    postalCode: string;
     city: string;
     state: string;
     country: string;
-    phone_number: string;
+    phoneNumber: string;
     website: string;
     email: string;
     status: string;
-    created_at: string;
-    updated_at: string;
+    createdAt: string;
+    updatedAt: string;
 };
 
 interface GoogleUser {
     email: string;
     email_verified: boolean;
     name: string;
-    given_name: string;
-    family_name: string;
+    givenName: string;
+    familyName: string;
     picture: string;
     sub: string;
     iat: number;
     exp: number;
+    createdAt: string;
+    updatedAt: string;
+};
+export interface Client {
+    businessId: string;
+    name: string;
+    addressLine1: string;
+    addressLine2: string,
+    postalCode: string,
+    state: string,
+    city: string,
+    country: string,
+    cin: string,
+    gstin: string,
+    email: string,
+    cc: string,
+    phoneNumber: string,
+    status: string,
+    fixedDiscount: number
+  }
+
+  export interface Product {
+    name: string,
+    productNo: string,
+    price: number,
+    taxCode: string,
+    totalPrice: number,
+    updatedAt: string,
+    timesInvoiced: string,
+    totalInvoiced: string,
   }

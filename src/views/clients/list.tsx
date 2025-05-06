@@ -1,13 +1,39 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CardDataGrid from "../../components/common/cx/table";
-import { clients } from "../../constants/client-list";
+import React, { useEffect } from "react";
 import { clientListColumns } from "../../constants/columns/client";
 import { useNavigate } from "react-router-dom";
 import { DARK_THEME_BG } from "../../utils/colors";
+import BaseApi from "../../services/base-api";
+import { useSnackbar } from "../../components/common/context/snackbar-context";
+import CmxText from "../../components/common/cmx-text";
+import CmxButton from "../../components/common/cmx-button";
+import PeopleIcon from "@mui/icons-material/People";
 
 export default function ClientList() {
   const navigate = useNavigate();
+  const { showMessage } = useSnackbar();
+  
+  const [clients, setClients] = React.useState<any[]>([]);
+  
+  useEffect(() => {
+    const getClient = () => {
+      try {
+        BaseApi.get("/clients").then((res) => {
+          console.log("Res -- ", res);
+          if (Array.isArray(res)) {
+            // Check if `res` is an array
+            setClients(res); // Directly pass `res` to setMyBusiness
+          }
+        })
+      } catch (error) {
+        showMessage("Something went wrong. Please try again.", "error");
+      }
+    };
+    getClient();
+  }, []);
+
   return (
     <Box sx={{ backgroundColor: DARK_THEME_BG, minHeight: "100vh", px: 2 }}>
       {/* Header */}
@@ -20,21 +46,19 @@ export default function ClientList() {
         }}
       >
         <Box>
-          <Typography
-            variant="body2"
-            color="gray"
-            textAlign="left"
-            onClick={() => navigate("/dashboard")}
-          >
-            Home
-          </Typography>
-          <Typography variant="h4" fontWeight="bold" color="white">
-            Clients
-          </Typography>
+          <CmxText label='Home' variant="body2" sx={{ mb: 2 }} color="gray" onClick={() => navigate("/dashboard")}/>
+          <PeopleIcon />
+          <CmxText label='Clients' isBold variant="h4" sx={{ mb: 2 }} color="white"/>
         </Box>
-        <Button
-          variant="outlined"
+        <CmxButton
           startIcon={<AddIcon />}
+          variant="outlined" 
+          color="success"
+          size="small"
+          label='New Client'
+          fullWidth={false}
+          type="submit"
+          onClick={() => navigate('/clients/create')}
           sx={{
             color: "white",
             borderColor: "gray",
@@ -47,10 +71,7 @@ export default function ClientList() {
               borderColor: "white",
             },
           }}
-          onClick={() => navigate('/clients/create')}
-        >
-          New client
-        </Button>
+        />
       </Box>
 
       {/* Table */}

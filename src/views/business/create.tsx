@@ -1,6 +1,5 @@
 import {
     Box,
-    Button,
     Card,
     CardContent,
     InputAdornment,
@@ -15,62 +14,38 @@ import {
   import { DARK_THEME_BG, WHITE } from "../../utils/colors";
 import BaseApi from "../../services/base-api";
 import { useSnackbar } from "../../components/common/context/snackbar-context";
-  
-  interface BusinessFormData {
-    name: string;
-    cin: string;
-    gstin: string;
-    address_line_1: string;
-    address_line_2: string;
-    postal_code: string;
-    city: string;
-    state: string;
-    country: string;
-    phone_number: string;
-    website: string;
-    email: string;
-    status: string;
-    cc: string;
-    fixedDiscount: number;
-  }
+import CmxButton from "../../components/common/cmx-button";
+import { Businesses } from "../../types/index";
+
   interface BusinessFormErrors {
-    name?: string;
-    cin?: string;
-    gstin?: string;
-    address_line_1?: string;
-    address_line_2?: string;
-    postal_code?: string;
-    city?: string;
-    state?: string;
-    country?: string;
-    phone_number?: string;
-    website?: string;
-    email?: string;
-    status?: string;
-    cc?: string;
-    fixedDiscount?: number;
-  }
+    [key: string]: string | undefined;
+   }
+
+   const initialBusinessData: Businesses = {
+    id: "",
+    name: "",
+    userId: parseInt(localStorage.getItem("userId") || "0"),
+    cin: "",
+    gstin: "",
+    addressLine1: "",
+    addressLine2: "",
+    postalCode: "",
+    city: "",
+    state: "",
+    country: "",
+    phoneNumber: "",
+    website: "",
+    email: "",
+    status: "",
+    createdAt: '',
+    updatedAt: '',
+  };
 
   export const BusinessCreate = () => {
     const navigate = useNavigate();
     const [isDisabled, setIsDisabled] = useState(false);
-    const [formData, setFormData] = useState<BusinessFormData>({
-      name: "",
-      address_line_1: "",
-      address_line_2: "",
-      postal_code: "",
-      state: "",
-      city: "",
-      country: "",
-      cin: "",
-      gstin: "",
-      email: "",
-      cc: "",
-      phone_number: "",
-      fixedDiscount: 0,
-      website: "",
-      status: ""
-    });
+    const [formData, setFormData] = useState<Businesses >(initialBusinessData);
+    
     const { showMessage } = useSnackbar();
     const [errors, setErrors] = useState<BusinessFormErrors>({});
     
@@ -89,8 +64,8 @@ import { useSnackbar } from "../../components/common/context/snackbar-context";
       const newErrors: BusinessFormErrors = {};
   
       if (!formData.name.trim()) newErrors.name = "Name is required.";
-      if (!formData.address_line_1.trim()) newErrors.address_line_1 = "Address line 1 is required.";
-      if (!formData.postal_code.trim()) newErrors.postal_code = "Postal code is required.";
+      if (!formData.addressLine1.trim()) newErrors.addressLine1 = "Address line 1 is required.";
+      if (!formData.postalCode.trim()) newErrors.postalCode = "Postal code is required.";
       if (!formData.state.trim()) newErrors.state = "State is required.";
       if (!formData.city.trim()) newErrors.city = "City is required.";
       if (!formData.country.trim()) newErrors.country = "Country is required.";
@@ -175,8 +150,8 @@ import { useSnackbar } from "../../components/common/context/snackbar-context";
                 <TextField
                   fullWidth
                   label="Address line *"
-                  name="address_line_1"
-                  value={formData.address_line_1}
+                  name="addressLine1"
+                  value={formData.addressLine1}
                   onChange={handleInputChange}
                   sx={{
                     input: { color: "white" },
@@ -187,8 +162,8 @@ import { useSnackbar } from "../../components/common/context/snackbar-context";
                       "&.Mui-focused fieldset": { borderColor: "white" },
                     },
                   }}
-                  error={errors.address_line_1 ? true : false}
-                  helperText={errors.address_line_1 ?? ""}
+                  error={errors.addressLine1 ? true : false}
+                  helperText={errors.addressLine1 ?? ""}
                 />
               </Box>
   
@@ -196,8 +171,8 @@ import { useSnackbar } from "../../components/common/context/snackbar-context";
                 <TextField
                   fullWidth
                   label="Address line 2"
-                  name="address_line_2"
-                  value={formData.address_line_2}
+                  name="addressLine2"
+                  value={formData.addressLine2}
                   onChange={handleInputChange}
                   sx={{
                     input: { color: "white" },
@@ -216,8 +191,8 @@ import { useSnackbar } from "../../components/common/context/snackbar-context";
                 <TextField
                   fullWidth
                   label="Postal code *"
-                  name="postal_code"
-                  value={formData.postal_code}
+                  name="postalCode"
+                  value={formData.postalCode}
                   onChange={handleInputChange}
                   sx={{
                     input: { color: "white" },
@@ -228,8 +203,8 @@ import { useSnackbar } from "../../components/common/context/snackbar-context";
                       "&.Mui-focused fieldset": { borderColor: "white" },
                     },
                   }}
-                  error={errors.postal_code ? true : false}
-                  helperText={errors.postal_code ?? ""}
+                  error={errors.postalCode ? true : false}
+                  helperText={errors.postalCode ?? ""}
                 />
               </Box>
               <Box sx={responsiveBox}>
@@ -369,7 +344,7 @@ import { useSnackbar } from "../../components/common/context/snackbar-context";
                   fullWidth
                   label="Phone number"
                   name="phone"
-                  value={formData.phone_number}
+                  value={formData.phoneNumber}
                   onChange={handleInputChange}
                   InputProps={{
                     startAdornment: (
@@ -392,17 +367,25 @@ import { useSnackbar } from "../../components/common/context/snackbar-context";
   
             </Box>
             <Box display="flex" justifyContent="flex-end" gap={2} mt={4}>
-              <Button
-                variant="outlined"
-                sx={{ color: "white", borderColor: "grey.500" }}
-                onClick={() => navigate("/dashboard")}
-              >
-                Cancel
-              </Button>
-              <Button disabled={isDisabled} variant="contained" color="success" onClick={() => saveBusiness()}>
-                Save
-              </Button>
-            </Box>
+            <CmxButton
+              size="small"
+              variant="outlined"
+              label="Cancel"
+              fullWidth={false}
+              sx={{ color: "white", borderColor: "grey.500" }}
+              disabled={isDisabled}
+              onClick={() => navigate("/dashboard")}
+            />
+            <CmxButton 
+              variant="contained" 
+              color="success"
+              size="small"
+              label= "Save"
+              fullWidth={false}
+              type="submit"
+              disabled={isDisabled}
+              onClick={saveBusiness}/>
+          </Box>
           </CardContent>
         </Card>
       </Box>

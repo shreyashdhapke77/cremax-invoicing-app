@@ -2,7 +2,7 @@ import { GridColDef } from "@mui/x-data-grid";
 
 export const productListColumns: GridColDef[] = [
   {
-    field: "productNo",
+    field: "product_no",
     headerName: "Product no",
     flex: 1,
     editable: false,
