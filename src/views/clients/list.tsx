@@ -9,7 +9,7 @@ import BaseApi from "../../services/base-api";
 import { useSnackbar } from "../../components/common/context/snackbar-context";
 import CmxText from "../../components/common/cmx-text";
 import CmxButton from "../../components/common/cmx-button";
-import ContactPageIcon from "@mui/icons-material/ContactPage";
+import PeopleIcon from "@mui/icons-material/People";
 
 export default function ClientList() {
   const navigate = useNavigate();
@@ -47,7 +47,7 @@ export default function ClientList() {
       >
         <Box>
           <CmxText label='Home' variant="body2" sx={{ mb: 2 }} color="gray" onClick={() => navigate("/dashboard")}/>
-          <ContactPageIcon fontSize="medium" />
+          <PeopleIcon />
           <CmxText label='Clients' isBold variant="h4" sx={{ mb: 2 }} color="white"/>
         </Box>
         <CmxButton

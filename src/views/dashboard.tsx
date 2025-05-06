@@ -3,7 +3,7 @@ import { Box, Typography, Card, Divider } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import DescriptionIcon from "@mui/icons-material/Description";
 import PeopleIcon from "@mui/icons-material/People";
-import Inventory2Icon from "@mui/icons-material/Inventory2";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { DARK_THEME_BG, GREY_BACKGROUND, WHITE } from "../utils/colors";
 import { useNavigate } from "react-router-dom";
 import BaseApi from "../services/base-api";
@@ -311,7 +311,7 @@ const Dashboard = () => {
               }}
               onClick={() => navigate("/products")}
             >
-              <Inventory2Icon />
+              <AddShoppingCartIcon fontSize="medium" />
               <Typography variant="h6">Products</Typography>
             </Card>
           </Box>

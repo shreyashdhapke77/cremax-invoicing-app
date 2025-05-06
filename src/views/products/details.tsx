@@ -311,7 +311,7 @@ export default function ProductDetails() {
             </Box>
 
             {/* Total price */}
-            <Box sx={{ width: "100%", textAlign: "right", mt: 2 }}>
+            <Box display="flex" sx={{ width: "100%", textAlign: "right", mt: 2 }}>
               <CmxText label={'Total price (incl. GST): '} variant="h6" sx={{ color: "white" }}/>
               <CmxText label={String(product.totalPrice || 0)} isBold variant="h6" sx={{ color: "white" }}/>
             </Box>
