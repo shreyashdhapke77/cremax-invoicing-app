@@ -53,7 +53,7 @@ export const ClientsCreate = () => {
   const [formData, setFormData] = useState<Client>(initialFormData);
   const [errorMsg, setErrorMsg] = useState("");
   const [errors, setErrors] = useState<ClientFormErrors>({});
-  const [isEditMode, setIsEditMode] = useState<boolean>(false);
+  const [isCreateMode, setIsCreateMode] = useState<boolean>(true);
 
   const responsiveBox = { width: { xs: "100%", sm: "48%" } };
 
@@ -110,7 +110,7 @@ export const ClientsCreate = () => {
       const payload = { ...formData, business_id: business.id };
 
       // API Call to create client
-      const fetchFn = isEditMode ? BaseApi.put("/clients", payload) : BaseApi.post("/clients", payload)
+      const fetchFn = isCreateMode ? BaseApi.post("/clients", payload) : BaseApi.put("/clients", payload)
       const res: any = await fetchFn;
       console.log("Res -- ", res);
       if (res.error) {
@@ -118,7 +118,7 @@ export const ClientsCreate = () => {
         showMessage(res.error, "error");
         return;
       }
-      showMessage(`Client ${res.name + (isEditMode ? ' updated ' :  'created ')} successfully`, "success");
+      showMessage(`Client ${res.name + (isCreateMode ?  'created ' : ' updated ')} successfully`, "success");
       navigate("/clients");
     } catch (error) {
       showMessage("Something went wrong. Please try again.", "error");
@@ -472,7 +472,7 @@ export const ClientsCreate = () => {
               variant="contained" 
               color="success"
               size="small"
-              label={ isEditMode ? 'Update' : "Save" }
+              label={ isCreateMode ?  "Save" : 'Update' }
               fullWidth={false}
               type="submit"
               disabled={isDisabled}

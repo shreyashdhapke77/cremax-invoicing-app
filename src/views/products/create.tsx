@@ -47,7 +47,7 @@ export const ProductCreate = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [errors, setErrors] = useState<ProductFormErrors>({});
   const [formData, setFormData] = useState(initialProductData);
-  const [isEditMode, setIsEditMode] = useState<boolean>(false);
+  const [isCreateMode, setIsCreateMode] = useState<boolean>(true);
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
@@ -90,7 +90,7 @@ export const ProductCreate = () => {
       const payload = { ...formData, business_id: business.id };
 
       // API Call to create Product
-      const fetchFn = isEditMode ? BaseApi.put("/products", payload) : BaseApi.post("/products", payload)
+      const fetchFn = isCreateMode ? BaseApi.post("/products", payload) : BaseApi.put("/products", payload)
       const res: any = await fetchFn;
       
       console.log("Res -- ", res);
@@ -99,7 +99,7 @@ export const ProductCreate = () => {
         showMessage(res.error, "error");
         return;
       }
-      showMessage(`Product ${res.name + (isEditMode ? ' updated ' :  'created ')} successfully`, "success");
+      showMessage(`Product ${res.name + (isCreateMode ? 'created ' : ' updated ')} successfully`, "success");
       navigate("/products");
     } catch (error) {
       showMessage("Something went wrong. Please try again.", "error");
@@ -331,7 +331,7 @@ export const ProductCreate = () => {
               variant="contained" 
               color="success"
               size="small"
-              label={ isEditMode ? 'Update' : "Save" }
+              label={ isCreateMode ? "Save" : 'Update' }
               fullWidth={false}
               type="submit"
               disabled={isDisabled}
