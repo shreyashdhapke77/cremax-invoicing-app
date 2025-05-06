@@ -367,14 +367,25 @@ import { Businesses } from "../../types/index";
   
             </Box>
             <Box display="flex" justifyContent="flex-end" gap={2} mt={4}>
-              <CmxButton
-                label="Cancel"
-                variant="outlined"
-                sx={{ color: "white", borderColor: "grey.500" }}
-                onClick={() => navigate("/dashboard")}
-              />
-              <CmxButton label='Save' disabled={isDisabled} variant="contained" color="success" onClick={saveBusiness}/>
-            </Box>
+            <CmxButton
+              size="small"
+              variant="outlined"
+              label="Cancel"
+              fullWidth={false}
+              sx={{ color: "white", borderColor: "grey.500" }}
+              disabled={isDisabled}
+              onClick={() => navigate("/dashboard")}
+            />
+            <CmxButton 
+              variant="contained" 
+              color="success"
+              size="small"
+              label= "Save"
+              fullWidth={false}
+              type="submit"
+              disabled={isDisabled}
+              onClick={saveBusiness}/>
+          </Box>
           </CardContent>
         </Card>
       </Box>
