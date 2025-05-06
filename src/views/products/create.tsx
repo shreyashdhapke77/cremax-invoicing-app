@@ -174,7 +174,7 @@ export const ProductCreate = () => {
               <TextField
                 fullWidth
                 label="Product name (this will appear on the invoice) *"
-                name="productName"
+                name="name"
                 value={formData.name}
                 onChange={handleInputChange}
                 variant="outlined"
@@ -252,7 +252,8 @@ export const ProductCreate = () => {
               <TextField
                 fullWidth
                 label="Unit price *"
-                name="unitPrice"
+                name="price"
+                type="number"
                 value={formData.price}
                 onChange={handleInputChange}
                 variant="outlined"
