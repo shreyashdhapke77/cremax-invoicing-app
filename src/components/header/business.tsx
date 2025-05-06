@@ -31,7 +31,6 @@ export const Business = () => {
     const getBusiness = async () => {
       try {
         const res = await BaseApi.get("/businesses/my-businesses");
-        console.log("Res -- ", res);
         if (Array.isArray(res)) {
           // Check if `res` is an array
           setMyBusiness(res); // Directly pass `res` to setMyBusiness
@@ -49,8 +48,9 @@ export const Business = () => {
         showMessage("Something went wrong. Please try again.", "error");
       }
     };
-
-    getBusiness();
+    if (myBusiness.length === 0) {
+      getBusiness();
+    }
   }, []);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {

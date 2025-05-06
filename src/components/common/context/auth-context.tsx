@@ -65,6 +65,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = () => {
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("selectedBusiness");
     setIsLoggedIn(false);
 
     if (logoutTimer.current) {

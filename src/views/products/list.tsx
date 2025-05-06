@@ -20,16 +20,16 @@ export default function ProductList() {
         }}
       >
         <Box>
-          <Typography
+          {/* <Typography
             variant="body2"
             color="gray"
             textAlign="left"
             onClick={() => navigate("/dashboard")}
           >
             Home
-          </Typography>
+          </Typography> */}
           <Typography variant="h4" fontWeight="bold" color="white">
-            Products
+            {"Products"}
           </Typography>
         </Box>
         <Button

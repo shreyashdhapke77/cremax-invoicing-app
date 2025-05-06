@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -18,6 +18,8 @@ import CmxPasswordTextField from "../../components/common/cmx-password-text-fiel
 import { useSnackbar } from "../../components/common/context/snackbar-context";
 import { useAuth } from "../../components/common/context/auth-context";
 import RightPanel from "../../components/common/right-panel";
+import { jwtDecode } from "jwt-decode";
+import { GoogleUser } from "../../types";
 
 interface LoginFormData {
   email: string;
@@ -54,6 +56,27 @@ const LoginPage = () => {
       ...prevErrors,
       [name]: "",
     }));
+  };
+
+  useEffect(() => {
+    if ((window as any).google) {
+      (window as any).google.accounts.id.initialize({
+        client_id: "321756028932-92loe2s4nml7aa42r0cdrh9gnu37sjjo.apps.googleusercontent.com",
+        callback: handleCredentialResponse,
+      });
+
+      (window as any).google.accounts.id.renderButton(
+        document.getElementById("google-button")!,
+        { theme: "outline", size: "large" }
+      );
+    }
+  }, [])
+
+  const handleCredentialResponse = (response: any) => {
+    console.log("Encoded JWT ID token: " + JSON.stringify(response));
+    const token = response.credential;
+    const userInfo: GoogleUser = jwtDecode<GoogleUser>(token);
+    console.log("Decoded Google user info:", userInfo);
   };
 
   const validateForm = () => {
@@ -128,6 +151,7 @@ const LoginPage = () => {
             {COMPANY_NAME}
           </Typography>
           <Button
+            id="google-button"
             fullWidth
             variant="outlined"
             startIcon={<GoogleIconColorful />}

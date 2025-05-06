@@ -45,7 +45,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Add padding to the content area to prevent it from being hidden */
+/* Add padding to the content area to prevent it from being hidden #F2FBF5 */
 .main-content {
   padding-top: 60px; /* match the header height */
   flex: 1;

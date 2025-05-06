@@ -26,10 +26,11 @@ import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import { useAuth } from "../common/context/auth-context";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import { Business } from "./business";
-
-const userProfile = ["Profile", "Account", "Dashboard", "Logout"];
+import { Businesses } from "../../types";
 
 function PrivateHeader() {
+  const [myBusiness, setMyBusiness] = React.useState<Businesses | null>(null);
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -50,9 +51,17 @@ function PrivateHeader() {
   const navigate = useNavigate();
   const { logout } = useAuth();
 
+  React.useEffect(() => {
+    const stored = localStorage.getItem("selectedBusiness");
+    if (stored) {
+      setMyBusiness(JSON.parse(stored));
+    }
+  }, []);
+
   const handleLogout = () => {
     // Clear session or token
     localStorage.removeItem("accessToken"); // or sessionStorage if you're using that
+    localStorage.removeItem("selectedBusiness");
     // Redirect to login page
     handleCloseUserMenu();
     logout();
@@ -64,14 +73,14 @@ function PrivateHeader() {
     <AppBar
       position="static"
       sx={{
-        backgroundColor: "#1eaf4b",
+        backgroundColor: "#003A6B", //"#073965",//"#0C243D", //"#003366", //#003A6B
         height: "56px",
         justifyContent: "center",
       }}
     >
       <Toolbar disableGutters sx={{ justifyContent: "space-between", px: 2 }}>
         {/* Hamburger icon + Logo */}
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <IconButton
             size="large"
             edge="start"
@@ -103,7 +112,7 @@ function PrivateHeader() {
             }}
           >
             <MenuItem disabled sx={{ gap: 1, mb: 1 }}>
-              Business Name
+              {myBusiness?.name ? myBusiness?.name : "Business Name"}
             </MenuItem>
             <MenuItem
               onClick={() => {
@@ -182,7 +191,6 @@ function PrivateHeader() {
 
         <Business />
 
-        {/* Profile Icon */}
         <Tooltip title="Open settings">
           <IconButton
             onClick={handleOpenUserMenu}

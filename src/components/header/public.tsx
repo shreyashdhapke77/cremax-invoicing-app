@@ -176,16 +176,16 @@ function PublicHeader() {
                 variant="outlined"
                 sx={{
                   textTransform: "none",
-                  borderColor: "#00e676",
-                  color: "#00e676",
+                  borderColor: "#3F88FF",
+                  color: "#3F88FF",
                   fontWeight: 600,
                   backgroundColor: "transparent",
                   "&:hover": {
-                    backgroundColor: "rgba(0, 230, 118, 0.1)", // subtle green hover
-                    borderColor: "#00c853",
-                    color: "#00c853",
+                    backgroundColor: "rgba(63, 136, 255, 0.1)", // subtle green hover
+                    borderColor: "#4169E1",
+                    color: "#4169E1",
                     transform: "translateY(-2px) scale(1.03)",
-                    boxShadow: "0 0 10px rgba(0, 230, 118, 0.3)",
+                    boxShadow: "0 0 10px rgba(63, 136, 255, 0.3)",
                   },
                   transition: "all 0.3s ease-in-out",
                 }}
@@ -199,14 +199,14 @@ function PublicHeader() {
                 variant="contained"
                 sx={{
                   textTransform: "none",
-                  backgroundColor: "#00e676", // bright green
+                  backgroundColor: "#3F88FF", // bright green
                   color: "#000",
                   fontWeight: 600,
-                  boxShadow: "0 2px 10px rgba(0, 230, 118, 0.3)",
+                  boxShadow: "0 2px 10px rgba(63, 136, 255, 0.3)",
                   "&:hover": {
-                    backgroundColor: "#00c853",
+                    backgroundColor: "#4169E1",
                     transform: "translateY(-2px) scale(1.05)",
-                    boxShadow: "0 4px 20px rgba(0, 230, 118, 0.5)",
+                    boxShadow: "0 4px 20px rgba(63, 136, 255, 0.5)",
                   },
                   transition: "all 0.3s ease-in-out",
                 }}
