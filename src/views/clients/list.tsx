@@ -19,8 +19,14 @@ export default function ClientList() {
   
   useEffect(() => {
     const getClient = () => {
+      const stored = localStorage.getItem("selectedBusiness");
+      if (!stored) {
+        showMessage("Please select a business.", "error");
+        return;
+      }
+      const businessId = JSON.parse(stored).id;
       try {
-        BaseApi.get("/clients").then((res) => {
+        BaseApi.get(`/clients/business/${businessId}`).then((res) => {
           console.log("Res -- ", res);
           if (Array.isArray(res)) {
             // Check if `res` is an array
