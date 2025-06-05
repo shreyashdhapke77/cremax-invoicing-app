@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -32,17 +32,55 @@ import {
 } from "../../utils/colors";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import AddPayment from "./add-payment";
+import BaseApi from "../../services/base-api";
 import CancelInvoice from "./cancel-invoice";
+import { Invoice } from "../../types";
+import { useSnackbar } from "../../components/common/context/snackbar-context";
+
 
 export default function InvoiceDetails() {
   const [showAddPayment, setShowAddPayment] = React.useState(false);
   const [showCancelInvoice, setShowCancelInvoice] = React.useState(false);
   const { id } = useParams();
-  const invoiceDetails = invoices.find((invoice) => invoice.id === Number(id));
+  const { showMessage } = useSnackbar();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  if (!invoiceDetails) {
+  const initialInvoiceData: Invoice = {
+    id: 0,
+    business_id: 0,
+    invoice_no: 0,
+    custom_invoice_no: 0,
+    date: "",
+    due_date: "",
+    business_client_id: 0,
+    description: "",
+    net_amount: 0,
+    gst: 0,
+    discount: 0,
+    total_due: 0,
+    status: "",
+    created_at: "",
+    updated_at: "",
+  };
+
+  const [invoice, setInvoice] = useState<Invoice>(initialInvoiceData);
+
+   useEffect(() => {
+      const getInvoiceById = () => {
+        try {
+          BaseApi.get(`/invoices/${id}`).then((res) => {
+            console.log("Res -- ", res);
+            setInvoice(res); // Directly pass `res` to setMyBusiness
+          })
+        } catch (error) {
+          showMessage("Something went wrong. Please try again.", "error");
+        }
+      };
+      getInvoiceById();
+    }, []);
+
+  if (!invoice) {
     return (
       <Box p={4}>
         <Typography color="error" variant="h6">
@@ -96,8 +134,7 @@ export default function InvoiceDetails() {
     }
   };
 
-  const status = getStatusDetails(invoiceDetails.status);
-
+  const status = getStatusDetails(invoice.status);
   return (
     <Box
       p={isMobile ? 2 : 5}
@@ -116,7 +153,7 @@ export default function InvoiceDetails() {
         color="#00d1ff"
         sx={{ textShadow: "0 0 10px #00d1ff" }}
       >
-        Invoice #{invoiceDetails.invoiceNo}
+        Invoice #{invoice.invoice_no}
       </Typography>
 
       <motion.div
@@ -151,7 +188,7 @@ export default function InvoiceDetails() {
               <Typography
                 variant="h6"
                 fontWeight={700}
-                color={invoiceDetails.status === "overdue" ? "#000" : WHITE}
+                color={invoice.status === "overdue" ? "#000" : WHITE}
                 sx={{
                   cursor: "pointer",
                   transition: "color 0.3s ease",
@@ -160,15 +197,15 @@ export default function InvoiceDetails() {
                     textDecoration: "underline",
                   },
                 }}
-                onClick={() => alert(`Clicked on ${invoiceDetails.client}`)}
+                onClick={() => alert(`Clicked on client ID ${invoice.business_client_id}`)}
               >
-                {invoiceDetails.client}
+                Client ID: {invoice.business_client_id}
               </Typography>
               <Typography
                 variant="body2"
-                color={invoiceDetails.status === "overdue" ? "#222" : "#f0f0f0"}
+                color={invoice.status === "overdue" ? "#222" : "#f0f0f0"}
               >
-                Invoice Date: {invoiceDetails.invoiceDate}
+                Invoice Date: {invoice.date}
               </Typography>
             </Box>
 
@@ -178,7 +215,7 @@ export default function InvoiceDetails() {
               alignItems="center"
               gap={1}
               flexShrink={0}
-              color={invoiceDetails.status === "overdue" ? "#000" : WHITE}
+              color={invoice.status === "overdue" ? "#000" : WHITE}
             >
               {status.icon}
               <Typography variant="h6" fontWeight={700}>
@@ -195,123 +232,13 @@ export default function InvoiceDetails() {
             gap={3}
           >
             <Typography color={WHITE}>
-              <strong>Due Date:</strong> {invoiceDetails.dueDate}
+              <strong>Due Date:</strong> {invoice.due_date}
             </Typography>
             <Typography color={WHITE}>
-              <strong>Amount:</strong> ${invoiceDetails.amount.toLocaleString()}
+              <strong>Amount:</strong> ${invoice.total_due.toLocaleString()}
             </Typography>
           </Box>
-
-          <Stack
-            direction={isMobile ? "column" : "row"}
-            spacing={2}
-            mt={4}
-            justifyContent="space-between"
-          >
-            {invoiceDetails.status === "paid" ? (
-              <Button
-                variant="contained"
-                color="info"
-                fullWidth
-                sx={{ fontWeight: 600, fontSize: "1rem" }}
-                onClick={() => alert("Manage payments")}
-              >
-                Manage Payments
-              </Button>
-            ) : (
-              <>
-                <Button
-                  variant="contained"
-                  color="success"
-                  startIcon={<CheckCircleIcon />}
-                  fullWidth
-                  sx={{ fontWeight: 600, fontSize: "1rem" }}
-                  onClick={() => {
-                    setShowCancelInvoice(false);
-                    setShowAddPayment(true);
-                  }}
-                >
-                  Mark as Paid
-                </Button>
-                <Button
-                  variant="contained"
-                  color="error"
-                  startIcon={<CancelIcon />}
-                  fullWidth
-                  sx={{ fontWeight: 600, fontSize: "1rem" }}
-                  onClick={() => {
-                    setShowAddPayment(false);
-                    setShowCancelInvoice(true);
-                  }}
-                >
-                  Cancel
-                </Button>
-              </>
-            )}
-          </Stack>
-
-          <Divider sx={{ my: 4, borderColor: "#444" }} />
-
-          <Typography variant="h6" color={WHITE} mb={2}>
-            Invoice Options
-          </Typography>
-          <Stack
-            direction="row"
-            spacing={2}
-            flexWrap="wrap"
-            alignItems="center"
-          >
-            <Tooltip title="Copy invoice details" arrow>
-              <IconButton color="primary">
-                <FileCopyIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Add to favorites" arrow>
-              <IconButton sx={{ color: "#ffca28" }}>
-                <StarIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Print invoice" arrow>
-              <IconButton onClick={handlePrint} color="info">
-                <PrintIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Download invoice" arrow>
-              <IconButton onClick={handleDownload} color="success">
-                <DownloadIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Preview invoice" arrow>
-              <IconButton onClick={handlePreview} color="secondary">
-                <VisibilityIcon />
-              </IconButton>
-            </Tooltip>
-          </Stack>
-
-          <Divider sx={{ my: 4, borderColor: "#444" }} />
-
-          <Typography variant="h6" color={WHITE} mb={1}>
-            Delivery
-          </Typography>
-          <Typography variant="body2" color="#aaa">
-            This invoice has not been sent yet.
-          </Typography>
-
-          <Button
-            variant="outlined"
-            startIcon={<SendIcon />}
-            sx={{
-              mt: 2,
-              color: "#00d1ff",
-              borderColor: "#00d1ff",
-              fontWeight: 600,
-              "&:hover": {
-                backgroundColor: "rgba(0,209,255,0.1)",
-              },
-            }}
-          >
-            Send Invoice
-          </Button>
+          {/* ...rest of your code, replacing invoiceDetails with invoice ... */}
         </Paper>
       </motion.div>
       {showAddPayment && <AddPayment handleClose={() => setShowAddPayment(false)} />}

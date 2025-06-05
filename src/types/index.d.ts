@@ -32,30 +32,48 @@ interface GoogleUser {
     updatedAt: string;
 };
 export interface Client {
-    businessId: string;
-    name: string;
-    addressLine1: string;
-    addressLine2: string,
-    postalCode: string,
-    state: string,
-    city: string,
-    country: string,
-    cin: string,
-    gstin: string,
-    email: string,
-    cc: string,
-    phoneNumber: string,
-    status: string,
-    fixedDiscount: number
-  }
+  businessId: string;
+  name: string;
+  addressLine1: string;
+  addressLine2: string,
+  postalCode: string,
+  state: string,
+  city: string,
+  country: string,
+  cin: string,
+  gstin: string,
+  email: string,
+  cc: string,
+  phoneNumber: string,
+  status: string,
+  fixedDiscount: number
+}
 
-  export interface Product {
-    name: string,
-    productNo: string,
-    price: number,
-    taxCode: string,
-    totalPrice: number,
-    updatedAt: string,
-    timesInvoiced: string,
-    totalInvoiced: string,
-  }
+export interface Product {
+  name: string,
+  productNo: string,
+  price: number,
+  taxCode: string,
+  totalPrice: number,
+  updatedAt: string,
+  timesInvoiced: string,
+  totalInvoiced: string,
+}
+
+export interface Invoice {
+  id: number;
+  business_id: number;
+  invoice_no: number;
+  custom_invoice_no: number;
+  date: string;
+  due_date: string;
+  business_client_id: number;
+  description: string;
+  net_amount: number;
+  gst: number;
+  discount: number;
+  total_due: number;
+  status: string;
+  created_at: string;
+  updated_at: string;
+}
