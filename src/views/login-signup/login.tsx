@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -8,18 +8,17 @@ import {
   Link,
   Paper,
   Alert,
-} from "@mui/material";
-import GoogleIconColorful from "../../components/common/icons/google";
-import { GREY_BACKGROUND, GREY_BACKGROUND_HOVER } from "../../utils/colors";
-import { COMPANY_NAME } from "../../constants/labels";
-import { useLocation, useNavigate } from "react-router-dom";
-import BaseApi from "../../services/base-api";
-import CmxPasswordTextField from "../../components/common/cmx-password-text-field";
-import { useSnackbar } from "../../components/common/context/snackbar-context";
-import { useAuth } from "../../components/common/context/auth-context";
-import RightPanel from "../../components/common/right-panel";
-import { jwtDecode } from "jwt-decode";
-import { GoogleUser } from "../../types";
+} from '@mui/material';
+import { GREY_BACKGROUND, GREY_BACKGROUND_HOVER } from '../../utils/colors';
+import { COMPANY_NAME } from '../../constants/labels';
+import { useLocation, useNavigate } from 'react-router-dom';
+import BaseApi from '../../services/base-api';
+import CmxPasswordTextField from '../../components/common/cmx-password-text-field';
+import { useSnackbar } from '../../components/common/context/snackbar-context';
+import { useAuth } from '../../components/common/context/auth-context';
+import RightPanel from '../../components/common/right-panel';
+import { GoogleUser } from '../../types';
+import GoogleLoginCustom from '../../components/google-login-custom';
 
 interface LoginFormData {
   email: string;
@@ -32,10 +31,10 @@ interface LoginFormErrors {
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState('');
   const [formData, setFormData] = useState<LoginFormData>({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
   const [errors, setErrors] = useState<LoginFormErrors>({});
   const [isDisabled, setIsDisabled] = useState(false);
@@ -54,40 +53,50 @@ const LoginPage = () => {
     // Clear error when user starts typing
     setErrors((prevErrors) => ({
       ...prevErrors,
-      [name]: "",
+      [name]: '',
     }));
   };
 
-  useEffect(() => {
-    if ((window as any).google) {
-      (window as any).google.accounts.id.initialize({
-        client_id: "321756028932-92loe2s4nml7aa42r0cdrh9gnu37sjjo.apps.googleusercontent.com",
-        callback: handleCredentialResponse,
-      });
-
-      (window as any).google.accounts.id.renderButton(
-        document.getElementById("google-button")!,
-        { theme: "outline", size: "large" }
-      );
+  const handleGoogleLogin = async (token: string, userInfo: GoogleUser) => {
+    if (userInfo.email_verified) {
+      setIsDisabled(true);
+      try {
+        const res: any = await BaseApi.post('/users/google_auth', {
+          email: userInfo.email,
+          name: userInfo.name,
+          token,
+        });
+        if (res && res.token) {
+          // Store token and redirect
+          BaseApi.setAccessToken(res.token);
+          login(res.token);
+          // navigate("/dashboard");
+          const from = location.state?.from?.pathname || '/dashboard';
+          navigate(from);
+        } else {
+          setErrorMsg('Invalid email or password');
+          showMessage('Invalid email or password.', 'error', {
+            position: { vertical: 'bottom', horizontal: 'left' },
+          });
+        }
+      } catch (error) {
+        // setErrorMsg("Something went wrong. Please try again.");
+        showMessage('Something went wrong. Please try again.', 'error');
+      } finally {
+        setIsDisabled(false);
+      }
     }
-  }, [])
-
-  const handleCredentialResponse = (response: any) => {
-    console.log("Encoded JWT ID token: " + JSON.stringify(response));
-    const token = response.credential;
-    const userInfo: GoogleUser = jwtDecode<GoogleUser>(token);
-    console.log("Decoded Google user info:", userInfo);
   };
 
   const validateForm = () => {
     const newErrors: LoginFormErrors = {};
     if (!formData.email.trim()) {
-      newErrors.email = "Email is required.";
+      newErrors.email = 'Email is required.';
     } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(formData.email)) {
-      newErrors.email = "Enter a valid email address.";
+      newErrors.email = 'Enter a valid email address.';
     }
     if (!formData.password.trim()) {
-      newErrors.password = "Password is required.";
+      newErrors.password = 'Password is required.';
     }
     return newErrors;
   };
@@ -102,25 +111,25 @@ const LoginPage = () => {
     }
 
     setErrors({}); // Clear previous errors
-    setErrorMsg(""); // Reset error
+    setErrorMsg(''); // Reset error
     try {
-      const res: any = await BaseApi.post("/users/login", formData);
+      const res: any = await BaseApi.post('/users/login', formData);
       if (res && res.token) {
         // Store token and redirect
         BaseApi.setAccessToken(res.token);
         login(res.token);
         // navigate("/dashboard");
-        const from = location.state?.from?.pathname || "/dashboard";
+        const from = location.state?.from?.pathname || '/dashboard';
         navigate(from);
       } else {
-        setErrorMsg("Invalid email or password");
-        showMessage("Invalid email or password.", "error", {
-          position: { vertical: "bottom", horizontal: "left" },
+        setErrorMsg('Invalid email or password');
+        showMessage('Invalid email or password.', 'error', {
+          position: { vertical: 'bottom', horizontal: 'left' },
         });
       }
     } catch (error) {
       // setErrorMsg("Something went wrong. Please try again.");
-      showMessage("Something went wrong. Please try again.", "error");
+      showMessage('Something went wrong. Please try again.', 'error');
     } finally {
       setIsDisabled(false);
     }
@@ -129,18 +138,18 @@ const LoginPage = () => {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: { xs: "column", sm: "column", lg: "row", xl: "row" },
-        height: "94.2vh",
+        display: 'flex',
+        flexDirection: { xs: 'column', sm: 'column', lg: 'row', xl: 'row' },
+        height: '94.2vh',
       }}
     >
       {/* Left Panel */}
       <Paper
         sx={{
           flex: 1,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
         <Box sx={{ maxWidth: 400 }}>
@@ -150,19 +159,7 @@ const LoginPage = () => {
           <Typography variant="h4" fontWeight="bold" gutterBottom>
             {COMPANY_NAME}
           </Typography>
-          <Button
-            id="google-button"
-            fullWidth
-            variant="outlined"
-            startIcon={<GoogleIconColorful />}
-            sx={{
-              textTransform: "none",
-              fontWeight: "bold",
-              mb: 2,
-            }}
-          >
-            Continue with Google
-          </Button>
+          <GoogleLoginCustom onLoginSuccess={handleGoogleLogin} />
           <Divider sx={{ my: 2 }}>OR</Divider>
 
           <TextField
@@ -174,12 +171,12 @@ const LoginPage = () => {
             value={formData.email}
             onChange={handleChange}
             error={errors.email ? true : false}
-            helperText={errors.email ?? ""}
+            helperText={errors.email ?? ''}
           />
           <CmxPasswordTextField
             value={formData.password}
             error={errors.password ? true : false}
-            helperText={errors.password ?? ""}
+            helperText={errors.password ?? ''}
             onChange={handleChange}
           />
 
@@ -197,9 +194,9 @@ const LoginPage = () => {
               mt: 3,
               mb: 2,
               backgroundColor: GREY_BACKGROUND,
-              "&:hover": { backgroundColor: GREY_BACKGROUND_HOVER },
-              textTransform: "none",
-              fontWeight: "bold",
+              '&:hover': { backgroundColor: GREY_BACKGROUND_HOVER },
+              textTransform: 'none',
+              fontWeight: 'bold',
             }}
             disabled={isDisabled}
           >
@@ -208,14 +205,14 @@ const LoginPage = () => {
 
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "space-between",
+              display: 'flex',
+              justifyContent: 'space-between',
               mt: 1,
             }}
           >
             <Typography>
-              No account yet?{" "}
-              <Link href="" color="primary" onClick={() => navigate("/signup")}>
+              No account yet?{' '}
+              <Link href="" color="primary" onClick={() => navigate('/signup')}>
                 Sign up.
               </Link>
             </Typography>
@@ -223,7 +220,7 @@ const LoginPage = () => {
               <Link
                 href=""
                 color="primary"
-                onClick={() => navigate("/forgot-password")}
+                onClick={() => navigate('/forgot-password')}
               >
                 Forgot your password?
               </Link>

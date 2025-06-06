@@ -7,7 +7,7 @@ interface CustomAxiosRequestConfig extends AxiosRequestConfig {
   }
 
 const axiosInstance = axios.create({
-  baseURL: "https://cremax-invoicing-backend.onrender.com/api",
+  baseURL: "https://cremax-invoicing-backend-9ndu.onrender.com/api",
 });
 
 axiosInstance.interceptors.request.use(
